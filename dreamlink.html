@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>DreamLink — Where Founders Share the Real Journey</title>
+<meta name="description" content="DreamLink connects founders through honest storytelling — wins, setbacks, obstacles, and breakthroughs. Find collaborators who've been exactly where you are.">
+<meta name="theme-color" content="#08081C">
+<meta property="og:title" content="DreamLink — Where Founders Share the Real Journey">
+<meta property="og:description" content="Connect with founders who've solved your exact obstacle. Share your journey. Find your collaborators.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23070718'/><circle cx='16' cy='16' r='5' fill='%236D28D9'/><circle cx='16' cy='16' r='5' fill='%236D28D9' opacity='.4'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:#070718;display:flex;align-items:center;justify-content:center;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif}
+
+/* ── DESIGN TOKENS ── */
+:root{
+  --bg:#08081C;--bg2:#0C0D22;--s1:#121428;--s2:#181A30;--s3:#1E2138;
+  /* Purple = actions only */
+  --p:#6D28D9;--p2:#8B5CF6;--ps:rgba(109,40,217,.12);--pb:rgba(109,40,217,.26);
+  /* Green = wins & milestones */
+  --g:#16A34A;--g2:#22C55E;--gs:rgba(22,163,74,.10);--gb:rgba(34,197,94,.24);
+  /* Orange = obstacles */
+  --o:#C2410C;--o2:#F59E0B;--os:rgba(194,65,12,.10);--ob:rgba(245,158,11,.24);
+  /* Blue = mentorship */
+  --b:#1E40AF;--b2:#3B82F6;--bs:rgba(30,64,175,.10);--bb:rgba(59,130,246,.24);
+  /* Red = setbacks */
+  --r:#DC2626;--r2:#EF4444;--rs:rgba(220,38,38,.10);--rb:rgba(239,68,68,.24);
+  /* Text */
+  --t1:#EDEAF8;--t2:#8A88A8;--t3:#3C3A58;--t4:#1A1830;
+  /* Radii */
+  --rad:16px;--rad-sm:10px;
+}
+
+/* ── PHONE SHELL ── */
+.phone{
+  width:393px;height:852px;background:var(--bg);
+  border-radius:52px;border:8px solid #14142A;
+  overflow:hidden;display:flex;flex-direction:column;position:relative;
+  box-shadow:0 40px 80px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.04);
+}
+.sb{height:50px;background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0}
+.sb-t{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--t1)}
+.sb-r{font-size:12px;color:var(--t1);display:flex;gap:5px;align-items:center}
+
+/* ── SCREENS ── */
+.sw{flex:1;overflow:hidden;position:relative}
+.sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;flex-direction:column;background:var(--bg);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.sc::-webkit-scrollbar{display:none}
+.sc.on{display:flex}
+
+/* ── TAB BAR ── */
+.tbar{
+  height:76px;flex-shrink:0;
+  background:rgba(8,8,28,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-top:.5px solid rgba(255,255,255,.06);
+  display:flex;align-items:flex-start;justify-content:space-around;
+  padding:10px 2px 0;z-index:10;
+}
+.ti{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  cursor:pointer;padding:6px 8px;border-radius:12px;
+  color:var(--t3);background:transparent;border:none;
+  min-width:58px;transition:color .15s;position:relative;
+}
+.ti.on{color:var(--p2)}
+.ti svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ti-lbl{font-size:9.5px;font-weight:600;font-family:'Space Grotesk',sans-serif}
+.ti-pip{position:absolute;top:4px;right:6px;min-width:16px;height:16px;border-radius:8px;background:var(--p);border:1.5px solid var(--bg2);font-size:9px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;padding:0 3px;font-family:'Space Grotesk',sans-serif}
+
+/* ── SHARED ── */
+.sh{padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.sh-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--t1);letter-spacing:-.4px}
+.av{width:34px;height:34px;border-radius:50%;background:var(--ps);border:1.5px solid var(--pb);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--p2);cursor:pointer;flex-shrink:0}
+.lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:6px;font-family:'Space Grotesk',sans-serif}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:10.5px;font-weight:700;white-space:nowrap;font-family:'Space Grotesk',sans-serif}
+.pp{background:var(--ps);color:#C4B5FD;border:.5px solid var(--pb)}
+.pg{background:var(--gs);color:#4ADE80;border:.5px solid var(--gb)}
+.po{background:var(--os);color:#FCD34D;border:.5px solid var(--ob)}
+.pb{background:var(--bs);color:#93C5FD;border:.5px solid var(--bb)}
+.pr{background:var(--rs);color:#FCA5A5;border:.5px solid var(--rb)}
+.btn-p{width:100%;padding:14px;border-radius:13px;background:var(--p);color:#fff;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;transition:opacity .15s;letter-spacing:-.1px}
+.btn-p:active{opacity:.78}
+.dvd{height:.5px;background:rgba(255,255,255,.05);margin:0 18px}
+.card{background:var(--s1);border:.5px solid rgba(255,255,255,.07);border-radius:var(--rad);padding:15px;margin:0 14px 12px}
+
+/* ── OVERLAYS ── */
+.ov{display:none;position:absolute;inset:0;z-index:60;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);align-items:flex-end}
+.ov.on{display:flex}
+.ovs{background:var(--s1);border-radius:24px 24px 0 0;padding:20px 20px 32px;width:100%;max-height:92%;overflow-y:auto;scrollbar-width:none;position:relative}
+.ovs::-webkit-scrollbar{display:none}
+.ovh{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.14);margin:0 auto 18px}
+.ovx{position:absolute;top:16px;right:18px;background:var(--s2);border:none;color:var(--t2);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:sans-serif}
+.ov-title{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;color:var(--t1);margin-bottom:5px}
+.ov-sub{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.55}
+
+/* ═══════════════════════════════
+   DREAM ARC COMPONENT
+   Used universally across all screens
+═══════════════════════════════ */
+.dream-arc{
+  background:var(--s1);border:.5px solid rgba(255,255,255,.07);
+  border-radius:var(--rad);padding:13px;
+}
+.da-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.da-dream{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--t1);line-height:1.3;flex:1;margin-right:10px}
+.da-score{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--p2);flex-shrink:0}
+.da-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.da-day{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--t3);white-space:nowrap}
+.da-day em{font-style:normal;color:var(--p2)}
+.da-bar{flex:1;height:4px;background:var(--t4);border-radius:2px;overflow:hidden}
+.da-fill{height:100%;border-radius:2px}
+.da-pct{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--p2);white-space:nowrap}
+.da-stage{font-size:10px;font-weight:600;color:var(--t3);white-space:nowrap;font-family:'Space Grotesk',sans-serif}
+.da-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px}
+.da-cell{padding:8px 10px;border-radius:var(--rad-sm);border:.5px solid rgba(255,255,255,.07)}
+.da-cell-obs{background:var(--os)}
+.da-cell-ms{background:var(--gs)}
+.da-cell-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;font-family:'Space Grotesk',sans-serif}
+.da-cell-val{font-size:12px;font-weight:600;color:rgba(255,255,255,.88);line-height:1.3}
+.da-next{font-size:12px;color:var(--t2);display:flex;align-items:center;gap:6px;padding-top:8px;border-top:.5px solid rgba(255,255,255,.06)}
+.da-next-arrow{color:var(--p2);font-size:11px;font-weight:700}
+
+/* ── TRUST BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;font-family:'Space Grotesk',sans-serif;white-space:nowrap}
+.badge-founder{background:rgba(109,40,217,.15);color:#C4B5FD;border:.5px solid rgba(109,40,217,.3)}
+.badge-mentor{background:rgba(30,64,175,.15);color:#93C5FD;border:.5px solid rgba(59,130,246,.3)}
+.badge-builder{background:rgba(22,163,74,.12);color:#4ADE80;border:.5px solid rgba(34,197,94,.28)}
+.badge-verified{background:rgba(245,158,11,.12);color:#FCD34D;border:.5px solid rgba(245,158,11,.28)}
+
+/* ── IMPACT METRICS ── */
+.impact-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.impact-item{background:var(--s2);border-radius:var(--rad-sm);padding:10px 6px;text-align:center}
+.impact-n{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--p2);line-height:1}
+.impact-l{font-size:9px;color:var(--t3);margin-top:3px;font-weight:600;line-height:1.2}
+
+/* ═══════════════════════════════
+   HOME FEED
+═══════════════════════════════ */
+#sc-home{background:var(--bg)}
+.feed-hdr{padding:13px 18px 10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--bg);border-bottom:.5px solid rgba(255,255,255,.04)}
+.fh-brand{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:8px;letter-spacing:-.3px}
+.fh-dot{width:8px;height:8px;border-radius:50%;background:var(--p);box-shadow:0 0 10px rgba(109,40,217,.6);animation:glow 3s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+.fh-r{display:flex;gap:9px;align-items:center}
+.ico-btn{width:34px;height:34px;border-radius:50%;background:var(--s1);border:.5px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
+.ico-btn svg{width:17px;height:17px;stroke:var(--t2);fill:none;stroke-width:1.8;stroke-linecap:round}
+.n-pip{position:absolute;top:7px;right:7px;width:6px;height:6px;border-radius:50%;background:var(--p);border:1.5px solid var(--s1)}
+.feed-filt{display:flex;gap:6px;padding:9px 14px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;background:var(--bg);border-bottom:.5px solid rgba(255,255,255,.04)}
+.feed-filt::-webkit-scrollbar{display:none}
+.ff{padding:6px 14px;border-radius:100px;white-space:nowrap;background:var(--s1);border:.5px solid rgba(255,255,255,.07);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0;transition:all .15s;font-family:'Space Grotesk',sans-serif}
+.ff.on{background:var(--ps);border-color:var(--pb);color:#C4B5FD}
+.ff:active{transform:scale(.95)}
+
+/* Episode card */
+.ep{margin:0;background:var(--bg);border-bottom:.5px solid rgba(255,255,255,.04);position:relative;cursor:pointer}
+.ep:active{background:rgba(255,255,255,.01)}
+.ep-spine{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--t4)}
+.ep-spine-fill{position:absolute;top:0;left:0;width:100%}
+.ep-inner{padding:15px 15px 13px 18px}
+.ep-author{display:flex;align-items:flex-start;gap:10px;margin-bottom:11px}
+.ep-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;position:relative}
+.ep-av-ring{position:absolute;inset:-2px;border-radius:50%;border:1.5px solid transparent;background:linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(135deg,var(--p),var(--o2)) border-box}
+.ep-meta{flex:1;min-width:0}
+.ep-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t1);margin-bottom:1px;display:flex;align-items:center;gap:5px}
+.ep-dream-line{font-size:11.5px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ep-type-badge{flex-shrink:0}
+
+/* Dream Arc inline on episodes */
+.ep-arc{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:var(--rad-sm);background:var(--s1);border:.5px solid rgba(255,255,255,.06);margin-bottom:11px}
+.ep-arc-day{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--t3);white-space:nowrap}
+.ep-arc-day em{font-style:normal;color:var(--p2)}
+.ep-arc-bar{flex:1;height:3px;background:var(--t4);border-radius:2px;overflow:hidden}
+.ep-arc-fill{height:100%;border-radius:2px}
+.ep-arc-pct{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--p2);white-space:nowrap}
+.ep-arc-stage{font-size:10px;color:var(--t3);white-space:nowrap;font-family:'Space Grotesk',sans-serif}
+
+.ep-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--t1);margin-bottom:8px;line-height:1.25;letter-spacing:-.15px}
+.ep-story{font-size:14px;color:var(--t1);line-height:1.6;margin-bottom:11px}
+.ep-story p+p{margin-top:7px}
+.ep-win{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-radius:var(--rad-sm);background:var(--gs);border:.5px solid var(--gb);margin-bottom:11px}
+.ep-obs{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-radius:var(--rad-sm);background:var(--os);border:.5px solid var(--ob);margin-bottom:11px}
+.ep-fail{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-radius:var(--rad-sm);background:var(--rs);border:.5px solid var(--rb);margin-bottom:11px}
+.ep-lesson{padding:11px 13px;border-radius:var(--rad-sm);background:var(--ps);border:.5px solid var(--pb);margin-bottom:11px;font-size:13px;color:#C4B5FD;line-height:1.55;font-style:italic}
+.ep-mentor{padding:11px 13px;border-radius:var(--rad-sm);background:var(--bs);border:.5px solid var(--bb);margin-bottom:11px;font-size:13px;color:#93C5FD;line-height:1.55;font-style:italic}
+.ep-callout-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.ep-callout-txt{font-size:13px;font-weight:600;line-height:1.35}
+.ep-callout-txt.g{color:#4ADE80}
+.ep-callout-txt.o{color:#FCD34D}
+.ep-callout-txt.r{color:#FCA5A5}
+
+/* Journey dots */
+.ep-tl{display:flex;gap:3px;align-items:center;margin-bottom:11px}
+.ep-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:var(--t4)}
+.ep-dot.p{background:var(--p);opacity:.6}
+.ep-dot.c{background:var(--p2);width:20px;border-radius:3.5px;box-shadow:0 0 7px rgba(139,92,246,.5)}
+.ep-dot.f{background:var(--t4)}
+.ep-tl-lbl{font-size:10px;color:var(--t3);margin-left:7px;font-family:'Space Grotesk',sans-serif}
+
+/* Feed-to-match action row */
+.ep-actions{display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none;padding-bottom:1px}
+.ep-actions::-webkit-scrollbar{display:none}
+.ep-act{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:100px;background:var(--s1);border:.5px solid rgba(255,255,255,.07);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Space Grotesk',sans-serif;flex-shrink:0;white-space:nowrap}
+.ep-act:active{transform:scale(.95)}
+.ep-act.a-green{color:#4ADE80;border-color:var(--gb);background:var(--gs)}
+.ep-act.a-orange{color:#FCD34D;border-color:var(--ob);background:var(--os)}
+.ep-act.a-purple{color:#C4B5FD;border-color:var(--pb);background:var(--ps)}
+.ep-act.a-blue{color:#93C5FD;border-color:var(--bb);background:var(--bs)}
+.ep-more{margin-left:auto;flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--s1);border:.5px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t3);font-size:16px}
+.fab{position:absolute;bottom:86px;right:16px;z-index:20;width:50px;height:50px;border-radius:50%;background:var(--p);box-shadow:0 6px 20px rgba(109,40,217,.45);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:transform .15s}
+.fab:active{transform:scale(.9)}
+.fab svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
+
+/* ═══════════════════════════════
+   DISCOVER
+═══════════════════════════════ */
+#sc-disc{background:var(--bg)}
+.disc-obs-card{margin:12px 14px;background:var(--s1);border:.5px solid rgba(255,255,255,.07);border-radius:var(--rad);padding:13px}
+.doc-lbl{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;font-family:'Space Grotesk',sans-serif}
+.doc-row{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--os);border:.5px solid var(--ob);border-radius:var(--rad-sm)}
+.doc-txt{font-size:13px;color:var(--t1);flex:1;font-weight:500}
+.doc-edit{padding:5px 11px;border-radius:7px;background:var(--o2);color:#2D1000;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif}
+.disc-sec{font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:700;color:var(--t3);letter-spacing:.09em;text-transform:uppercase;padding:12px 18px 8px}
+.dc{margin:0 14px 11px;background:var(--s1);border:.5px solid rgba(255,255,255,.07);border-radius:var(--rad);overflow:hidden;cursor:pointer;transition:transform .15s}
+.dc:active{transform:scale(.985)}
+.dc-body{padding:13px}
+.dc-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:11px}
+.dc-av{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700}
+.dc-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t1);margin-bottom:2px;display:flex;align-items:center;gap:5px}
+.dc-dream{font-size:12px;color:var(--t2)}
+.dc-why{background:var(--s2);border-radius:var(--rad-sm);padding:10px 12px;margin-bottom:10px}
+.dc-why-lbl{font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;font-family:'Space Grotesk',sans-serif}
+.dc-why-item{display:flex;align-items:flex-start;gap:6px;font-size:12px;color:var(--t1);line-height:1.35;margin-bottom:4px}
+.dc-why-item:last-child{margin-bottom:0}
+.dc-chk{color:#4ADE80;font-weight:700;font-size:11px;flex-shrink:0;margin-top:1px}
+/* Dream Arc on discover cards */
+.dc-arc{margin-bottom:10px}
+.dc-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}
+.dc-acts{display:flex;border-top:.5px solid rgba(255,255,255,.05)}
+.dc-act{flex:1;padding:11px;background:transparent;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;color:var(--t2);transition:background .15s}
+.dc-act+.dc-act{border-left:.5px solid rgba(255,255,255,.05)}
+.dc-act.cv{color:var(--p2)}
+.dc-act:active{background:var(--s2)}
+
+/* ═══════════════════════════════
+   MATCHES (swipe stack)
+═══════════════════════════════ */
+#sc-match{background:var(--bg)}
+.match-hdr{padding:10px 18px 8px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.match-count{font-size:13px;color:var(--t2)}
+.match-count strong{color:var(--t1);font-weight:600}
+.stack{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:0 10px 4px}
+.s-hint{position:absolute;border-radius:10px;padding:8px 15px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:0;pointer-events:none;z-index:20;border:2.5px solid}
+.hint-r{top:46px;left:20px;color:#4ADE80;border-color:var(--g2);transform:rotate(-12deg);background:rgba(22,163,74,.08)}
+.hint-l{top:46px;right:20px;color:#FCA5A5;border-color:var(--r2);transform:rotate(12deg);background:rgba(220,38,38,.08)}
+.hint-u{bottom:90px;left:50%;transform:translateX(-50%);color:#C4B5FD;border-color:var(--p);background:var(--ps);white-space:nowrap}
+.stack-empty{display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:40px 28px}
+.stack-empty.on{display:flex}
+.se-icon{font-size:52px}
+.se-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--t1);letter-spacing:-.4px}
+.se-sub{font-size:14px;color:var(--t2);line-height:1.55;max-width:260px}
+.se-btn{padding:14px 28px;border-radius:13px;background:var(--p);color:#fff;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;margin-top:6px}
+
+/* Match card — 88% of viewport height */
+.mc{
+  position:absolute;width:100%;height:100%;
+  border-radius:22px;overflow:hidden;
+  box-shadow:0 12px 40px rgba(0,0,0,.5);
+  cursor:pointer;transform-origin:center bottom;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  border:.5px solid rgba(255,255,255,.08);
+  user-select:none;-webkit-user-select:none;
+  display:flex;flex-direction:column;
+}
+.mc.drag{transition:none}
+.mc.go-r{transition:transform .36s ease-in,opacity .36s ease-in !important;transform:translateX(130%) rotate(22deg) !important;opacity:0}
+.mc.go-l{transition:transform .36s ease-in,opacity .36s ease-in !important;transform:translateX(-130%) rotate(-22deg) !important;opacity:0}
+.mc.go-u{transition:transform .4s cubic-bezier(.25,.46,.45,.94),opacity .4s !important;transform:translateY(-110%) !important;opacity:0}
+.mc-bg{position:absolute;inset:0;z-index:0}
+/* score + badge */
+.mc-top-badges{position:absolute;top:14px;left:14px;z-index:3;display:flex;gap:5px;flex-wrap:wrap}
+.mc-score-bubble{background:rgba(0,0,0,.45);backdrop-filter:blur(12px);border-radius:10px;padding:6px 10px;text-align:center;border:.5px solid rgba(255,255,255,.12)}
+.mc-score-n{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;color:#fff;line-height:1}
+.mc-score-l{font-size:8px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;font-family:'Space Grotesk',sans-serif}
+.mc-trust-badge{padding:4px 9px;border-radius:7px;font-size:10px;font-weight:700;font-family:'Space Grotesk',sans-serif;backdrop-filter:blur(8px)}
+/* photo area */
+.mc-photo{position:relative;z-index:1;padding:14px 16px 0;flex-shrink:0}
+.mc-av-row{display:flex;align-items:flex-end;gap:11px;margin-bottom:11px}
+.mc-av{width:62px;height:62px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:700;border:2px solid rgba(255,255,255,.18);position:relative}
+.mc-av-stage{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);font-family:'Space Grotesk',sans-serif;font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:100px;white-space:nowrap;border:1.5px solid rgba(255,255,255,.18)}
+.mc-name{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:700;color:#fff;letter-spacing:-.4px;text-shadow:0 1px 5px rgba(0,0,0,.4);margin-bottom:2px}
+.mc-loc{font-size:12px;color:rgba(255,255,255,.6)}
+/* dream */
+.mc-dream-lbl{font-size:9.5px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;font-family:'Space Grotesk',sans-serif}
+.mc-dream-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:9px;text-shadow:0 1px 4px rgba(0,0,0,.3)}
+/* Dream Arc on match card */
+.mc-arc-strip{display:flex;align-items:center;gap:7px;margin-bottom:9px;padding:8px 10px;border-radius:10px;background:rgba(0,0,0,.28);backdrop-filter:blur(8px);border:.5px solid rgba(255,255,255,.09)}
+.mc-arc-day{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap}
+.mc-arc-day em{font-style:normal;color:rgba(255,255,255,.9)}
+.mc-arc-bar{flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+.mc-arc-fill{height:100%;border-radius:2px}
+.mc-arc-pct{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:#fff;white-space:nowrap}
+/* info grid */
+.mc-info{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px}
+.mc-block{padding:8px 10px;border-radius:10px;background:rgba(0,0,0,.28);backdrop-filter:blur(8px);border:.5px solid rgba(255,255,255,.09)}
+.mc-block-obs{border-color:rgba(245,158,11,.22)}
+.mc-block-ms{border-color:rgba(34,197,94,.22)}
+.mc-block-lbl{font-size:8.5px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;font-family:'Space Grotesk',sans-serif}
+.mc-block-val{font-size:12px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.3}
+/* journey pip dots on match card */
+.mc-pips{display:flex;gap:4px;align-items:center}
+.mc-pip{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+/* why reasons */
+.mc-reasons{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0;position:relative;z-index:1;padding:0 16px 11px}
+.mc-rsn{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:100px;background:rgba(0,0,0,.28);backdrop-filter:blur(8px);border:.5px solid rgba(255,255,255,.09);font-size:11px;font-weight:600;color:rgba(255,255,255,.78);font-family:'Space Grotesk',sans-serif}
+.mc-rsn-chk{font-size:10px;color:#4ADE80}
+/* actions */
+.mc-acts{display:flex;align-items:center;gap:9px;padding:0 16px 14px;position:relative;z-index:1;flex-shrink:0}
+.mc-btn{display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;flex-shrink:0;border:none;transition:transform .15s;-webkit-user-select:none}
+.mc-btn:active{transform:scale(.88)}
+.mc-pass{width:48px;height:48px;background:rgba(220,38,38,.14);border:1.5px solid rgba(220,38,38,.32)}
+.mc-pass svg{width:20px;height:20px;stroke:#FCA5A5;fill:none;stroke-width:2.2;stroke-linecap:round}
+.mc-prev{width:38px;height:38px;background:rgba(109,40,217,.14);border:1.5px solid var(--pb)}
+.mc-prev svg{width:16px;height:16px;stroke:#C4B5FD;fill:none;stroke-width:2;stroke-linecap:round}
+.mc-connect{flex:1;padding:12px;border-radius:13px;background:linear-gradient(135deg,var(--p) 0%,var(--p2) 100%);border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#fff;box-shadow:0 5px 18px rgba(109,40,217,.38);transition:all .15s;-webkit-user-select:none}
+.mc-connect:active{transform:scale(.97)}
+.mc-fp{width:38px;height:38px;background:rgba(245,158,11,.12);border:1.5px solid var(--ob)}
+.mc-fp svg{width:16px;height:16px;stroke:#FCD34D;fill:none;stroke-width:2;stroke-linecap:round}
+/* match moment overlay */
+.mm{display:none;position:absolute;inset:0;z-index:80;background:rgba(5,5,20,.93);backdrop-filter:blur(14px);flex-direction:column;align-items:center;justify-content:center;padding:26px;overflow-y:auto}
+.mm.on{display:flex}
+.mm-glow{width:116px;height:116px;border-radius:50%;background:linear-gradient(135deg,rgba(109,40,217,.3),rgba(245,158,11,.18));display:flex;align-items:center;justify-content:center;margin-bottom:20px;position:relative;box-shadow:0 0 50px rgba(109,40,217,.3),0 0 90px rgba(245,158,11,.1)}
+.mm-glow::before{content:'';position:absolute;inset:-10px;border-radius:50%;border:1.5px solid rgba(109,40,217,.28);animation:mmr 2s ease-in-out infinite}
+.mm-glow::after{content:'';position:absolute;inset:-20px;border-radius:50%;border:1px solid rgba(109,40,217,.14);animation:mmr 2s ease-in-out infinite .4s}
+@keyframes mmr{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.06);opacity:.25}}
+.mm-icon{font-size:46px}
+.mm-tag{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--p2);letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px}
+.mm-title{font-family:'Space Grotesk',sans-serif;font-size:25px;font-weight:700;color:var(--t1);letter-spacing:-.4px;margin-bottom:5px;text-align:center}
+.mm-sub{font-size:13px;color:var(--t2);text-align:center;line-height:1.55;margin-bottom:20px;max-width:270px}
+.mm-avs{display:flex;align-items:center;margin-bottom:18px}
+.mm-av{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;border:2.5px solid var(--bg)}
+.mm-av-me{background:var(--ps);color:var(--p2);z-index:1}
+.mm-av-them{margin-left:-14px}
+.mm-zap{margin:0 3px;font-size:18px;z-index:2;position:relative}
+.mm-box{width:100%;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.08);border-radius:13px;padding:13px;margin-bottom:15px}
+.mm-box-lbl{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px;font-family:'Space Grotesk',sans-serif;text-align:center}
+.mm-factor{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--t1);line-height:1.35;margin-bottom:7px}
+.mm-factor:last-child{margin-bottom:0}
+.mm-chk{color:#4ADE80;font-weight:700;font-size:11px;flex-shrink:0;margin-top:2px}
+.mm-starter{background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 12px;margin-bottom:6px;font-size:13px;color:var(--t2);line-height:1.45;cursor:pointer;transition:all .15s}
+.mm-starter:active{background:var(--ps);border-color:var(--pb);color:var(--t1)}
+.mm-starter:last-child{margin-bottom:0}
+.mm-ctas{display:flex;flex-direction:column;gap:7px;width:100%}
+.mm-btn-p{width:100%;padding:13px;border-radius:12px;background:var(--p);color:#fff;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;box-shadow:0 5px 18px rgba(109,40,217,.3)}
+.mm-btn-p:active{opacity:.8}
+.mm-btn-row{display:flex;gap:7px}
+.mm-btn-s{flex:1;padding:12px;border-radius:12px;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.1);color:var(--t2);cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600}
+
+/* ═══════════════════════════════
+   MESSAGES
+═══════════════════════════════ */
+#sc-msg{background:var(--bg)}
+.msg-srch{margin:0 14px 10px;padding:10px 13px;background:var(--s1);border:.5px solid rgba(255,255,255,.07);border-radius:12px;color:var(--t3);font-size:13px;display:flex;align-items:center;gap:9px}
+.msg-srch svg{flex-shrink:0;width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.conn-req{margin:0 14px 11px;background:var(--ps);border:.5px solid var(--pb);border-radius:13px;padding:12px 14px;cursor:pointer}
+.cr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.cr-lbl{font-size:10px;font-weight:700;color:var(--p2);letter-spacing:.1em;text-transform:uppercase;font-family:'Space Grotesk',sans-serif}
+.cr-badge{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--p2);background:var(--pb);padding:2px 8px;border-radius:100px}
+.cr-item{display:flex;align-items:center;gap:9px}
+.cr-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;flex-shrink:0}
+.cr-name{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--t1)}
+.cr-txt{font-size:11px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:155px}
+.cr-btns{display:flex;gap:5px;flex-shrink:0;margin-left:auto}
+.cr-acc{padding:5px 11px;border-radius:7px;background:var(--p);color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;cursor:pointer}
+.cr-dec{padding:5px 11px;border-radius:7px;background:var(--s2);color:var(--t2);border:.5px solid rgba(255,255,255,.08);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;cursor:pointer}
+.msg-row{display:flex;align-items:center;gap:11px;padding:12px 18px;cursor:pointer;transition:background .15s}
+.msg-row:active{background:var(--s1)}
+.mr-av{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;position:relative}
+.mr-on{position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:var(--g2);border:2px solid var(--bg)}
+.mr-body{flex:1;min-width:0}
+.mr-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px}
+.mr-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--t1)}
+.mr-time{font-size:11px;color:var(--t3)}
+.mr-prev{font-size:12px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mr-badge{min-width:19px;height:19px;border-radius:10px;background:var(--p);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0 4px}
+.chat-ov{display:none;flex-direction:column;position:absolute;inset:0;background:var(--bg);z-index:40}
+.chat-ov.on{display:flex}
+.chat-hd{padding:11px 15px;display:flex;align-items:center;gap:10px;border-bottom:.5px solid rgba(255,255,255,.05);flex-shrink:0}
+.chat-back{background:none;border:none;color:var(--p2);font-size:23px;cursor:pointer;line-height:1;padding:2px 5px;font-family:'Space Grotesk',sans-serif}
+.chat-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700}
+.chat-nm{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t1)}
+.chat-st{font-size:11px;color:var(--g2)}
+.chat-msgs{flex:1;padding:13px 15px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;scrollbar-width:none}
+.chat-msgs::-webkit-scrollbar{display:none}
+.bub{max-width:78%;padding:9px 13px;font-size:13px;line-height:1.48;word-wrap:break-word}
+.bub.them{background:var(--s1);color:var(--t1);border-radius:4px 16px 16px 16px;align-self:flex-start}
+.bub.me{background:var(--p);color:#fff;border-radius:16px 16px 4px 16px;align-self:flex-end}
+.bub-t{font-size:10px;color:var(--t3);margin-top:2px}
+.bub-t.r{text-align:right}
+.chat-ir{padding:8px 13px 14px;display:flex;gap:7px;align-items:center;border-top:.5px solid rgba(255,255,255,.05);flex-shrink:0}
+.chat-inp{flex:1;padding:10px 14px;border-radius:20px;background:var(--s1);border:.5px solid rgba(255,255,255,.1);color:var(--t1);font-family:'Inter',sans-serif;font-size:14px;outline:none}
+.chat-inp:focus{border-color:var(--pb)}
+.chat-inp::placeholder{color:var(--t3)}
+.chat-send{width:38px;height:38px;border-radius:50%;background:var(--p);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-send svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+
+/* ═══════════════════════════════
+   JOURNEY (DREAM PAGE — profile + timeline)
+═══════════════════════════════ */
+#sc-journey{background:var(--bg)}
+.dp-banner{background:linear-gradient(180deg,rgba(109,40,217,.18) 0%,transparent 100%);padding:16px 18px 0;position:relative}
+.dp-edit-btn{position:absolute;top:14px;right:18px;padding:6px 12px;border-radius:9px;background:var(--s1);border:.5px solid rgba(255,255,255,.08);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif}
+.dp-av-row{display:flex;align-items:flex-end;gap:13px;margin-bottom:13px}
+.dp-av{width:70px;height:70px;border-radius:50%;flex-shrink:0;background:var(--ps);border:2.5px solid var(--pb);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:25px;font-weight:700;color:var(--p2);position:relative}
+.dp-av-stage{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);background:var(--p);border-radius:100px;padding:2px 8px;font-size:9px;font-weight:700;color:#fff;white-space:nowrap;font-family:'Space Grotesk',sans-serif;border:1.5px solid var(--bg)}
+.dp-right{flex:1;padding-bottom:4px}
+.dp-name{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--t1);letter-spacing:-.4px;margin-bottom:2px}
+.dp-sub{font-size:13px;color:var(--t2);margin-bottom:7px}
+.dp-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.dp-pills{display:flex;gap:5px;flex-wrap:wrap}
+
+/* why this dream matters — emotional foundation, PROMINENT */
+.dp-why-matters{margin:0 14px 13px;background:linear-gradient(135deg,rgba(109,40,217,.14) 0%,rgba(245,158,11,.07) 100%);border:.5px solid var(--pb);border-radius:var(--rad);padding:15px}
+.dp-wm-lbl{font-size:9.5px;font-weight:700;color:#C4B5FD;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;font-family:'Space Grotesk',sans-serif}
+.dp-wm-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--t1);margin-bottom:5px;letter-spacing:-.2px;line-height:1.3}
+.dp-wm-body{font-size:13px;color:var(--t2);line-height:1.6}
+
+/* Dream Arc on Dream Page */
+.dp-arc-card{margin:0 14px 13px;background:var(--s1);border:.5px solid rgba(255,255,255,.07);border-radius:var(--rad);padding:14px}
+.dp-arc-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--t1);margin-bottom:9px}
+.dp-arc-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.dp-arc-day{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--t3)}
+.dp-arc-day em{font-style:normal;color:var(--p2)}
+.dp-arc-bar{flex:1;height:5px;background:var(--t4);border-radius:3px;overflow:hidden}
+.dp-arc-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--p),var(--p2))}
+.dp-arc-pct{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--p2)}
+.dp-arc-stages{display:flex;justify-content:space-between;font-size:9px;font-weight:600;letter-spacing:.03em;font-family:'Space Grotesk',sans-serif;color:var(--t3);margin-bottom:9px}
+.dp-arc-s.done{color:var(--p)}.dp-arc-s.cur{color:var(--p2)}
+.dp-arc-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.dp-arc-cell{padding:9px 10px;border-radius:var(--rad-sm)}
+.dp-arc-cell-lbl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;font-family:'Space Grotesk',sans-serif}
+.dp-arc-cell-val{font-size:12px;font-weight:600;color:var(--t1);line-height:1.35}
+.dp-arc-next{font-size:12px;color:var(--t2);display:flex;align-items:center;gap:6px;margin-top:9px;padding-top:9px;border-top:.5px solid rgba(255,255,255,.06)}
+.dp-arc-next-arrow{color:var(--p2);font-size:11px;font-weight:700}
+
+/* impact strip */
+.dp-impact{margin:0 14px 13px;background:var(--s1);border:.5px solid rgba(255,255,255,.07);border-radius:var(--rad);padding:13px}
+.dp-impact-lbl{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;font-family:'Space Grotesk',sans-serif}
+.dp-impact-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.dp-impact-item{background:var(--s2);border-radius:var(--rad-sm);padding:10px 5px;text-align:center}
+.dp-impact-n{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--p2);line-height:1}
+.dp-impact-l{font-size:9px;color:var(--t3);margin-top:3px;font-weight:600;line-height:1.2}
+
+/* sections */
+.dp-sec{padding:0 18px 12px}
+.dp-sec-h{font-size:10.5px;font-weight:700;color:var(--t3);letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;font-family:'Space Grotesk',sans-serif}
+.dp-chips{display:flex;flex-wrap:wrap;gap:6px}
+.dp-lf-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.dp-lf-item{padding:9px 12px;background:var(--s1);border:.5px solid rgba(255,255,255,.06);border-radius:var(--rad-sm);font-size:12px;font-weight:600;color:var(--t2);display:flex;align-items:center;gap:6px;font-family:'Space Grotesk',sans-serif}
+.dp-lf-item.on{background:var(--ps);border-color:var(--pb);color:#C4B5FD}
+
+/* Journey timeline */
+.dp-tl-hdr{padding:4px 18px 10px;display:flex;align-items:center;justify-content:space-between}
+.dp-tl-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--t1)}
+.dp-tl-count{font-size:12px;color:var(--t3)}
+.dp-tl-spine{margin:0 18px;position:relative;padding-left:22px}
+.dp-tl-spine::before{content:'';position:absolute;left:6px;top:6px;bottom:6px;width:1.5px;background:linear-gradient(180deg,var(--p) 0%,rgba(255,255,255,.04) 100%)}
+.dp-tl-item{position:relative;padding-bottom:18px;cursor:pointer}
+.dp-tl-item:last-child{padding-bottom:0}
+.dp-tl-dot{position:absolute;left:-22px;top:4px;width:13px;height:13px;border-radius:50%;border:2px solid var(--t4);background:var(--bg)}
+.dp-tl-dot.done{background:var(--p);border-color:var(--p);box-shadow:0 0 8px rgba(109,40,217,.38)}
+.dp-tl-dot.now{background:var(--bg);border-color:var(--p2);border-style:dashed;animation:pdot 2s ease-in-out infinite}
+@keyframes pdot{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,.4)}50%{box-shadow:0 0 0 5px rgba(139,92,246,0)}}
+.dp-tl-day{font-size:10px;font-weight:700;color:var(--t3);font-family:'Space Grotesk',sans-serif;margin-bottom:2px}
+.dp-tl-event{font-size:13px;color:var(--t1);line-height:1.4;margin-bottom:5px}
+.dp-post-btn{margin:0 18px 22px;padding:14px;border-radius:13px;background:var(--p);color:#fff;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;width:calc(100% - 36px);display:flex;align-items:center;justify-content:center;gap:8px}
+
+/* ── COMPOSE OVERLAY ── */
+.ct-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:14px}
+.ct{padding:11px 7px;border-radius:11px;background:var(--s2);border:.5px solid rgba(255,255,255,.07);cursor:pointer;text-align:center;transition:all .18s}
+.ct:active{transform:scale(.96)}
+.ct.sel{border-color:var(--pb);background:var(--ps)}
+.ct-icon{font-size:19px;margin-bottom:3px}
+.ct-lbl{font-size:10.5px;font-weight:600;color:var(--t2);font-family:'Space Grotesk',sans-serif}
+.ct.sel .ct-lbl{color:#C4B5FD}
+.compose-ta{width:100%;padding:12px 13px;background:var(--s2);border:.5px solid rgba(255,255,255,.08);border-radius:12px;color:var(--t1);font-family:'Inter',sans-serif;font-size:14px;outline:none;resize:none;min-height:90px;margin-bottom:13px;line-height:1.55}
+.compose-ta:focus{border-color:var(--pb)}
+.compose-ta::placeholder{color:var(--t3)}
+.compose-ctx-row{display:flex;align-items:center;gap:9px;padding:10px 12px;background:var(--s2);border-radius:11px;margin-bottom:13px}
+.compose-ctx-lbl{font-size:12px;color:var(--t2);flex:1}
+.compose-ctx-val{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--p2)}
+
+/* ── JOURNEY PREVIEW OVERLAY (swipe up) ── */
+.jp-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.jp-av{width:50px;height:50px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700}
+.jp-nm{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.jp-dream{font-size:12px;color:var(--t2);line-height:1.4}
+.jp-arc{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--s2);border-radius:var(--rad-sm);margin-bottom:16px}
+.jp-arc-bar{flex:1;height:3px;background:var(--t4);border-radius:2px;overflow:hidden}
+.jp-arc-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--p),var(--p2))}
+.jp-arc-day{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--o2)}
+.jp-arc-pct{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--p2)}
+.jp-tl{position:relative;padding-left:20px}
+.jp-tl::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:1.5px;background:linear-gradient(180deg,var(--p) 0%,rgba(255,255,255,.04) 100%)}
+.jp-item{position:relative;padding-bottom:14px}
+.jp-item:last-child{padding-bottom:0}
+.jp-dot{position:absolute;left:-20px;top:4px;width:11px;height:11px;border-radius:50%;border:2px solid;background:var(--bg2)}
+.jp-dot.done{background:var(--p);border-color:var(--p);box-shadow:0 0 7px rgba(109,40,217,.4)}
+.jp-dot.now{background:var(--bg2);border-color:var(--p2);border-style:dashed;animation:pdot 2s ease-in-out infinite}
+.jp-dot.fut{border-color:var(--t3)}
+.jp-day{font-size:10px;font-weight:700;color:var(--t3);font-family:'Space Grotesk',sans-serif;margin-bottom:2px}
+.jp-event{font-size:13px;font-weight:600;color:var(--t1);line-height:1.3;margin-bottom:2px}
+.jp-detail{font-size:12px;color:var(--t2);line-height:1.4;margin-bottom:4px}
+
+/* ── FULL PROFILE OVERLAY (from discover/match) ── */
+.fp-banner{margin:-20px -20px 0;padding:22px 18px 18px;position:relative;overflow:hidden}
+.fp-av-row{display:flex;align-items:flex-end;gap:13px;position:relative;z-index:1;margin-bottom:5px}
+.fp-av{width:70px;height:70px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;border:2.5px solid rgba(255,255,255,.2)}
+.fp-name{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:700;color:#fff;letter-spacing:-.4px;margin-bottom:2px;text-shadow:0 1px 5px rgba(0,0,0,.4)}
+.fp-loc{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:6px}
+.fp-badges-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px}
+.fp-pills-row{display:flex;gap:5px;flex-wrap:wrap}
+.fp-score-bg{position:absolute;top:18px;right:18px;z-index:1;background:rgba(0,0,0,.45);backdrop-filter:blur(12px);border-radius:11px;padding:7px 11px;text-align:center;border:.5px solid rgba(255,255,255,.12)}
+.fp-score-n{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:#fff;line-height:1}
+.fp-score-l{font-size:8px;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;font-family:'Space Grotesk',sans-serif}
+.fp-why{margin:14px 0 12px;background:var(--s2);border-radius:13px;padding:13px}
+.fp-why-lbl{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px;font-family:'Space Grotesk',sans-serif}
+.fp-why-item{display:flex;align-items:flex-start;gap:5px;font-size:12px;color:var(--t1);line-height:1.3;margin-bottom:6px}
+.fp-why-item:last-child{margin-bottom:0}
+.fp-chk{color:#4ADE80;font-weight:700;font-size:10px;flex-shrink:0;margin-top:1px}
+.fp-dream-blk{background:var(--ps);border:.5px solid var(--pb);border-radius:13px;padding:12px;margin-bottom:10px}
+.fp-dream-lbl{font-size:9.5px;font-weight:700;color:#C4B5FD;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;font-family:'Space Grotesk',sans-serif}
+.fp-dream-txt{font-size:14px;color:var(--t1);line-height:1.5;font-style:italic}
+.fp-wm-blk{background:linear-gradient(135deg,rgba(109,40,217,.12) 0%,rgba(245,158,11,.06) 100%);border:.5px solid var(--pb);border-radius:13px;padding:12px;margin-bottom:10px}
+.fp-wm-lbl{font-size:9.5px;font-weight:700;color:#C4B5FD;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;font-family:'Space Grotesk',sans-serif}
+.fp-wm-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--t1);margin-bottom:4px;letter-spacing:-.2px}
+.fp-wm-body{font-size:13px;color:var(--t2);line-height:1.55}
+/* Dream Arc in full profile */
+.fp-arc{background:var(--s2);border-radius:13px;padding:13px;margin-bottom:10px}
+.fp-arc-lbl{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;font-family:'Space Grotesk',sans-serif}
+.fp-arc-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.fp-arc-bar{flex:1;height:4px;background:var(--t4);border-radius:2px;overflow:hidden}
+.fp-arc-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--p),var(--p2))}
+.fp-arc-pct{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--p2)}
+.fp-arc-days{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--o2)}
+.fp-arc-stages{display:flex;justify-content:space-between;font-size:9px;font-weight:600;font-family:'Space Grotesk',sans-serif;color:var(--t3);margin-bottom:9px}
+.fp-arc-s.done{color:var(--p)}.fp-arc-s.cur{color:var(--p2)}
+.fp-arc-info{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.fp-arc-cell{padding:9px 10px;border-radius:var(--rad-sm)}
+.fp-arc-cell-lbl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;font-family:'Space Grotesk',sans-serif}
+.fp-arc-cell-val{font-size:12px;font-weight:600;color:var(--t1);line-height:1.3}
+.fp-sec{margin-bottom:12px}
+.fp-sec-h{font-size:10.5px;font-weight:700;color:var(--t3);letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;font-family:'Space Grotesk',sans-serif}
+.fp-chips{display:flex;flex-wrap:wrap;gap:6px}
+.fp-ms-list{display:flex;flex-direction:column;gap:6px}
+.fp-ms-item{display:flex;align-items:center;gap:9px;padding:8px 11px;background:var(--s2);border-radius:var(--rad-sm)}
+.fp-ms-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.fp-ms-dot.done{background:var(--g2)}.fp-ms-dot.next{background:var(--p2)}
+.fp-ms-txt{flex:1;font-size:12px;color:var(--t1);line-height:1.3}
+.fp-ms-date{font-size:10px;color:var(--t3);font-family:'Space Grotesk',sans-serif}
+.fp-gallery{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:4px}
+.fp-media{border-radius:11px;overflow:hidden;background:var(--s2);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;cursor:pointer}
+.fp-media-lbl{position:absolute;bottom:6px;left:7px;font-size:10px;font-weight:600;color:rgba(255,255,255,.8);font-family:'Space Grotesk',sans-serif;background:rgba(0,0,0,.5);padding:2px 7px;border-radius:5px}
+.fp-impact-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:4px}
+.fp-impact-item{background:var(--s2);border-radius:var(--rad-sm);padding:10px 5px;text-align:center}
+.fp-impact-n{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--p2);line-height:1}
+.fp-impact-l{font-size:8.5px;color:var(--t3);margin-top:3px;font-weight:600;line-height:1.2}
+.fp-actions{display:flex;gap:8px;margin-top:4px}
+.fp-btn-p{flex:1;padding:12px;border-radius:12px;background:var(--p);color:#fff;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700}
+.fp-btn-p:active{opacity:.78}
+.fp-btn-s{padding:12px 15px;border-radius:12px;background:var(--s2);border:.5px solid rgba(255,255,255,.1);color:var(--t2);cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600}
+
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="sb">
+    <span class="sb-t" id="sbTime">9:41</span>
+    <div class="sb-r"><span>LTE</span><span style="margin-left:4px">&#9889;</span></div>
+  </div>
+  <div class="sw">
+    <div class="sc on" id="sc-home">
+      <div class="feed-hdr">
+        <div class="fh-brand"><div class="fh-dot"></div>DreamLink</div>
+        <div class="fh-r">
+          <div class="ico-btn" onclick="openOv('ov-notif')">
+            <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <div class="n-pip"></div>
+          </div>
+          <div class="av" onclick="goTab('sc-journey')">KH</div>
+        </div>
+      </div>
+      <div class="feed-filt">
+        <div class="ff on" onclick="ffTap(this)">Following</div>
+        <div class="ff" onclick="ffTap(this)">Similar Dreams</div>
+        <div class="ff" onclick="ffTap(this)">Wins</div>
+        <div class="ff" onclick="ffTap(this)">Struggles</div>
+        <div class="ff" onclick="ffTap(this)">Mentors</div>
+        <div class="ff" onclick="ffTap(this)">New Starts</div>
+      </div>
+
+      <!-- EP 1: WIN -->
+      <div class="ep" onclick="goTab('sc-journey')">
+        <div class="ep-spine"><div class="ep-spine-fill" style="height:61%;background:linear-gradient(180deg,var(--g) 0%,var(--g2) 100%)"></div></div>
+        <div class="ep-inner">
+          <div class="ep-author">
+            <div class="ep-av" style="background:rgba(109,40,217,.15);color:#C4B5FD">SJ<div class="ep-av-ring"></div></div>
+            <div class="ep-meta">
+              <div class="ep-name">Sophie J. <span class="badge badge-founder">&#10003; Verified Founder</span></div>
+              <div class="ep-dream-line">Building a GTM platform for B2B founders</div>
+            </div>
+            <span class="pill pg ep-type-badge">Win</span>
+          </div>
+          <div class="ep-arc">
+            <div class="ep-arc-day">Day <em>170</em></div>
+            <div class="ep-arc-bar"><div class="ep-arc-fill" style="width:61%;background:linear-gradient(90deg,var(--g),var(--g2))"></div></div>
+            <div class="ep-arc-pct">61%</div>
+            <div class="ep-arc-stage">Launching</div>
+          </div>
+          <div class="ep-title">The moment everything became real</div>
+          <div class="ep-story">
+            <p>Just signed our first paying customer. &#163;500/mo.</p>
+            <p>170 days since I wrote the idea in a notebook. A lot of silence. Then this.</p>
+          </div>
+          <div class="ep-win"><div class="ep-callout-icon">&#127919;</div><div class="ep-callout-txt g">Milestone: First paying customer &#183; Day 170</div></div>
+          <div class="ep-tl"><div class="ep-dot p"></div><div class="ep-dot p"></div><div class="ep-dot p"></div><div class="ep-dot c"></div><div class="ep-dot f"></div><div class="ep-dot f"></div><div class="ep-tl-lbl">Milestone 4 of 7</div></div>
+          <div class="ep-actions">
+            <div class="ep-act a-green" onclick="event.stopPropagation();encourage(this)">&#128293; Encourage</div>
+            <div class="ep-act a-purple" onclick="event.stopPropagation();connectAct(this)">&#9889; Connect</div>
+            <div class="ep-act a-blue" onclick="event.stopPropagation();openOv('ov-share-exp')">&#128172; Share experience</div>
+            <div class="ep-act" onclick="event.stopPropagation();goTab('sc-journey')">View dream</div>
+            <div class="ep-more" onclick="event.stopPropagation();openOv('ov-post-more')">&#8943;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EP 2: OBSTACLE -->
+      <div class="ep">
+        <div class="ep-spine"><div class="ep-spine-fill" style="height:27%;background:linear-gradient(180deg,var(--o) 0%,var(--o2) 100%)"></div></div>
+        <div class="ep-inner">
+          <div class="ep-author">
+            <div class="ep-av" style="background:rgba(217,119,6,.15);color:#FCD34D">MR<div class="ep-av-ring" style="background:linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(135deg,var(--o2),var(--r2)) border-box"></div></div>
+            <div class="ep-meta">
+              <div class="ep-name">Marcus R. <span class="badge badge-mentor">&#127891; Mentor</span></div>
+              <div class="ep-dream-line">AI advisor network for early-stage founders</div>
+            </div>
+            <span class="pill po ep-type-badge">Obstacle</span>
+          </div>
+          <div class="ep-arc">
+            <div class="ep-arc-day">Day <em>53</em></div>
+            <div class="ep-arc-bar"><div class="ep-arc-fill" style="width:27%;background:linear-gradient(90deg,var(--o),var(--o2))"></div></div>
+            <div class="ep-arc-pct" style="color:var(--o2)">27%</div>
+            <div class="ep-arc-stage">Building</div>
+          </div>
+          <div class="ep-title">Third campaign. 200 emails. Zero demos.</div>
+          <div class="ep-story">
+            <p>14% open rate but nobody clicks through. Starting to question the entire ICP assumption.</p>
+            <p>Maybe the problem is real but I am talking to completely the wrong people.</p>
+          </div>
+          <div class="ep-obs"><div class="ep-callout-icon">&#9888;&#65039;</div><div class="ep-callout-txt o">Cold outreach not converting &#8212; rethinking ICP from scratch</div></div>
+          <div class="ep-tl"><div class="ep-dot p"></div><div class="ep-dot c" style="background:var(--o2);box-shadow:0 0 7px rgba(245,158,11,.5)"></div><div class="ep-dot f"></div><div class="ep-dot f"></div><div class="ep-dot f"></div><div class="ep-tl-lbl">Day 53 of journey</div></div>
+          <div class="ep-actions">
+            <div class="ep-act a-green" onclick="event.stopPropagation();encourage(this)">&#128293; Encourage</div>
+            <div class="ep-act a-orange" onclick="event.stopPropagation();solvedThis(this)">&#129309; I solved this</div>
+            <div class="ep-act a-purple" onclick="event.stopPropagation();connectAct(this)">&#9889; Connect</div>
+            <div class="ep-act" onclick="event.stopPropagation();openFullProfile(PEOPLE[1])">View dream</div>
+            <div class="ep-more" onclick="event.stopPropagation();openOv('ov-post-more')">&#8943;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EP 3: LESSON -->
+      <div class="ep">
+        <div class="ep-spine"><div class="ep-spine-fill" style="height:48%"></div></div>
+        <div class="ep-inner">
+          <div class="ep-author">
+            <div class="ep-av" style="background:rgba(30,64,175,.15);color:#93C5FD">LK<div class="ep-av-ring" style="background:linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(135deg,var(--b2),var(--p)) border-box"></div></div>
+            <div class="ep-meta">
+              <div class="ep-name">Lena K. <span class="badge badge-builder">&#9889; Builder</span></div>
+              <div class="ep-dream-line">B2B SaaS for independent retail</div>
+            </div>
+            <span class="pill pp ep-type-badge">Lesson</span>
+          </div>
+          <div class="ep-arc">
+            <div class="ep-arc-day">Day <em>98</em></div>
+            <div class="ep-arc-bar"><div class="ep-arc-fill" style="width:48%"></div></div>
+            <div class="ep-arc-pct">48%</div>
+            <div class="ep-arc-stage">Launching</div>
+          </div>
+          <div class="ep-title">The one thing that changed everything</div>
+          <div class="ep-story">
+            <p>We went from 0 to 8 paying customers in 3 weeks once we stopped pitching and started reflecting their exact words back at them.</p>
+          </div>
+          <div class="ep-lesson">Stop selling the product. Start solving the exact problem they described in your first conversation. Word for word. They will tell you what to build if you listen.</div>
+          <div class="ep-tl"><div class="ep-dot p"></div><div class="ep-dot p"></div><div class="ep-dot p"></div><div class="ep-dot c"></div><div class="ep-dot f"></div><div class="ep-tl-lbl">Day 98 &#183; Launching</div></div>
+          <div class="ep-actions">
+            <div class="ep-act a-green" onclick="event.stopPropagation();encourage(this)">&#128293; Encourage</div>
+            <div class="ep-act a-blue" onclick="event.stopPropagation();openOv('ov-share-exp')">&#128172; Share experience</div>
+            <div class="ep-act a-purple" onclick="event.stopPropagation();connectAct(this)">&#9889; Connect</div>
+            <div class="ep-act" onclick="event.stopPropagation();openFullProfile(PEOPLE[2])">View dream</div>
+            <div class="ep-more" onclick="event.stopPropagation();openOv('ov-post-more')">&#8943;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EP 4: FAILURE -->
+      <div class="ep">
+        <div class="ep-spine"><div class="ep-spine-fill" style="height:15%;background:linear-gradient(180deg,var(--r) 0%,var(--r2) 100%)"></div></div>
+        <div class="ep-inner">
+          <div class="ep-author">
+            <div class="ep-av" style="background:rgba(220,38,38,.12);color:#FCA5A5">PR<div class="ep-av-ring" style="background:linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(135deg,var(--r2),var(--p)) border-box"></div></div>
+            <div class="ep-meta">
+              <div class="ep-name">Priya M.</div>
+              <div class="ep-dream-line">Mental wellness app for remote workers</div>
+            </div>
+            <span class="pill pr ep-type-badge">Setback</span>
+          </div>
+          <div class="ep-arc">
+            <div class="ep-arc-day">Day <em>22</em></div>
+            <div class="ep-arc-bar"><div class="ep-arc-fill" style="width:15%;background:linear-gradient(90deg,var(--r),var(--r2))"></div></div>
+            <div class="ep-arc-pct" style="color:var(--r2)">15%</div>
+            <div class="ep-arc-stage">Idea</div>
+          </div>
+          <div class="ep-title">First investor call. She closed her laptop.</div>
+          <div class="ep-story">
+            <p>She asked who is your competition and I said we do not have any.</p>
+            <p>I have spent 3 days re-reading everything about market positioning. There is always competition.</p>
+          </div>
+          <div class="ep-fail"><div class="ep-callout-icon">&#128201;</div><div class="ep-callout-txt r">First investor pass &#8212; did not understand competition landscape well enough</div></div>
+          <div class="ep-tl"><div class="ep-dot c" style="background:var(--r2);box-shadow:0 0 7px rgba(239,68,68,.5)"></div><div class="ep-dot f"></div><div class="ep-dot f"></div><div class="ep-dot f"></div><div class="ep-tl-lbl">Day 22 &#183; just beginning</div></div>
+          <div class="ep-actions">
+            <div class="ep-act a-green" onclick="event.stopPropagation();encourage(this)">&#128293; Encourage</div>
+            <div class="ep-act a-orange" onclick="event.stopPropagation();solvedThis(this)">&#129309; Been there</div>
+            <div class="ep-act a-purple" onclick="event.stopPropagation();connectAct(this)">&#9889; Connect</div>
+            <div class="ep-act" onclick="event.stopPropagation();openFullProfile(PEOPLE[3])">View dream</div>
+            <div class="ep-more" onclick="event.stopPropagation();openOv('ov-post-more')">&#8943;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EP 5: MENTOR INSIGHT -->
+      <div class="ep">
+        <div class="ep-spine"><div class="ep-spine-fill" style="height:78%;background:linear-gradient(180deg,var(--b) 0%,var(--b2) 100%)"></div></div>
+        <div class="ep-inner">
+          <div class="ep-author">
+            <div class="ep-av" style="background:rgba(30,64,175,.15);color:#93C5FD">AT<div class="ep-av-ring" style="background:linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(135deg,var(--b2),var(--p)) border-box"></div></div>
+            <div class="ep-meta">
+              <div class="ep-name">Alex T. <span class="badge badge-mentor">&#127891; Mentor</span></div>
+              <div class="ep-dream-line">Mentoring 12 early-stage founders in 2026</div>
+            </div>
+            <span class="pill pb ep-type-badge">Insight</span>
+          </div>
+          <div class="ep-arc">
+            <div class="ep-arc-day">Day <em>200</em></div>
+            <div class="ep-arc-bar"><div class="ep-arc-fill" style="width:78%;background:linear-gradient(90deg,var(--b2),#60A5FA)"></div></div>
+            <div class="ep-arc-pct" style="color:#93C5FD">78%</div>
+            <div class="ep-arc-stage">Scaling</div>
+          </div>
+          <div class="ep-title">The only pattern that actually works</div>
+          <div class="ep-story"><p>After mentoring 47 founders across 3 cohorts. Boring. Uncomfortable. Works every time.</p></div>
+          <div class="ep-mentor">The founders who succeed are not the ones with the best ideas. They are the ones who talk to more customers than anyone else. Every single week. No exceptions.</div>
+          <div class="ep-tl"><div class="ep-dot p" style="background:var(--b2)"></div><div class="ep-dot p" style="background:var(--b2)"></div><div class="ep-dot p" style="background:var(--b2)"></div><div class="ep-dot p" style="background:var(--b2)"></div><div class="ep-dot c" style="background:#93C5FD;box-shadow:0 0 7px rgba(59,130,246,.5)"></div><div class="ep-dot f"></div><div class="ep-tl-lbl">Mentorship 5 of 6</div></div>
+          <div class="ep-actions">
+            <div class="ep-act a-green" onclick="event.stopPropagation();encourage(this)">&#128293; Encourage</div>
+            <div class="ep-act a-blue" onclick="event.stopPropagation();openOv('ov-share-exp')">&#128172; Share experience</div>
+            <div class="ep-act a-purple" onclick="event.stopPropagation();connectAct(this)">&#9889; Connect</div>
+            <div class="ep-more" onclick="event.stopPropagation();openOv('ov-post-more')">&#8943;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EP 6: REFLECTION (last, bottom padding) -->
+      <div class="ep" style="margin-bottom:76px">
+        <div class="ep-spine"><div class="ep-spine-fill" style="height:7%;background:linear-gradient(180deg,#A855F7 0%,#EC4899 100%)"></div></div>
+        <div class="ep-inner">
+          <div class="ep-author">
+            <div class="ep-av" style="background:rgba(168,85,247,.12);color:#DDD6FE">JH<div class="ep-av-ring" style="background:linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(135deg,#A855F7,#EC4899) border-box"></div></div>
+            <div class="ep-meta">
+              <div class="ep-name">James H.</div>
+              <div class="ep-dream-line">EdTech platform for adult learners</div>
+            </div>
+            <span class="pill" style="background:rgba(168,85,247,.1);color:#DDD6FE;border:.5px solid rgba(168,85,247,.25)">Reflection</span>
+          </div>
+          <div class="ep-arc">
+            <div class="ep-arc-day">Day <em>7</em></div>
+            <div class="ep-arc-bar"><div class="ep-arc-fill" style="width:7%;background:linear-gradient(90deg,#A855F7,#EC4899)"></div></div>
+            <div class="ep-arc-pct" style="color:#DDD6FE">7%</div>
+            <div class="ep-arc-stage">Idea</div>
+          </div>
+          <div class="ep-title">Day 7. Have not built anything yet.</div>
+          <div class="ep-story">
+            <p>Mostly sitting with the idea. Asking myself why this matters. Not whether it will work &#8212; whether it matters.</p>
+            <p>If the answer is not immediately obvious, maybe the dream needs to be bigger.</p>
+          </div>
+          <div class="ep-lesson" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.22);color:#DDD6FE">Start with the reason, not the product. The product will change. The reason should not.</div>
+          <div class="ep-tl"><div class="ep-dot c" style="background:#A855F7;box-shadow:0 0 7px rgba(168,85,247,.5)"></div><div class="ep-dot f"></div><div class="ep-dot f"></div><div class="ep-dot f"></div><div class="ep-tl-lbl">Day 7 &#183; just beginning</div></div>
+          <div class="ep-actions">
+            <div class="ep-act a-green" onclick="event.stopPropagation();encourage(this)">&#128293; Encourage</div>
+            <div class="ep-act a-purple" onclick="event.stopPropagation();connectAct(this)">&#9889; Connect</div>
+            <div class="ep-act" onclick="event.stopPropagation();openFullProfile(PEOPLE[2])">View dream</div>
+            <div class="ep-more" onclick="event.stopPropagation();openOv('ov-post-more')">&#8943;</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="fab" onclick="openOv('ov-compose')">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
+    <div class="sc" id="sc-disc">
+      <div class="sh"><div class="sh-title">Discover</div><div class="av">KH</div></div>
+      <div class="disc-obs-card">
+        <div class="doc-lbl">Matching around your obstacle</div>
+        <div class="doc-row">
+          <span style="font-size:15px">&#129395;</span>
+          <div class="doc-txt">Finding first customers &#8212; cold email not converting</div>
+          <button class="doc-edit" onclick="editObstacle()">Edit</button>
+        </div>
+      </div>
+      <div class="disc-sec">Most inspiring journeys</div>
+      <div class="dc" onclick="openFullProfile(PEOPLE[0])">
+        <div class="dc-body">
+          <div class="dc-top">
+            <div class="dc-av" style="background:rgba(109,40,217,.15);color:#C4B5FD">SJ</div>
+            <div>
+              <div class="dc-name">Sophie J. <span class="badge badge-founder" style="font-size:9px">&#10003; Founder</span></div>
+              <div class="dc-dream">GTM platform for B2B founders</div>
+            </div>
+            <span class="pill pg" style="margin-left:auto">61%</span>
+          </div>
+          <div class="dc-why">
+            <div class="dc-why-lbl">Why we matched you</div>
+            <div class="dc-why-item"><span class="dc-chk">&#10003;</span>Solved your current obstacle &#8212; finding first customers</div>
+            <div class="dc-why-item"><span class="dc-chk">&#10003;</span>Complementary skills &#183; similar stage and timeline</div>
+            <div class="dc-why-item"><span class="dc-chk">&#10003;</span>170 days ahead &#8212; can mentor your current stage</div>
+          </div>
+          <div class="ep-arc dc-arc" style="margin-bottom:10px">
+            <div class="ep-arc-day">Day <em>170</em></div>
+            <div class="ep-arc-bar"><div class="ep-arc-fill" style="width:61%;background:linear-gradient(90deg,var(--g),var(--g2))"></div></div>
+            <div class="ep-arc-pct">61%</div>
+            <div class="ep-arc-stage">Launching</div>
+          </div>
+          <div class="dc-chips"><span class="pill pb">GTM</span><span class="pill pb">Growth</span><span class="pill po">Needs: Tech co-founder</span></div>
+        </div>
+        <div class="dc-acts">
+          <button class="dc-act" onclick="event.stopPropagation();openFullProfile(PEOPLE[0])">View dream</button>
+          <button class="dc-act cv" onclick="event.stopPropagation();this.textContent='Sent';this.style.color='#4ADE80';this.onclick=null">Connect</button>
+        </div>
+      </div>
+      <div class="disc-sec">Facing similar obstacles</div>
+      <div class="dc" onclick="openFullProfile(PEOPLE[1])">
+        <div class="dc-body">
+          <div class="dc-top">
+            <div class="dc-av" style="background:rgba(217,119,6,.15);color:#FCD34D">MR</div>
+            <div>
+              <div class="dc-name">Marcus R. <span class="badge badge-mentor" style="font-size:9px">&#127891; Mentor</span></div>
+              <div class="dc-dream">AI advisor network for founders</div>
+            </div>
+            <span class="pill po" style="margin-left:auto">27%</span>
+          </div>
+          <div class="dc-why">
+            <div class="dc-why-lbl">Why we matched you</div>
+            <div class="dc-why-item"><span class="dc-chk">&#10003;</span>Facing same obstacle &#8212; customer acquisition not converting</div>
+            <div class="dc-why-item"><span class="dc-chk">&#10003;</span>Similar stage &#183; could solve the obstacle together</div>
+            <div class="dc-why-item"><span class="dc-chk">&#10003;</span>Complementary skills &#8212; he has sales, you have product</div>
+          </div>
+          <div class="ep-arc dc-arc" style="margin-bottom:10px">
+            <div class="ep-arc-day">Day <em>53</em></div>
+            <div class="ep-arc-bar"><div class="ep-arc-fill" style="width:27%;background:linear-gradient(90deg,var(--o),var(--o2))"></div></div>
+            <div class="ep-arc-pct" style="color:var(--o2)">27%</div>
+            <div class="ep-arc-stage">Building</div>
+          </div>
+          <div class="dc-chips"><span class="pill pb">Sales</span><span class="pill pb">Fundraising</span><span class="pill po">Needs: Engineer</span></div>
+        </div>
+        <div class="dc-acts">
+          <button class="dc-act" onclick="event.stopPropagation();openFullProfile(PEOPLE[1])">View dream</button>
+          <button class="dc-act cv" onclick="event.stopPropagation();this.textContent='Sent';this.style.color='#4ADE80';this.onclick=null">Connect</button>
+        </div>
+      </div>
+      <div class="disc-sec">Fastest growing</div>
+      <div class="dc" onclick="openFullProfile(PEOPLE[2])" style="margin-bottom:14px">
+        <div class="dc-body">
+          <div class="dc-top">
+            <div class="dc-av" style="background:rgba(22,163,74,.12);color:#4ADE80">JH</div>
+            <div>
+              <div class="dc-name">James H. <span class="badge badge-builder" style="font-size:9px">&#9889; Builder</span></div>
+              <div class="dc-dream">EdTech platform for adult learners</div>
+            </div>
+            <span class="pill pg" style="margin-left:auto">+23%</span>
+          </div>
+          <div class="dc-why">
+            <div class="dc-why-lbl">Why they are growing so fast</div>
+            <div class="dc-why-item"><span class="dc-chk">&#10003;</span>Found co-founder on Day 34 &#8212; accelerated everything</div>
+            <div class="dc-why-item"><span class="dc-chk">&#10003;</span>Posts 12 journey updates per month &#8212; building in public</div>
+          </div>
+          <div class="ep-arc dc-arc" style="margin-bottom:10px">
+            <div class="ep-arc-day">Day <em>67</em></div>
+            <div class="ep-arc-bar"><div class="ep-arc-fill" style="width:42%"></div></div>
+            <div class="ep-arc-pct">42%</div>
+            <div class="ep-arc-stage">Building</div>
+          </div>
+          <div class="dc-chips"><span class="pill pb">EdTech</span><span class="pill pg">Growing fast</span></div>
+        </div>
+        <div class="dc-acts">
+          <button class="dc-act" onclick="event.stopPropagation();openFullProfile(PEOPLE[2])">View dream</button>
+          <button class="dc-act cv" onclick="event.stopPropagation();this.textContent='Sent';this.style.color='#4ADE80';this.onclick=null">Connect</button>
+        </div>
+      </div>
+    </div>
+    <div class="sc" id="sc-match">
+      <div class="match-hdr">
+        <div class="sh-title">Matches</div>
+        <div class="match-count"><strong id="matchNum">5</strong> founders waiting</div>
+      </div>
+      <div class="stack" id="stack">
+        <div class="s-hint hint-r" id="hintR">Interested</div>
+        <div class="s-hint hint-l" id="hintL">Pass</div>
+        <div class="s-hint hint-u" id="hintU">Journey Preview</div>
+        <div class="stack-empty" id="stackEmpty">
+          <div class="se-icon">&#10024;</div>
+          <div class="se-title">All caught up</div>
+          <div class="se-sub">New founders join every day. Check back tomorrow or expand your filters.</div>
+          <button class="se-btn" onclick="resetCards()">Start over</button>
+        </div>
+        <div id="cardContainer"></div>
+      </div>
+      <div class="mm" id="matchMoment">
+        <div class="mm-glow"><div class="mm-icon">&#129309;</div></div>
+        <div class="mm-tag">Potential Collaboration Found</div>
+        <div class="mm-title" id="mmTitle">You and Sophie!</div>
+        <div class="mm-sub" id="mmSub">You both expressed interest in connecting. Here is why this collaboration could move both dreams forward.</div>
+        <div class="mm-avs"><div class="mm-av mm-av-me">KH</div><div class="mm-zap">&#9889;</div><div class="mm-av mm-av-them" id="mmThemAv">SJ</div></div>
+        <div class="mm-box"><div class="mm-box-lbl">Why you match</div><div id="mmFactors"></div></div>
+        <div class="mm-box"><div class="mm-box-lbl">Conversation starters</div><div id="mmStarters"></div></div>
+        <div class="mm-ctas">
+          <button class="mm-btn-p" onclick="closeMatch();goTab('sc-msg')">Start conversation</button>
+          <div class="mm-btn-row">
+            <button class="mm-btn-s" onclick="closeMatch()">Schedule call</button>
+            <button class="mm-btn-s" onclick="closeMatch()">Save for later</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sc" id="sc-msg">
+      <div class="sh"><div class="sh-title">Messages</div><div class="av">KH</div></div>
+      <div class="conn-req" onclick="openOv('ov-requests')">
+        <div class="cr-top"><div class="cr-lbl">Connection requests</div><div class="cr-badge">3 pending</div></div>
+        <div class="cr-item">
+          <div class="cr-av" style="background:rgba(22,163,74,.12);color:#4ADE80">LK</div>
+          <div style="flex:1;min-width:0"><div class="cr-name">Lena K.</div><div class="cr-txt">Saw your obstacle &#8212; solved this last month</div></div>
+          <div class="cr-btns"><button class="cr-acc" onclick="event.stopPropagation();acceptReq(this)">Accept</button><button class="cr-dec" onclick="event.stopPropagation();declineReq(this)">Decline</button></div>
+        </div>
+      </div>
+      <div class="msg-srch"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search conversations</div>
+      <div class="msg-row" onclick="openChat('SJ','Sophie J.','rgba(109,40,217,.15)','#C4B5FD',true)">
+        <div class="mr-av" style="background:rgba(109,40,217,.15);color:#C4B5FD">SJ<div class="mr-on"></div></div>
+        <div class="mr-body"><div class="mr-top"><div class="mr-name">Sophie J.</div><div class="mr-time">2m</div></div><div class="mr-prev">Saw your post about cold email &#8212; I solved that exact wall</div></div>
+        <div class="mr-badge">2</div>
+      </div>
+      <div style="height:.5px;background:rgba(255,255,255,.05);margin:0 18px"></div>
+      <div class="msg-row" onclick="openChat('MR','Marcus R.','rgba(217,119,6,.15)','#FCD34D',false)">
+        <div class="mr-av" style="background:rgba(217,119,6,.15);color:#FCD34D">MR</div>
+        <div class="mr-body"><div class="mr-top"><div class="mr-name">Marcus R.</div><div class="mr-time">1h</div></div><div class="mr-prev">Happy to jump on a call and dig into the ICP problem</div></div>
+      </div>
+      <div style="height:.5px;background:rgba(255,255,255,.05);margin:0 18px"></div>
+      <div class="msg-row" onclick="openChat('LK','Lena K.','rgba(22,163,74,.12)','#4ADE80',false)">
+        <div class="mr-av" style="background:rgba(22,163,74,.12);color:#4ADE80">LK</div>
+        <div class="mr-body"><div class="mr-top"><div class="mr-name">Lena K.</div><div class="mr-time">3h</div></div><div class="mr-prev">You: That lesson changed how I think about this</div></div>
+      </div>
+      <div style="height:.5px;background:rgba(255,255,255,.05);margin:0 18px"></div>
+      <div class="msg-row" onclick="openChat('PR','Priya M.','rgba(220,38,38,.12)','#FCA5A5',false)">
+        <div class="mr-av" style="background:rgba(220,38,38,.12);color:#FCA5A5">PR</div>
+        <div class="mr-body"><div class="mr-top"><div class="mr-name">Priya M.</div><div class="mr-time">Yesterday</div></div><div class="mr-prev">Your failure story hit really close to home</div></div>
+      </div>
+      <div class="chat-ov" id="chatOv">
+        <div class="chat-hd">
+          <button class="chat-back" onclick="closeChat()">&#8249;</button>
+          <div class="chat-av" id="chatAv">SJ</div>
+          <div style="flex:1"><div class="chat-nm" id="chatNm">Sophie J.</div><div class="chat-st" id="chatSt">Active now</div></div>
+        </div>
+        <div class="chat-msgs" id="chatMsgs"></div>
+        <div class="chat-ir">
+          <input class="chat-inp" id="chatInp" placeholder="Message...">
+          <button class="chat-send" onclick="sendMsg()"><svg viewBox="0 0 16 16"><line x1="14" y1="2" x2="7" y2="9"/><polygon points="14 2 9 14 7 9 2 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <div class="sc" id="sc-journey">
+      <div class="dp-banner" style="position:relative">
+        <button class="dp-edit-btn" onclick="openOv('ov-compose')">+ Post update</button>
+        <div class="dp-av-row">
+          <div class="dp-av">KH<div class="dp-av-stage">Building</div></div>
+          <div class="dp-right">
+            <div class="dp-name">Kwisatz H.</div>
+            <div class="dp-sub">Founder &#183; London, UK</div>
+            <div class="dp-badges"><span class="badge badge-founder">&#10003; Verified Founder</span><span class="badge badge-builder">&#9889; Builder</span></div>
+            <div class="dp-pills"><span class="pill pp">34% complete</span><span class="pill po">Day 117</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHY THIS DREAM MATTERS — emotional foundation, always first -->
+      <div class="dp-why-matters">
+        <div class="dp-wm-lbl">&#10022; Why this dream matters</div>
+        <div class="dp-wm-title">Because tradespeople built everything around us and nobody is helping them grow.</div>
+        <div class="dp-wm-body">I grew up watching skilled tradespeople lose work to bigger companies with better marketing. They are extraordinary at their craft and invisible online. That needs to change.</div>
+      </div>
+
+      <!-- DREAM ARC CARD -->
+      <div class="dp-arc-card">
+        <div class="dp-arc-title">Building an AI Startup for UK Tradespeople</div>
+        <div class="dp-arc-bar-row">
+          <div class="dp-arc-day">Day <em>117</em></div>
+          <div class="dp-arc-bar"><div class="dp-arc-fill" style="width:34%"></div></div>
+          <div class="dp-arc-pct">34%</div>
+        </div>
+        <div class="dp-arc-stages"><span class="dp-arc-s done">Idea</span><span class="dp-arc-s done">Build</span><span class="dp-arc-s cur">Launch</span><span class="dp-arc-s">Grow</span><span class="dp-arc-s">Scale</span></div>
+        <div class="dp-arc-grid">
+          <div class="dp-arc-cell" style="background:var(--os);border:.5px solid var(--ob)">
+            <div class="dp-arc-cell-lbl" style="color:rgba(245,158,11,.6)">Current obstacle</div>
+            <div class="dp-arc-cell-val">Finding first customers &#8212; cold email not converting</div>
+          </div>
+          <div class="dp-arc-cell" style="background:var(--gs);border:.5px solid var(--gb)">
+            <div class="dp-arc-cell-lbl" style="color:rgba(34,197,94,.6)">Last milestone</div>
+            <div class="dp-arc-cell-val">Built prototype &#183; tested with 5 tradespeople</div>
+          </div>
+        </div>
+        <div class="dp-arc-next"><div class="dp-arc-next-arrow">&#8594;</div>Next: Get first 3 paying customers</div>
+      </div>
+
+      <!-- IMPACT METRICS — no vanity -->
+      <div class="dp-impact">
+        <div class="dp-impact-lbl">Impact metrics</div>
+        <div class="dp-impact-grid">
+          <div class="dp-impact-item"><div class="dp-impact-n">3</div><div class="dp-impact-l">Collabs</div></div>
+          <div class="dp-impact-item"><div class="dp-impact-n">2</div><div class="dp-impact-l">Mentorships</div></div>
+          <div class="dp-impact-item"><div class="dp-impact-n">4</div><div class="dp-impact-l">Solved</div></div>
+          <div class="dp-impact-item"><div class="dp-impact-n">2</div><div class="dp-impact-l">Helped</div></div>
+          <div class="dp-impact-item"><div class="dp-impact-n">63</div><div class="dp-impact-l">Score</div></div>
+        </div>
+      </div>
+
+      <div class="dp-sec"><div class="dp-sec-h">Skills offered</div><div class="dp-chips"><span class="pill pb">Engineering</span><span class="pill pb">Product</span><span class="pill pb">AI / ML</span><span class="pill pb">3D / WebGL</span></div></div>
+      <div class="dp-sec"><div class="dp-sec-h">Skills needed</div><div class="dp-chips"><span class="pill po">Marketing</span><span class="pill po">Sales</span><span class="pill po">First customers</span></div></div>
+      <div class="dp-sec">
+        <div class="dp-sec-h">Collaboration needs</div>
+        <div class="dp-lf-grid">
+          <div class="dp-lf-item on">&#129309; Co-founder</div>
+          <div class="dp-lf-item on">&#128161; Advisor</div>
+          <div class="dp-lf-item">&#127891; Mentor</div>
+          <div class="dp-lf-item">&#128101; First hire</div>
+        </div>
+      </div>
+
+      <div class="dp-tl-hdr"><div class="dp-tl-title">Journey timeline</div><div class="dp-tl-count">3 events &#183; 117 days</div></div>
+      <div class="dp-tl-spine">
+        <div class="dp-tl-item"><div class="dp-tl-dot done"></div><div><div class="dp-tl-day">Day 1 &#183; Jan 15, 2026</div><div class="dp-tl-event">Created my dream</div><span class="pill pp" style="font-size:9px;margin-top:4px;display:inline-flex">Dream created</span></div></div>
+        <div class="dp-tl-item"><div class="dp-tl-dot done"></div><div><div class="dp-tl-day">Day 22 &#183; Feb 6, 2026</div><div class="dp-tl-event">Built the prototype &#8212; 3 of 5 said they would pay</div><div style="font-size:12px;color:var(--t2);margin-top:3px;margin-bottom:5px">Ugly but functional. That was enough.</div><span class="pill pg" style="font-size:9px;display:inline-flex">&#127942; Milestone</span></div></div>
+        <div class="dp-tl-item"><div class="dp-tl-dot done"></div><div><div class="dp-tl-day">Day 53 &#183; Mar 9, 2026</div><div class="dp-tl-event">First rejection &#8212; accelerator said no</div><div style="font-size:12px;color:var(--t2);margin-top:3px;margin-bottom:5px">Spent a week rethinking. Came back stronger.</div><span class="pill pr" style="font-size:9px;display:inline-flex">Setback &#183; learned from it</span></div></div>
+        <div class="dp-tl-item"><div class="dp-tl-dot now"></div><div><div class="dp-tl-day" style="color:var(--p2)">Day 117 &#183; Now</div><div class="dp-tl-event">Finding first customers</div><div style="font-size:12px;color:var(--t2);margin-top:3px;margin-bottom:8px">Cold email not working. Exploring Slack communities and trade forums.</div><span class="pill po" style="font-size:9px;display:inline-flex">&#129395; Current obstacle</span><div style="margin-top:9px"><button style="padding:5px 12px;border-radius:8px;background:var(--ps);border:.5px solid var(--pb);color:var(--p2);font-size:11px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif" onclick="openOv('ov-compose')">Post an update</button></div></div></div>
+        <div class="dp-tl-item" style="padding-bottom:0"><div class="dp-tl-dot" style="border-color:var(--t3)"></div><div><div class="dp-tl-day">Next milestone</div><div class="dp-tl-event" style="color:var(--t2)">Get first 3 paying customers</div><span class="pill pp" style="font-size:9px;opacity:.5;display:inline-flex;margin-top:4px">Not yet reached</span></div></div>
+      </div>
+      <button class="dp-post-btn" onclick="openOv('ov-compose')">+ Post a journey update</button>
+    </div>
+  </div>
+  <div class="tbar">
+    <button class="ti on" id="ti-home" onclick="goTab('sc-home')">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="ti-lbl">Home</span>
+    </button>
+    <button class="ti" id="ti-disc" onclick="goTab('sc-disc')">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span class="ti-lbl">Discover</span>
+      <div class="ti-pip">7</div>
+    </button>
+    <button class="ti" id="ti-match" onclick="goTab('sc-match')">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="ti-lbl">Matches</span>
+      <div class="ti-pip">5</div>
+    </button>
+    <button class="ti" id="ti-msg" onclick="goTab('sc-msg')">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span class="ti-lbl">Messages</span>
+      <div class="ti-pip">3</div>
+    </button>
+    <button class="ti" id="ti-journey" onclick="goTab('sc-journey')">
+      <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      <span class="ti-lbl">Journey</span>
+    </button>
+  </div>
+  <!-- COMPOSE -->
+  <div class="ov" id="ov-compose" onclick="ovBg(event,this)">
+    <div class="ovs"><div class="ovh"></div><button class="ovx" onclick="closeOv('ov-compose')">&#x2715;</button>
+      <div class="ov-title">Post a journey update</div>
+      <div class="ov-sub">What happened on your path today? Obstacles and failures matter as much as wins.</div>
+      <div class="ct-grid" id="ctGrid">
+        <div class="ct sel" onclick="selCt(this)"><div class="ct-icon">&#128200;</div><div class="ct-lbl">Progress</div></div>
+        <div class="ct" onclick="selCt(this)"><div class="ct-icon">&#127942;</div><div class="ct-lbl">Win</div></div>
+        <div class="ct" onclick="selCt(this)"><div class="ct-icon">&#129395;</div><div class="ct-lbl">Obstacle</div></div>
+        <div class="ct" onclick="selCt(this)"><div class="ct-icon">&#128148;</div><div class="ct-lbl">Setback</div></div>
+        <div class="ct" onclick="selCt(this)"><div class="ct-icon">&#128161;</div><div class="ct-lbl">Lesson</div></div>
+        <div class="ct" onclick="selCt(this)"><div class="ct-icon">&#127919;</div><div class="ct-lbl">Milestone</div></div>
+        <div class="ct" onclick="selCt(this)"><div class="ct-icon">&#10024;</div><div class="ct-lbl">Reflection</div></div>
+        <div class="ct" onclick="selCt(this)"><div class="ct-icon">&#128640;</div><div class="ct-lbl">Product</div></div>
+        <div class="ct" onclick="selCt(this)"><div class="ct-icon">&#127891;</div><div class="ct-lbl">Insight</div></div>
+      </div>
+      <textarea class="compose-ta" id="composeTa" placeholder="What happened today? Be specific. Other founders learn from the details."></textarea>
+      <div class="compose-ctx-row"><div class="compose-ctx-lbl">Current progress</div><div class="compose-ctx-val">34% &#183; Day 117</div></div>
+      <button class="btn-p" onclick="publishPost()">Publish to my journey</button>
+    </div>
+  </div>
+
+  <!-- NOTIFICATIONS -->
+  <div class="ov" id="ov-notif" onclick="ovBg(event,this)">
+    <div class="ovs"><div class="ovh"></div><button class="ovx" onclick="closeOv('ov-notif')">&#x2715;</button>
+      <div class="ov-title">Notifications</div>
+      <div class="ov-sub">Updates from journeys you are following.</div>
+      <div style="display:flex;flex-direction:column">
+        <div style="display:flex;align-items:flex-start;gap:11px;padding:13px 0;border-bottom:.5px solid rgba(255,255,255,.05);cursor:pointer" onclick="closeOv('ov-notif');goTab('sc-disc')">
+          <div style="width:34px;height:34px;border-radius:50%;background:var(--gs);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">&#127942;</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:2px;line-height:1.3">Sophie J. hit a milestone &#8212; first paying customer &#183; Day 170</div><div style="font-size:12px;color:var(--t2)">View her full journey</div></div>
+          <div style="font-size:11px;color:var(--t3);font-family:'Space Grotesk',sans-serif">2m</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:11px;padding:13px 0;border-bottom:.5px solid rgba(255,255,255,.05)">
+          <div style="width:34px;height:34px;border-radius:50%;background:var(--ps);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">&#128293;</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:2px;line-height:1.3">Marcus R. encouraged your Day 117 post</div><div style="font-size:12px;color:var(--t2)">This resonates deeply &#8212; keep going</div></div>
+          <div style="font-size:11px;color:var(--t3);font-family:'Space Grotesk',sans-serif">1h</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:11px;padding:13px 0;border-bottom:.5px solid rgba(255,255,255,.05)">
+          <div style="width:34px;height:34px;border-radius:50%;background:var(--os);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">&#129309;</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:2px;line-height:1.3">Lena K. can help with your obstacle</div><div style="font-size:12px;color:var(--t2)">I solved the same customer acquisition problem on Day 98</div></div>
+          <div style="font-size:11px;color:var(--t3);font-family:'Space Grotesk',sans-serif">3h</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:11px;padding:13px 0">
+          <div style="width:34px;height:34px;border-radius:50%;background:var(--bs);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">&#9889;</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:2px;line-height:1.3">4 new founders matched to your journey</div><div style="font-size:12px;color:var(--t2)">Similar obstacles &#183; Building stage &#183; UK market</div></div>
+          <div style="font-size:11px;color:var(--t3);font-family:'Space Grotesk',sans-serif">5h</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHARE EXPERIENCE -->
+  <div class="ov" id="ov-share-exp" onclick="ovBg(event,this)">
+    <div class="ovs"><div class="ovh"></div><button class="ovx" onclick="closeOv('ov-share-exp')">&#x2715;</button>
+      <div class="ov-title">Share your experience</div>
+      <div class="ov-sub">Have you been through something similar? Specific experience beats generic advice.</div>
+      <textarea class="compose-ta" id="shareExpTa" placeholder="What actually happened and what did you learn?"></textarea>
+      <button class="btn-p" onclick="submitShareExp()">Share and connect</button>
+    </div>
+  </div>
+
+  <!-- POST MORE OPTIONS -->
+  <div class="ov" id="ov-post-more" onclick="ovBg(event,this)">
+    <div class="ovs"><div class="ovh"></div><button class="ovx" onclick="closeOv('ov-post-more')">&#x2715;</button>
+      <div class="ov-title">Post options</div>
+      <div style="display:flex;flex-direction:column">
+        <div style="display:flex;align-items:center;gap:12px;padding:13px 0;cursor:pointer;border-bottom:.5px solid rgba(255,255,255,.05)" onclick="closeOv('ov-post-more');goTab('sc-disc')">
+          <div style="width:36px;height:36px;border-radius:10px;background:var(--ps);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">&#128100;</div>
+          <div><div style="font-size:14px;font-weight:600;color:var(--t1)">View full dream</div><div style="font-size:12px;color:var(--t2);margin-top:1px">See their entire journey timeline</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:13px 0;cursor:pointer;border-bottom:.5px solid rgba(255,255,255,.05)" onclick="closeOv('ov-post-more')">
+          <div style="width:36px;height:36px;border-radius:10px;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">&#128228;</div>
+          <div><div style="font-size:14px;font-weight:600;color:var(--t1)">Share this post</div><div style="font-size:12px;color:var(--t2);margin-top:1px">Copy link to this journey update</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:13px 0;cursor:pointer;border-bottom:.5px solid rgba(255,255,255,.05)" onclick="reportUser()">
+          <div style="width:36px;height:36px;border-radius:10px;background:var(--os);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">&#9888;&#65039;</div>
+          <div><div style="font-size:14px;font-weight:600;color:var(--t1)">Report this post</div><div style="font-size:12px;color:var(--t2);margin-top:1px">Our team reviews within 24 hours</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:13px 0;cursor:pointer" onclick="blockUser()">
+          <div style="width:36px;height:36px;border-radius:10px;background:var(--rs);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">&#128683;</div>
+          <div><div style="font-size:14px;font-weight:600;color:var(--t1)">Block this user</div><div style="font-size:12px;color:var(--t2);margin-top:1px">They will not see your journey or contact you</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONNECTION REQUESTS -->
+  <div class="ov" id="ov-requests" onclick="ovBg(event,this)">
+    <div class="ovs"><div class="ovh"></div><button class="ovx" onclick="closeOv('ov-requests')">&#x2715;</button>
+      <div class="ov-title">Connection Requests</div>
+      <div class="ov-sub">3 founders want to collaborate with you.</div>
+      <div style="display:flex;flex-direction:column">
+        <div style="display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:.5px solid rgba(255,255,255,.05)">
+          <div class="cr-av" style="background:rgba(22,163,74,.12);color:#4ADE80;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700">LK</div>
+          <div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--t1)">Lena K. &#183; Building &#183; SaaS</div><div style="font-size:12px;color:var(--t2);margin-top:2px">I solved your obstacle last month. Happy to share.</div></div>
+          <div class="cr-btns"><button class="cr-acc" onclick="acceptReq(this)">Accept</button><button class="cr-dec" onclick="declineReq(this)">Decline</button></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:.5px solid rgba(255,255,255,.05)">
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(220,38,38,.12);color:#FCA5A5;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700">PM</div>
+          <div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--t1)">Priya M. &#183; Idea &#183; Wellness</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Your matching profile is very complementary to mine.</div></div>
+          <div class="cr-btns"><button class="cr-acc" onclick="acceptReq(this)">Accept</button><button class="cr-dec" onclick="declineReq(this)">Decline</button></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:13px 0">
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(22,163,74,.1);color:#4ADE80;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700">JH</div>
+          <div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--t1)">James H. &#183; Building &#183; EdTech</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Building in a similar space &#8212; would love to compare notes.</div></div>
+          <div class="cr-btns"><button class="cr-acc" onclick="acceptReq(this)">Accept</button><button class="cr-dec" onclick="declineReq(this)">Decline</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNEY PREVIEW (swipe-up) -->
+  <div class="ov" id="ov-jp" onclick="ovBg(event,this)">
+    <div class="ovs"><div class="ovh"></div><button class="ovx" onclick="closeOv('ov-jp')">&#x2715;</button>
+      <div class="ov-title">Dream Journey</div>
+      <div id="jpContent"></div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="fp-btn-p" onclick="closeOv('ov-jp');mcDoConnect()">Connect</button>
+        <button class="fp-btn-s" onclick="closeOv('ov-jp')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULL PROFILE / DREAM PAGE (from discover or match) -->
+  <div class="ov" id="ov-fp" onclick="ovBg(event,this)">
+    <div class="ovs" style="padding-top:0">
+      <div style="position:sticky;top:0;background:var(--s1);padding:12px 0 8px;display:flex;align-items:center;justify-content:space-between;z-index:2;margin-bottom:4px">
+        <div class="ovh" style="margin:0"></div>
+        <button class="ovx" style="position:static;margin-left:auto" onclick="closeOv('ov-fp')">&#x2715;</button>
+      </div>
+      <div id="fpContent"></div>
+    </div>
+  </div>
+<script>
+/* CLOCK */
+function tick(){var n=new Date(),h=n.getHours(),m=n.getMinutes();document.getElementById('sbTime').textContent=h+':'+(m<10?'0':'')+m}
+tick();setInterval(tick,10000);
+
+/* NAV */
+var cur='sc-home',prev='sc-home';
+var TMAP={'sc-home':'ti-home','sc-disc':'ti-disc','sc-match':'ti-match','sc-msg':'ti-msg','sc-journey':'ti-journey'};
+function goTab(id){
+  if(id===cur)return;prev=cur;
+  document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on');s.scrollTop=0});
+  var t=document.getElementById(id);if(t)t.classList.add('on');
+  cur=id;
+  document.querySelectorAll('.ti').forEach(function(t){t.classList.remove('on')});
+  var tid=TMAP[id];if(tid){var tb=document.getElementById(tid);if(tb)tb.classList.add('on')}
+  if(id!=='sc-msg')closeChat();
+}
+
+/* OVERLAYS */
+function openOv(id){var el=document.getElementById(id);if(el)el.classList.add('on')}
+function closeOv(id){var el=document.getElementById(id);if(el)el.classList.remove('on')}
+function ovBg(e,el){if(e.target===el)el.classList.remove('on')}
+
+/* FEED */
+function ffTap(el){document.querySelectorAll('.feed-filt .ff').forEach(function(f){f.classList.remove('on')});el.classList.add('on')}
+function encourage(el){if(el.dataset.d)return;el.dataset.d='1';el.innerHTML='&#128293; Encouraged!';el.classList.add('a-green')}
+function solvedThis(el){if(el.dataset.d)return;el.dataset.d='1';el.innerHTML='&#129309; Offer sent';goTab('sc-msg')}
+function connectAct(el){if(el.dataset.d)return;el.dataset.d='1';el.innerHTML='&#9889; Sent!';el.classList.add('a-purple')}
+function reportUser(){closeOv('ov-post-more');setTimeout(function(){toast('Report submitted — our team reviews within 24 hours.','#C4B5FD')},200)}
+function blockUser(){closeOv('ov-post-more');setTimeout(function(){toast('User blocked. They can no longer see your journey.','#FCA5A5')},200)}
+
+/* COMPOSE */
+function selCt(el){document.querySelectorAll('.ct').forEach(function(c){c.classList.remove('sel')});el.classList.add('sel')}
+function publishPost(){
+  var ta=document.getElementById('composeTa');
+  if(!ta.value.trim()){ta.style.borderColor='rgba(220,38,38,.5)';return}
+  ta.style.borderColor='';ta.value='';closeOv('ov-compose');
+  var h=document.getElementById('sc-home');if(h)h.scrollTop=0;
+  goTab('sc-home');
+}
+function submitShareExp(){
+  var ta=document.getElementById('shareExpTa');
+  if(!ta.value.trim()){ta.style.borderColor='rgba(220,38,38,.5)';return}
+  ta.style.borderColor='';ta.value='';closeOv('ov-share-exp');goTab('sc-msg');
+}
+
+/* PEOPLE DATA */
+var PEOPLE=[
+  {id:0,i:'SJ',name:'Sophie J.',loc:'London, UK',dist:'2.4 km',
+   dream:'Building a GTM platform for early-stage B2B founders',
+   stage:'Launching',pips:[1,1,1,0,0],pct:61,days:170,
+   obs:'Finding a technical co-founder who can build while I run GTM',
+   lf:'Technical co-founder',ms:'First paying customer',
+   score:92,grad:'linear-gradient(160deg,#2D1B69 0%,#0D0820 100%)',
+   avBg:'rgba(109,40,217,.18)',avCol:'#C4B5FD',stBg:'rgba(109,40,217,.3)',stCol:'#EDE9FE',
+   fill:'linear-gradient(90deg,#6D28D9,#8B5CF6)',
+   badges:['&#10003; Founder','&#9889; Builder'],
+   why:['Similar dream &#8212; B2B product for founders','Solved your customer acquisition obstacle','Complementary skills &#8212; she has GTM, you have product','Same city &#8212; 2.4km away'],
+   mf:['Complementary skills and similar trajectory','She solved the obstacle you are facing right now','Both at Launching stage &#183; same timeline','London &#8212; can meet in person for collaboration'],
+   starters:['You both struggled with finding first customers. What actually worked for you?','Your GTM background and my product skills could be powerful together. Want to compare notes?','I noticed you are looking for a technical co-founder. What does your ideal one look like?'],
+   dreamStmt:'"Help 10 early-stage B2B founders get their first 1,000 customers without burning cash on ads."',
+   why_matters:'I wasted 40k on paid ads at my last startup. I want to make sure other founders do not make the same mistake.',
+   skills:['Growth marketing','Paid acquisition','Content','GTM strategy'],needs:['Engineering','Product','Technical co-founder'],
+   looking:['Co-founder','Advisor'],
+   impact:{c:6,m:2,s:4,h:3,sc:74},
+   ms_list:[{t:'Validated problem with 20 interviews',d:true,date:'Day 22'},{t:'Found first mentor',d:true,date:'Day 98'},{t:'First paying customer',d:true,date:'Day 170'},{t:'Find technical co-founder',d:false,date:'Next'}],
+   media:[{i:'&#128202;',l:'Pitch deck'},{i:'&#127909;',l:'Product demo'},{i:'&#128221;',l:'Research'},{i:'&#128640;',l:'Launch plan'}],
+   journey:[{day:'Day 1',ev:'Created dream profile',done:true,type:'pp'},{day:'Day 22',ev:'Validated problem with 20 interviews',det:'3 offered to pay before product existed.',done:true,type:'pg'},{day:'Day 53',ev:'First investor rejection',det:'Went back to customers instead.',done:true,type:'pr'},{day:'Day 98',ev:'Found first mentor',det:'One conversation changed everything.',done:true,type:'pg'},{day:'Day 170',ev:'First paying customer',det:'The moment everything became real.',done:true,type:'pg'},{day:'Next',ev:'Find technical co-founder',done:false,cur:true,type:'pp'}],
+   avBg2:'rgba(109,40,217,.15)',avCol2:'#C4B5FD'},
+  {id:1,i:'MR',name:'Marcus R.',loc:'New York, USA',dist:'Remote',
+   dream:'Building the advisor network I wish I had when starting out',
+   stage:'Growing',pips:[1,1,1,1,0],pct:73,days:220,
+   obs:'Scaling advisor quality as the network grows',
+   lf:'Product engineer',ms:'Reached 47 active advisors',
+   score:88,grad:'linear-gradient(160deg,#2D1800 0%,#0D0800 100%)',
+   avBg:'rgba(217,119,6,.18)',avCol:'#FCD34D',stBg:'rgba(217,119,6,.25)',stCol:'#FEF3C7',
+   fill:'linear-gradient(90deg,#D97706,#F59E0B)',
+   badges:['&#127891; Mentor'],
+   why:['GTM expertise fills your current skills gap','2x founder &#8212; was exactly where you are','Mentored 6 founders at Building stage'],
+   mf:['His GTM expertise fills your biggest gap','He was at Building stage 160 days ago &#8212; ideal mentor','His network directly helps your customer obstacle'],
+   starters:['You have been exactly where I am. What would you tell your Day 117 self?','Your advisor network solves a problem I face every day. How did you validate it?','I have been struggling with customer acquisition. I heard you cracked this at Building stage?'],
+   dreamStmt:'"Create the advisor network I wish existed when I was building my first company."',
+   why_matters:'I spent 2 years making avoidable mistakes. I want to compress that learning for the next generation.',
+   skills:['Sales','Fundraising','Network building','GTM'],needs:['Product engineering','Design','CTO'],
+   looking:['Technical co-founder','First hire'],
+   impact:{c:3,m:0,s:2,h:6,sc:81},
+   ms_list:[{t:'First 10 advisors onboarded',d:true,date:'Day 45'},{t:'Pivoted from B2C to B2B',d:true,date:'Day 90'},{t:'First 2k MRR',d:true,date:'Day 140'},{t:'Reach 50k ARR',d:false,date:'Next'}],
+   media:[{i:'&#128200;',l:'Growth metrics'},{i:'&#127908;',l:'Podcast'},{i:'&#128203;',l:'Framework'},{i:'&#128188;',l:'Case studies'}],
+   journey:[{day:'Day 1',ev:'Left corporate job to build',done:true,type:'pg'},{day:'Day 45',ev:'First 10 advisors onboarded',done:true,type:'pg'},{day:'Day 90',ev:'Pivoted from B2C to B2B',det:'The pivot saved the company.',done:true,type:'po'},{day:'Day 220',ev:'47 advisors &#8212; scaling',done:true,type:'pg'},{day:'Next',ev:'Series A fundraise',done:false,cur:true,type:'pp'}],
+   avBg2:'rgba(217,119,6,.15)',avCol2:'#FCD34D'},
+  {id:2,i:'JH',name:'James H.',loc:'Manchester, UK',dist:'1.2 km',
+   dream:'EdTech platform that makes adult learning feel like a game',
+   stage:'Building',pips:[1,1,0,0,0],pct:42,days:67,
+   obs:'Need a UX partner obsessed with engagement and retention',
+   lf:'Product designer',ms:'Found co-founder on Day 34',
+   score:79,grad:'linear-gradient(160deg,#2D0A3D 0%,#0D0310 100%)',
+   avBg:'rgba(168,85,247,.15)',avCol:'#DDD6FE',stBg:'rgba(168,85,247,.2)',stCol:'#EDE9FE',
+   fill:'linear-gradient(90deg,#A855F7,#8B5CF6)',
+   badges:['&#9889; Builder'],
+   why:['1.2km away &#8212; same city','Both Building stage &#8212; same energy','Similar user-centred design approach'],
+   mf:['1.2km away &#8212; could work from same space','Both Building stage in real time','His engagement focus and your product background'],
+   starters:['You are 1.2km from me. Crazy we found each other here. Coffee?','Your reflection on why EdTech feels like homework is exactly the problem I am solving for tradespeople.','Both at Day 60-something Building. Would be good to compare notes on what is working.'],
+   dreamStmt:'"Build an EdTech platform so engaging that adults choose it over Netflix."',
+   why_matters:'I was a teacher for 8 years. I watched adults give up on learning because tools made them feel stupid.',
+   skills:['Education domain','Curriculum design','User research','Teaching'],needs:['UX design','Growth','Monetisation'],
+   looking:['Co-founder','Advisor','Mentor'],
+   impact:{c:1,m:1,s:0,h:2,sc:58},
+   ms_list:[{t:'Found co-founder',d:true,date:'Day 34'},{t:'First user tests',d:true,date:'Day 55'},{t:'Rebuild engagement loop',d:false,date:'In progress'}],
+   media:[{i:'&#127918;',l:'Prototype v2'},{i:'&#128202;',l:'User tests'},{i:'&#127891;',l:'Curriculum'},{i:'&#127908;',l:'Podcast'}],
+   journey:[{day:'Day 1',ev:'Left teaching job to build',done:true,type:'pp'},{day:'Day 34',ev:'Found co-founder',done:true,type:'pg'},{day:'Day 55',ev:'First user tests &#8212; engagement too low',det:'Went back to research.',done:true,type:'po'},{day:'Day 67',ev:'Rebuilding core loop',done:false,cur:true,type:'po'}],
+   avBg2:'rgba(168,85,247,.1)',avCol2:'#DDD6FE'},
+  {id:3,i:'PR',name:'Priya M.',loc:'London, UK',dist:'4.8 km',
+   dream:'Mental wellness app for remote workers &#8212; built by someone who needed it',
+   stage:'Idea',pips:[1,0,0,0,0],pct:15,days:22,
+   obs:'First investor pass &#8212; need to understand competition landscape better',
+   lf:'Mentor who has raised seed in wellness',ms:'10 user validation interviews',
+   score:76,grad:'linear-gradient(160deg,#1A0830 0%,#060211 100%)',
+   avBg:'rgba(168,85,247,.12)',avCol:'#DDD6FE',stBg:'rgba(168,85,247,.18)',stCol:'#EDE9FE',
+   fill:'linear-gradient(90deg,#A855F7,#6D28D9)',
+   badges:[],
+   why:['Both early-stage and learning fast','Her wellness angle maps to underserved users','Sharing early learnings could save months'],
+   mf:['Both at very early stage &#8212; can learn together','Her lived experience is a genuine moat','Your experience 95 days ahead could save her months'],
+   starters:['Your investor rejection post hit close to home. What did you learn from it?','I am 95 days ahead of you. Happy to share what I wish I had known at Day 22.','Your market analysis question &#8212; I just worked through this. Want to share findings?'],
+   dreamStmt:'"Build the mental wellness app I needed when I burned out in 2024."',
+   why_matters:'I burned out completely in 2024. The apps that existed felt like homework. I want to build something that actually works.',
+   skills:['User empathy','Content writing','Community','Mental health first aid'],needs:['Engineering','Product design','GTM','Fundraising'],
+   looking:['Mentor','Co-founder','Advisor'],
+   impact:{c:0,m:0,s:0,h:1,sc:22},
+   ms_list:[{t:'10 validation interviews',d:true,date:'Day 14'},{t:'Understand competition',d:false,date:'Now'},{t:'First angel investment',d:false,date:'Next'}],
+   media:[{i:'&#128221;',l:'Problem research'},{i:'&#128172;',l:'User interviews'},{i:'&#127912;',l:'Wireframes'},{i:'&#128202;',l:'Market analysis'}],
+   journey:[{day:'Day 1',ev:'Created dream &#8212; decided to build the app I needed',done:true,type:'pp'},{day:'Day 14',ev:'First 10 user interviews &#8212; all validation',done:true,type:'pg'},{day:'Day 22',ev:'First investor rejection',det:'Learned: always know your competition.',done:false,cur:true,type:'pr'}],
+   avBg2:'rgba(168,85,247,.12)',avCol2:'#DDD6FE'},
+  {id:4,i:'LK',name:'Lena K.',loc:'Berlin, Germany',dist:'Remote',
+   dream:'B2B SaaS helping independent retailers compete with Amazon',
+   stage:'Launching',pips:[1,1,1,0,0],pct:48,days:98,
+   obs:'Distribution &#8212; how to reach 5,000 retailers at once',
+   lf:'Growth / Distribution expert',ms:'8 paying customers in 3 weeks',
+   score:84,grad:'linear-gradient(160deg,#003D38 0%,#001210 100%)',
+   avBg:'rgba(22,163,74,.18)',avCol:'#4ADE80',stBg:'rgba(22,163,74,.2)',stCol:'#DCFCE7',
+   fill:'linear-gradient(90deg,#16A34A,#22C55E)',
+   badges:['&#9889; Builder'],
+   why:['Both building B2B for underserved markets','Her distribution challenge maps to your expertise','Similar stage and obstacle type'],
+   mf:['Both solving for underserved B2B markets','She learned the customer lesson you are still figuring out','Complementary growth stage knowledge'],
+   starters:['Your lesson about reflecting customer words &#8212; how did that work in practice?','I am building for tradespeople, you for retailers. Both underserved. Want to share research?','How did you go from 0 to 8 paying customers in 3 weeks?'],
+   dreamStmt:'"Help 50,000 independent retailers compete with Amazon at 1/100th of the price."',
+   why_matters:'I worked in retail for 6 years. I watched small shops close because they could not compete. That needs to change.',
+   skills:['Retail domain','Customer research','Product design','Community'],needs:['Growth marketing','Distribution strategy','Paid acquisition'],
+   looking:['Advisor','Co-founder'],
+   impact:{c:2,m:1,s:3,h:4,sc:68},
+   ms_list:[{t:'25 retailer interviews',d:true,date:'Day 30'},{t:'MVP with 3 beta retailers',d:true,date:'Day 67'},{t:'8 paying customers',d:true,date:'Day 88'},{t:'Reach 50 retailers',d:false,date:'Next'}],
+   media:[{i:'&#128717;',l:'Interviews'},{i:'&#128202;',l:'Market data'},{i:'&#127909;',l:'Walkthrough'},{i:'&#128221;',l:'GTM doc'}],
+   journey:[{day:'Day 1',ev:'Quit retail job to build this',done:true,type:'pp'},{day:'Day 30',ev:'Interviewed 25 retailers',done:true,type:'pg'},{day:'Day 67',ev:'MVP with 3 beta retailers',done:true,type:'pg'},{day:'Day 88',ev:'Lesson: stop pitching, start listening',det:'0 to 8 customers in 3 weeks.',done:true,type:'pp'},{day:'Day 98',ev:'Hitting distribution wall',done:false,cur:true,type:'po'}],
+   avBg2:'rgba(22,163,74,.12)',avCol2:'#4ADE80'}
+];
+
+/* MATCH CARDS */
+var cardIdx=0,curPerson=null;
+function buildCard(p,z,scale,ty){
+  var el=document.createElement('div');
+  el.className='mc';el.dataset.pid=p.id;
+  el.style.cssText='z-index:'+z+';transform:scale('+scale+') translateY('+ty+'px)';
+  var pips=p.pips.map(function(a){return '<div class="mc-pip" style="background:'+(a?'rgba(255,255,255,.8)':'rgba(255,255,255,.18)')+'"></div>'}).join('');
+  var rsns=p.why.slice(0,4).map(function(r){return '<div class="mc-rsn"><span class="mc-rsn-chk">&#10003;</span>'+r+'</div>'}).join('');
+  var badges=p.badges.map(function(b){return '<span class="mc-trust-badge" style="background:rgba(0,0,0,.4);color:rgba(255,255,255,.9);border:.5px solid rgba(255,255,255,.2)">'+b+'</span>'}).join('');
+  el.innerHTML='<div class="mc-bg" style="background:'+p.grad+'"></div>'
+   +'<div class="mc-inner">'
+   +'<div class="mc-top-badges"><div class="mc-score-bubble"><div class="mc-score-n">'+p.score+'%</div><div class="mc-score-l">match</div></div>'+badges+'</div>'
+   +'<div class="mc-photo">'
+     +'<div class="mc-av-row">'
+       +'<div class="mc-av" style="background:'+p.avBg+';color:'+p.avCol+'">'+p.i+'<div class="mc-av-stage" style="background:'+p.stBg+';color:'+p.stCol+'">'+p.stage+'</div></div>'
+       +'<div><div class="mc-name">'+p.name+'</div><div class="mc-loc">&#128205; '+p.loc+' &#183; '+p.dist+'</div></div>'
+     +'</div>'
+     +'<div class="mc-dream-lbl">Dream</div>'
+     +'<div class="mc-dream-title">'+p.dream+'</div>'
+     +'<div class="mc-arc-strip">'
+       +'<div class="mc-arc-day"><em>Day '+p.days+'</em></div>'
+       +'<div class="mc-pips">'+pips+'</div>'
+       +'<div class="mc-arc-bar"><div class="mc-arc-fill" style="width:'+p.pct+'%;background:'+p.fill+'"></div></div>'
+       +'<div class="mc-arc-pct">'+p.pct+'%</div>'
+     +'</div>'
+     +'<div class="mc-info">'
+       +'<div class="mc-block mc-block-obs"><div class="mc-block-lbl" style="color:rgba(245,158,11,.6)">Obstacle</div><div class="mc-block-val">'+p.obs+'</div></div>'
+       +'<div class="mc-block mc-block-ms"><div class="mc-block-lbl" style="color:rgba(34,197,94,.6)">Last milestone</div><div class="mc-block-val">'+p.ms+'</div></div>'
+     +'</div>'
+   +'</div>'
+   +'<div class="mc-reasons">'+rsns+'</div>'
+   +'<div class="mc-acts">'
+     +'<button class="mc-btn mc-pass" onclick="mcPass(event)" title="Pass"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>'
+     +'<button class="mc-btn mc-prev" onclick="mcJP(event)" title="Journey preview"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></button>'
+     +'<button class="mc-connect" onclick="mcDoConnect(event)">Connect</button>'
+     +'<button class="mc-btn mc-fp" onclick="mcFP(event)" title="Dream Page"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>'
+   +'</div>'
+   +'</div>';
+  return el;
+}
+function renderCards(){
+  var cont=document.getElementById('cardContainer');cont.innerHTML='';
+  var rem=PEOPLE.slice(cardIdx);
+  var numEl=document.getElementById('matchNum');if(numEl)numEl.textContent=Math.max(0,rem.length);
+  if(!rem.length){document.getElementById('stackEmpty').classList.add('on');return}
+  document.getElementById('stackEmpty').classList.remove('on');
+  var show=rem.slice(0,3);
+  show.slice().reverse().forEach(function(p,ri){
+    var idx=show.length-1-ri;
+    var c=buildCard(p,30-idx,1-idx*0.04,idx*14);
+    if(idx===0){setupSwipe(c,p);curPerson=p}
+    else c.style.pointerEvents='none';
+    cont.appendChild(c);
+  });
+}
+function setupSwipe(card,person){
+  var sx=0,sy=0,cx=0,cy=0,d=false;
+  var T=88,U=76;
+  var hR=document.getElementById('hintR'),hL=document.getElementById('hintL'),hU=document.getElementById('hintU');
+  function start(e){d=true;var t=e.touches?e.touches[0]:e;sx=t.clientX;sy=t.clientY;card.classList.add('drag')}
+  function move(e){
+    if(!d)return;if(e.preventDefault)e.preventDefault();
+    var t=e.touches?e.touches[0]:e;cx=t.clientX-sx;cy=t.clientY-sy;
+    card.style.transform='translateX('+cx+'px) translateY('+cy+'px) rotate('+cx*0.05+'deg)';
+    var rp=Math.min(Math.abs(cx)/T,1),up=Math.min(Math.abs(cy)/U,1);
+    if(cx>0&&Math.abs(cx)>Math.abs(cy)){hR.style.opacity=rp;hL.style.opacity=0;hU.style.opacity=0}
+    else if(cx<0&&Math.abs(cx)>Math.abs(cy)){hL.style.opacity=rp;hR.style.opacity=0;hU.style.opacity=0}
+    else if(cy<0){hU.style.opacity=up;hR.style.opacity=0;hL.style.opacity=0}
+    else{hR.style.opacity=0;hL.style.opacity=0;hU.style.opacity=0}
+  }
+  function end(){
+    if(!d)return;d=false;card.classList.remove('drag');
+    hR.style.opacity=0;hL.style.opacity=0;hU.style.opacity=0;
+    if(cx>T&&Math.abs(cx)>Math.abs(cy))flyR(card,person);
+    else if(cx<-T&&Math.abs(cx)>Math.abs(cy))flyL(card);
+    else if(cy<-U&&Math.abs(cy)>Math.abs(cx))flyUp(card,person);
+    else card.style.transform='translateX(0) translateY(0) rotate(0deg)';
+    cx=0;cy=0;
+  }
+  card.addEventListener('touchstart',start,{passive:true});
+  card.addEventListener('touchmove',move,{passive:false});
+  card.addEventListener('touchend',end);
+  card.addEventListener('mousedown',start);
+  document.addEventListener('mousemove',function(e){if(d)move(e)});
+  document.addEventListener('mouseup',function(){if(d)end()});
+}
+function flyR(c,p){c.classList.add('go-r');var dm=(cardIdx===0||cardIdx===2);cardIdx++;setTimeout(function(){renderCards();if(dm&&p)showMatch(p)},380)}
+function flyL(c){c.classList.add('go-l');cardIdx++;setTimeout(renderCards,380)}
+function flyUp(c,p){c.classList.add('go-u');setTimeout(function(){c.classList.remove('go-u');c.style.transform='';c.style.transition='transform .3s cubic-bezier(.34,1.56,.64,1)';setTimeout(function(){c.style.transition=''},320);openJP(p)},400)}
+function mcPass(e){e.stopPropagation();var c=document.querySelector('#cardContainer .mc:last-child');if(!c)return;c.classList.add('go-l');cardIdx++;setTimeout(renderCards,380)}
+function mcDoConnect(e){if(e)e.stopPropagation();var c=document.querySelector('#cardContainer .mc:last-child');if(!c)return;var pid=parseInt(c.dataset.pid);var p=PEOPLE[pid];var dm=(cardIdx===0||cardIdx===2);c.classList.add('go-r');cardIdx++;setTimeout(function(){renderCards();if(dm&&p)showMatch(p)},380)}
+function mcJP(e){if(e)e.stopPropagation();if(curPerson)openJP(curPerson)}
+function mcFP(e){if(e)e.stopPropagation();if(curPerson)openFullProfile(curPerson)}
+function resetCards(){cardIdx=0;renderCards()}
+document.getElementById('cardContainer').addEventListener('click',function(e){
+  var c=e.target.closest('.mc');if(!c)return;
+  if(e.target.closest('.mc-btn')||e.target.closest('.mc-connect'))return;
+  var p=PEOPLE[parseInt(c.dataset.pid)];if(p)openFullProfile(p);
+});
+
+/* MATCH MOMENT */
+function showMatch(p){
+  document.getElementById('mmTitle').innerHTML='You and '+p.name.split(' ')[0]+'!';
+  document.getElementById('mmSub').textContent='You both expressed interest in connecting. Here is why this collaboration could move both dreams forward.';
+  var ta=document.getElementById('mmThemAv');ta.textContent=p.i;ta.style.background=p.avBg2;ta.style.color=p.avCol2;
+  document.getElementById('mmFactors').innerHTML=p.mf.map(function(f){return '<div class="mm-factor"><span class="mm-chk">&#10003;</span>'+f+'</div>'}).join('');
+  document.getElementById('mmStarters').innerHTML=p.starters.map(function(s){return '<div class="mm-starter">'+s+'</div>'}).join('');
+  document.getElementById('matchMoment').classList.add('on');
+}
+function closeMatch(){document.getElementById('matchMoment').classList.remove('on')}
+
+/* JOURNEY PREVIEW */
+function openJP(p){
+  var tlabel={'pp':'Progress','pg':'Milestone','pr':'Setback','po':'Obstacle','pb':'Lesson'};
+  var h='<div class="jp-hdr"><div class="jp-av" style="background:'+p.avBg2+';color:'+p.avCol2+'">'+p.i+'</div><div><div class="jp-nm">'+p.name+'</div><div class="jp-dream">'+p.dream+'</div></div></div>';
+  h+='<div class="jp-arc"><div class="jp-arc-day">Day '+p.days+'</div><div class="jp-arc-bar"><div class="jp-arc-fill" style="width:'+p.pct+'%;background:'+p.fill+'"></div></div><div class="jp-arc-pct">'+p.pct+'%</div></div>';
+  h+='<div class="jp-tl">';
+  p.journey.forEach(function(item){
+    var dc=item.done?'done':item.cur?'now':'fut';
+    h+='<div class="jp-item"><div class="jp-dot '+dc+'"></div><div><div class="jp-day" style="'+(item.cur?'color:var(--p2)':'')+'">'+item.day+'</div><div class="jp-event" style="'+(item.done?'':'color:var(--t2)')+'">'+item.ev+'</div>';
+    if(item.det)h+='<div class="jp-detail">'+item.det+'</div>';
+    var tl=item.type?item.type.replace(/pp|pg|pr|po|pb/,function(m){return tlabel[m]||m}):'';
+    if(tl)h+='<span class="pill '+item.type+'" style="font-size:9px;margin-top:4px;display:inline-flex">'+tl+'</span>';
+    h+='</div></div>';
+  });
+  h+='</div>';
+  document.getElementById('jpContent').innerHTML=h;
+  openOv('ov-jp');
+}
+
+/* FULL PROFILE / DREAM PAGE */
+function openFullProfile(p){
+  var sl=['Idea','Build','Launch','Grow','Scale'];
+  var h='<div class="fp-banner" style="background:'+p.grad+'">';
+  h+='<div class="fp-score-bg"><div class="fp-score-n">'+p.score+'%</div><div class="fp-score-l">match</div></div>';
+  h+='<div class="fp-av-row"><div class="fp-av" style="background:'+p.avBg+';color:'+p.avCol+'">'+p.i+'</div>';
+  h+='<div><div class="fp-name">'+p.name+'</div><div class="fp-loc">'+p.loc+' &#183; '+p.dist+'</div>';
+  if(p.badges.length){h+='<div class="fp-badges-row">'+p.badges.map(function(b){return '<span class="badge badge-founder" style="font-size:9px">'+b+'</span>'}).join('')+'</div>'}
+  h+='<div class="fp-pills-row"><span class="pill pp">'+p.stage+'</span><span class="pill pg">'+p.pct+'%</span></div></div></div></div>';
+  h+='<div class="fp-why"><div class="fp-why-lbl">Why we matched you</div>'+p.why.map(function(r){return '<div class="fp-why-item"><span class="fp-chk">&#10003;</span>'+r+'</div>'}).join('')+'</div>';
+  h+='<div class="fp-dream-blk"><div class="fp-dream-lbl">The Dream</div><div class="fp-dream-txt">'+p.dreamStmt+'</div></div>';
+  h+='<div class="fp-wm-blk"><div class="fp-wm-lbl">Why this dream matters</div><div class="fp-wm-title">'+p.why_matters.split('.')[0]+'.</div><div class="fp-wm-body">'+p.why_matters+'</div></div>';
+  h+='<div class="fp-arc"><div class="fp-arc-lbl">Dream Arc</div>';
+  h+='<div class="fp-arc-bar-row"><div class="fp-arc-days">Day '+p.days+'</div><div class="fp-arc-bar"><div class="fp-arc-fill" style="width:'+p.pct+'%;background:'+p.fill+'"></div></div><div class="fp-arc-pct">'+p.pct+'%</div></div>';
+  h+='<div class="fp-arc-stages">'+sl.map(function(l,i){return '<span class="fp-arc-s '+(p.pips[i]?'done':'')+'">'+l+'</span>'}).join('')+'</div>';
+  h+='<div class="fp-arc-info">';
+  h+='<div class="fp-arc-cell" style="background:var(--os);border:.5px solid var(--ob)"><div class="fp-arc-cell-lbl" style="color:rgba(245,158,11,.6)">Current obstacle</div><div class="fp-arc-cell-val">'+p.obs+'</div></div>';
+  var lastMs=p.ms_list.filter(function(m){return m.d}).pop();
+  h+='<div class="fp-arc-cell" style="background:var(--gs);border:.5px solid var(--gb)"><div class="fp-arc-cell-lbl" style="color:rgba(34,197,94,.6)">Last milestone</div><div class="fp-arc-cell-val">'+(lastMs?lastMs.t:'None yet')+'</div></div>';
+  h+='</div></div>';
+  h+='<div class="fp-sec"><div class="fp-sec-h">Impact metrics</div><div class="fp-impact-grid">';
+  h+='<div class="fp-impact-item"><div class="fp-impact-n">'+p.impact.c+'</div><div class="fp-impact-l">Collabs</div></div>';
+  h+='<div class="fp-impact-item"><div class="fp-impact-n">'+p.impact.m+'</div><div class="fp-impact-l">Mentorships</div></div>';
+  h+='<div class="fp-impact-item"><div class="fp-impact-n">'+p.impact.s+'</div><div class="fp-impact-l">Solved</div></div>';
+  h+='<div class="fp-impact-item"><div class="fp-impact-n">'+p.impact.h+'</div><div class="fp-impact-l">Helped</div></div>';
+  h+='<div class="fp-impact-item"><div class="fp-impact-n">'+p.impact.sc+'</div><div class="fp-impact-l">Score</div></div>';
+  h+='</div></div>';
+  h+='<div class="fp-sec"><div class="fp-sec-h">Skills offered</div><div class="fp-chips">'+p.skills.map(function(s){return '<span class="pill pb">'+s+'</span>'}).join('')+'</div></div>';
+  h+='<div class="fp-sec"><div class="fp-sec-h">Skills needed</div><div class="fp-chips">'+p.needs.map(function(s){return '<span class="pill po">'+s+'</span>'}).join('')+'</div></div>';
+  h+='<div class="fp-sec"><div class="fp-sec-h">Milestones</div><div class="fp-ms-list">'+p.ms_list.map(function(m){return '<div class="fp-ms-item"><div class="fp-ms-dot '+(m.d?'done':'next')+'"></div><div class="fp-ms-txt">'+m.t+'</div><div class="fp-ms-date">'+m.date+'</div></div>'}).join('')+'</div></div>';
+  h+='<div class="fp-sec"><div class="fp-sec-h">Visible work</div><div class="fp-gallery">'+p.media.map(function(m){return '<div class="fp-media">'+m.i+'<div class="fp-media-lbl">'+m.l+'</div></div>'}).join('')+'</div></div>';
+  h+='<div class="fp-actions"><button class="fp-btn-p" onclick="closeOv(\'ov-fp\');mcDoConnect()">Connect</button><button class="fp-btn-s" onclick="closeOv(\'ov-fp\')">Pass</button></div>';
+  h+='<div style="height:12px"></div>';
+  document.getElementById('fpContent').innerHTML=h;
+  openOv('ov-fp');
+}
+
+/* MESSAGES */
+var CDATA={
+  'Sophie J.':[{me:false,text:'Hey! Saw your post about finding first customers. I went through the exact same wall 6 months ago.'},{me:true,text:'What actually worked for you? Cold email is not converting at all.'},{me:false,text:'Stopped cold email entirely. Joined 3 Slack communities where my ICP already hung out. Posted value, never pitched. 6 paying customers in 10 days.'},{me:true,text:'Which communities specifically?'},{me:false,text:'Indie Hackers, the SaaS Slack, and one very niche industry one. The niche one converted best by a long way.'}],
+  'Marcus R.':[{me:false,text:'Marcus here. You are at the exact stage I was on Day 60. Happy to share what I wish I had known.'},{me:true,text:'What would you tell your Day 60 self?'},{me:false,text:'Talk to 10 more potential customers before you build another feature. Seriously. 10 more.'}],
+  'Lena K.':[{me:false,text:'That lesson you shared changed how I think about our sales approach.'},{me:true,text:'How long did it take you to figure that out?'},{me:false,text:'Embarrassingly long. About 4 months. Could have been 2 weeks if I had listened more carefully.'}],
+  'Priya M.':[{me:false,text:'Your failure story hit close to home. I went through the same investor rejection on Day 18.'},{me:true,text:'What did you do differently after?'},{me:false,text:'I wrote out everything I had learned and went back with much better answers.'}]
+};
+var AREP={'Sophie J.':'Makes sense. The niche ones always convert better. Want to jump on a call this week?','Marcus R.':'Exactly. Customer conversations are the only thing that matters right now. Everything else is distraction.','Lena K.':'Better late than never. Once you get it everything becomes clearer.','Priya M.':'I went back to the investor 2 weeks later with a full competitive analysis. Different conversation.'};
+function openChat(init,name,bg,col,online){
+  var av=document.getElementById('chatAv');av.textContent=init;av.style.background=bg;av.style.color=col;
+  document.getElementById('chatNm').textContent=name;
+  var st=document.getElementById('chatSt');st.textContent=online?'Active now':'Active 1h ago';st.style.color=online?'var(--g2)':'var(--t3)';
+  var msgs=document.getElementById('chatMsgs');msgs.innerHTML='';
+  (CDATA[name]||[]).forEach(function(m){addBub(m.text,m.me,false)});
+  var ov=document.getElementById('chatOv');ov.classList.add('on');ov.dataset.n=name;
+  setTimeout(function(){msgs.scrollTop=msgs.scrollHeight},50);
+  document.getElementById('chatInp').focus();
+}
+function closeChat(){document.getElementById('chatOv').classList.remove('on')}
+function addBub(txt,me,scroll){
+  var msgs=document.getElementById('chatMsgs'),now=new Date();
+  var ts=now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes();
+  var d=document.createElement('div');
+  d.innerHTML='<div class="bub '+(me?'me':'them')+'">'+esc(txt)+'</div><div class="bub-t'+(me?' r':'')+'">'+ts+'</div>';
+  msgs.appendChild(d);if(scroll!==false)msgs.scrollTop=msgs.scrollHeight;
+}
+function sendMsg(){
+  var inp=document.getElementById('chatInp'),v=inp.value.trim();if(!v)return;
+  inp.value='';addBub(v,true,true);
+  var n=document.getElementById('chatOv').dataset.n;
+  setTimeout(function(){addBub(AREP[n]||'Let us figure this out together.',false,true)},1100);
+}
+document.getElementById('chatInp').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();sendMsg()}});
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+/* CONNECTION REQUESTS */
+function acceptReq(btn){var item=btn.parentElement.parentElement;var btns=item.querySelector('.cr-btns');if(btns)btns.innerHTML='<span style="font-size:12px;color:#4ADE80;font-weight:600">Connected</span>'}
+function declineReq(btn){var item=btn.parentElement.parentElement;item.style.opacity='0';item.style.transition='opacity .25s';setTimeout(function(){item.style.display='none'},250)}
+
+/* TOAST */
+function toast(msg,color){
+  var t=document.createElement('div');
+  t.textContent=msg;
+  t.style.cssText='position:absolute;bottom:96px;left:50%;transform:translateX(-50%);background:rgba(18,20,40,.97);border:.5px solid rgba(255,255,255,.1);color:'+(color||'var(--t1)')+';font-family:\'Space Grotesk\',sans-serif;font-size:12px;font-weight:600;padding:9px 16px;border-radius:10px;white-space:nowrap;z-index:200;pointer-events:none;opacity:0;transition:opacity .2s';
+  document.querySelector('.phone').appendChild(t);
+  requestAnimationFrame(function(){t.style.opacity='1';setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove()},220)},2400)});
+}
+
+/* EDIT OBSTACLE */
+function editObstacle(){
+  var row=document.querySelector('.doc-row');
+  var txt=row.querySelector('.doc-txt');
+  var inp=document.createElement('input');
+  inp.value=txt.textContent;
+  inp.style.cssText='flex:1;background:transparent;border:none;color:var(--t1);font-size:13px;font-family:\'Inter\',sans-serif;outline:none;font-weight:500';
+  txt.replaceWith(inp);inp.focus();inp.select();
+  var btn=row.querySelector('.doc-edit');btn.textContent='Save';
+  btn.onclick=function(){
+    var v=inp.value.trim()||'Finding first customers — cold email not converting';
+    var newTxt=document.createElement('div');newTxt.className='doc-txt';newTxt.textContent=v;
+    inp.replaceWith(newTxt);btn.textContent='Edit';btn.onclick=editObstacle;
+    toast('Obstacle updated — matches refreshed','#FCD34D');
+  };
+}
+
+/* INIT */
+renderCards();
+document.querySelector('.doc-edit').onclick=editObstacle;
+</script>
+</body>
+</html>
