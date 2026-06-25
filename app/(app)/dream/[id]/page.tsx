@@ -143,7 +143,7 @@ export default async function DreamPage({ params }: { params: { id: string } }) 
         <div className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl p-5 mb-6">
           <h2 className="font-['Space_Grotesk'] font-bold text-lg mb-3">Collaborators</h2>
           <div className="flex flex-wrap gap-3">
-            {collaborators.map((c: any) => (
+            {(collaborators || []).map((c: any) => (
               <Link key={c.user_id} href={`/profile/${c.user_id}`} className="flex items-center gap-2 bg-[#121428] border border-[#3C3A58] hover:border-[#6D28D9] rounded-xl px-3 py-2">
                 {c.profiles?.avatar_url ? (
                   <Image src={c.profiles.avatar_url} alt="" width={24} height={24} className="rounded-full w-6 h-6 object-cover" />
