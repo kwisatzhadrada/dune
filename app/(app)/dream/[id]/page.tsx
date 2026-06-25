@@ -10,7 +10,7 @@ import PostCard from '@/components/feed/PostCard'
 export const dynamic = 'force-dynamic'
 
 export default async function DreamPage({ params }: { params: { id: string } }) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 

@@ -7,7 +7,7 @@ import { Profile } from '@/lib/types'
 export const dynamic = 'force-dynamic'
 
 export default async function MessagesPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   const { data: messages } = await supabase

@@ -6,7 +6,7 @@ import MatchCard from '@/components/matches/MatchCard'
 export const dynamic = 'force-dynamic'
 
 export default async function MatchesPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   const { data: me } = await supabase.from('profiles').select('*').eq('id', user!.id).single()

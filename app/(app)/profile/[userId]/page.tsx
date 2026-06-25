@@ -9,7 +9,7 @@ import ConnectButton from '@/components/profile/ConnectButton'
 export const dynamic = 'force-dynamic'
 
 export default async function UserProfilePage({ params }: { params: { userId: string } }) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 

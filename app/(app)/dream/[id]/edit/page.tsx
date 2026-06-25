@@ -5,7 +5,7 @@ import DreamEditor from '@/components/dreams/DreamEditor'
 export const dynamic = 'force-dynamic'
 
 export default async function EditDreamPage({ params }: { params: { id: string } }) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 

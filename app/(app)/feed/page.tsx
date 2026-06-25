@@ -6,7 +6,7 @@ import FeedClient from '@/components/feed/FeedClient'
 export const dynamic = 'force-dynamic'
 
 export default async function FeedPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
