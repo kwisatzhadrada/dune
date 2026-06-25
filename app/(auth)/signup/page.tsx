@@ -29,17 +29,26 @@ export default function SignupPage() {
     setError(null)
     setInfo(null)
 
+    const redirectTo = `${siteUrl()}/auth/callback`
+    console.log('[signup] NEXT_PUBLIC_SITE_URL:', process.env.NEXT_PUBLIC_SITE_URL)
+    console.log('[signup] emailRedirectTo:', redirectTo)
+    console.log('[signup] NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: `${siteUrl()}/auth/callback`,
+        emailRedirectTo: redirectTo,
       },
     })
 
     if (error) {
-      setError(error.message)
+      console.error('[signup] full error object:', JSON.stringify(error, null, 2))
+      console.error('[signup] error.message:', error.message)
+      console.error('[signup] error.status:', error.status)
+      console.error('[signup] error.code:', (error as any).code)
+      setError(`${error.message} [status:${error.status}]`)
       setLoading(false)
       return
     }
