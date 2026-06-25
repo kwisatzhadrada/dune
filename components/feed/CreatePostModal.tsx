@@ -2,15 +2,17 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Post } from '@/lib/types'
+import { Post, Dream } from '@/lib/types'
 import { POST_TYPES, INDUSTRIES } from '@/lib/utils'
 
 export default function CreatePostModal({
   currentUserId,
+  dreams = [],
   onClose,
   onCreated,
 }: {
   currentUserId: string
+  dreams?: Dream[]
   onClose: () => void
   onCreated: (post: Post) => void
 }) {
@@ -18,6 +20,7 @@ export default function CreatePostModal({
   const [postType, setPostType] = useState<Post['post_type']>('win')
   const [content, setContent] = useState('')
   const [industry, setIndustry] = useState('')
+  const [dreamId, setDreamId] = useState<string>('')
   const [tagInput, setTagInput] = useState('')
   const [tags, setTags] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
@@ -44,8 +47,9 @@ export default function CreatePostModal({
         post_type: postType,
         industry: industry || null,
         tags,
+        dream_id: dreamId || null,
       })
-      .select('*, profiles(*)')
+      .select('*, profiles(*), dreams(*)')
       .single()
 
     if (error) {
@@ -86,6 +90,22 @@ export default function CreatePostModal({
             </button>
           ))}
         </div>
+
+        {dreams.length > 0 && (
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Link to a Dream (optional)</label>
+            <select
+              value={dreamId}
+              onChange={(e) => setDreamId(e.target.value)}
+              className="w-full bg-[#121428] border border-[#3C3A58] focus:border-[#6D28D9] rounded-xl px-4 py-2.5 outline-none"
+            >
+              <option value="">No dream</option>
+              {dreams.map((d) => (
+                <option key={d.id} value={d.id}>{d.title}</option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <textarea
           value={content}

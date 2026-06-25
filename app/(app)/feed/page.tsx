@@ -1,33 +1,50 @@
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import PostFeed from '@/components/feed/PostFeed'
-import { Post } from '@/lib/types'
+import { Post, Dream } from '@/lib/types'
+import FeedClient from '@/components/feed/FeedClient'
 
 export const dynamic = 'force-dynamic'
 
 export default async function FeedPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
-  const { data: posts } = await supabase
-    .from('posts')
-    .select('*, profiles(*)')
-    .order('created_at', { ascending: false })
-    .limit(20)
+  const [{ data: rawPosts }, { data: likedIds }, { data: savedIds }, { data: myDreams }] = await Promise.all([
+    supabase
+      .from('posts')
+      .select('*, profiles(*), dreams(*)')
+      .order('created_at', { ascending: false })
+      .limit(20),
+    supabase
+      .from('post_likes')
+      .select('post_id')
+      .eq('user_id', user.id),
+    supabase
+      .from('post_saves')
+      .select('post_id')
+      .eq('user_id', user.id),
+    supabase
+      .from('dreams')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('status', 'active')
+      .order('created_at', { ascending: false }),
+  ])
 
-  let likedIds: string[] = []
-  let savedIds: string[] = []
-  if (user) {
-    const { data: likes } = await supabase.from('post_likes').select('post_id').eq('user_id', user.id)
-    const { data: saves } = await supabase.from('post_saves').select('post_id').eq('user_id', user.id)
-    likedIds = (likes || []).map((l) => l.post_id)
-    savedIds = (saves || []).map((s) => s.post_id)
-  }
-
-  const enriched: Post[] = (posts || []).map((p: any) => ({
+  const likedSet = new Set((likedIds || []).map((l) => l.post_id))
+  const savedSet = new Set((savedIds || []).map((s) => s.post_id))
+  const posts: Post[] = (rawPosts || []).map((p) => ({
     ...p,
-    user_has_liked: likedIds.includes(p.id),
-    user_has_saved: savedIds.includes(p.id),
+    user_has_liked: likedSet.has(p.id),
+    user_has_saved: savedSet.has(p.id),
   }))
 
-  return <PostFeed initialPosts={enriched} currentUserId={user!.id} />
+  return (
+    <FeedClient
+      initialPosts={posts}
+      currentUserId={user.id}
+      myDreams={(myDreams as Dream[]) || []}
+    />
+  )
 }

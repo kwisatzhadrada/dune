@@ -9,10 +9,12 @@ import { getInitials } from '@/lib/utils'
 
 const links = [
   { href: '/feed', label: 'Feed', icon: '📣' },
+  { href: '/dreams', label: 'Dreams', icon: '✨' },
   { href: '/discover', label: 'Discover', icon: '🔍' },
   { href: '/matches', label: 'Matches', icon: '🤝' },
   { href: '/messages', label: 'Messages', icon: '💬' },
   { href: '/messages/group', label: 'Group Chat', icon: '🌐' },
+  { href: '/connections', label: 'Connections', icon: '🔗' },
   { href: '/profile', label: 'Profile', icon: '👤' },
 ]
 

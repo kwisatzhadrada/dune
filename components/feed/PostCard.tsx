@@ -34,9 +34,11 @@ export default function PostCard({
     if (liked) {
       setLiked(false); setLikes((n) => n - 1)
       await supabase.from('post_likes').delete().eq('post_id', post.id).eq('user_id', currentUserId)
+      await supabase.rpc('decrement_likes', { post_id: post.id })
     } else {
       setLiked(true); setLikes((n) => n + 1)
       await supabase.from('post_likes').insert({ post_id: post.id, user_id: currentUserId })
+      await supabase.rpc('increment_likes', { post_id: post.id })
     }
   }
 
@@ -44,9 +46,11 @@ export default function PostCard({
     if (saved) {
       setSaved(false); setSaves((n) => n - 1)
       await supabase.from('post_saves').delete().eq('post_id', post.id).eq('user_id', currentUserId)
+      await supabase.rpc('decrement_saves', { post_id: post.id })
     } else {
       setSaved(true); setSaves((n) => n + 1)
       await supabase.from('post_saves').insert({ post_id: post.id, user_id: currentUserId })
+      await supabase.rpc('increment_saves', { post_id: post.id })
     }
   }
 
@@ -139,6 +143,20 @@ export default function PostCard({
           {post.tags.map((t) => (
             <span key={t} className="text-xs text-[#8B5CF6]">#{t}</span>
           ))}
+        </div>
+      )}
+
+      {post.dreams && (
+        <div className="mt-3 flex items-center gap-2 bg-[#121428] border border-[#3C3A58]/50 rounded-xl px-3 py-2">
+          <span className="text-sm">✨</span>
+          <Link href={`/dream/${post.dreams.id}`} className="text-sm text-[#8B5CF6] hover:underline font-medium truncate">
+            {post.dreams.title}
+          </Link>
+          <span className="text-xs text-[#8A88A8] shrink-0">{post.dreams.current_stage}</span>
+          <div className="ml-auto w-16 bg-[#3C3A58] rounded-full h-1">
+            <div className="bg-[#6D28D9] h-1 rounded-full" style={{ width: `${post.dreams.progress_percentage}%` }} />
+          </div>
+          <span className="text-xs text-[#8A88A8] shrink-0">{post.dreams.progress_percentage}%</span>
         </div>
       )}
 

@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { Profile } from '@/lib/types'
+import { Profile, Dream } from '@/lib/types'
 import { generateMatchScore } from '@/lib/utils'
 import MatchCard from '@/components/matches/MatchCard'
 
@@ -22,6 +22,25 @@ export default async function MatchesPage() {
     .select('requester_id, addressee_id, status')
     .or(`requester_id.eq.${user!.id},addressee_id.eq.${user!.id}`)
 
+  // Fetch dreams: mine and all people's active dreams
+  const peopleIds = ((people as Profile[]) || []).map((p) => p.id)
+  const [{ data: myDreams }, { data: theirDreams }] = await Promise.all([
+    supabase.from('dreams').select('*').eq('user_id', user!.id).eq('status', 'active').order('created_at', { ascending: false }).limit(1),
+    peopleIds.length > 0
+      ? supabase.from('dreams').select('*').in('user_id', peopleIds).eq('status', 'active')
+      : Promise.resolve({ data: [] }),
+  ])
+
+  const myDream: Dream | null = (myDreams && myDreams.length > 0) ? myDreams[0] as Dream : null
+
+  // Build a map of user_id -> their most recent active dream
+  const dreamByUser: Record<string, Dream> = {}
+  for (const d of (theirDreams as Dream[] || [])) {
+    if (!dreamByUser[d.user_id]) {
+      dreamByUser[d.user_id] = d
+    }
+  }
+
   const connectionMap: Record<string, string> = {}
   ;(connections || []).forEach((c) => {
     const other = c.requester_id === user!.id ? c.addressee_id : c.requester_id
@@ -30,7 +49,7 @@ export default async function MatchesPage() {
 
   const meProfile = me as Profile
   const ranked = ((people as Profile[]) || [])
-    .map((p) => ({ person: p, score: generateMatchScore(meProfile, p) }))
+    .map((p) => ({ person: p, score: generateMatchScore(meProfile, p, myDream, dreamByUser[p.id] || null) }))
     .sort((a, b) => b.score - a.score)
     .slice(0, 30)
 
