@@ -30,9 +30,14 @@ export default function SignupPage() {
     setInfo(null)
 
     const redirectTo = `${siteUrl()}/auth/callback`
-    console.log('[signup] NEXT_PUBLIC_SITE_URL:', process.env.NEXT_PUBLIC_SITE_URL)
-    console.log('[signup] emailRedirectTo:', redirectTo)
-    console.log('[signup] NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+
+    // Read env vars into local vars so they stringify correctly
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const siteUrlValue = process.env.NEXT_PUBLIC_SITE_URL
+    console.log('[signup] NEXT_PUBLIC_SUPABASE_URL =', supabaseUrl ?? '(undefined)')
+    console.log('[signup] NEXT_PUBLIC_SITE_URL =', siteUrlValue ?? '(undefined)')
+    console.log('[signup] emailRedirectTo =', redirectTo)
+    console.log('[signup] supabase client url =', (supabase as any).supabaseUrl ?? (supabase as any).rest?.url ?? 'unknown')
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -44,11 +49,15 @@ export default function SignupPage() {
     })
 
     if (error) {
-      console.error('[signup] full error object:', JSON.stringify(error, null, 2))
+      // Log raw error object — not just message
+      console.error('[signup] RAW ERROR:', error)
+      console.error('[signup] error keys:', Object.keys(error))
+      console.error('[signup] error.name:', error.name)
       console.error('[signup] error.message:', error.message)
       console.error('[signup] error.status:', error.status)
-      console.error('[signup] error.code:', (error as any).code)
-      setError(`${error.message} [status:${error.status}]`)
+      console.error('[signup] error stringified:', JSON.stringify(error))
+      // Show full detail on screen
+      setError(`[${error.status}] ${error.name}: ${error.message}`)
       setLoading(false)
       return
     }
