@@ -6,6 +6,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { siteUrl } from '@/lib/siteUrl'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -33,7 +34,7 @@ export default function SignupPage() {
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${siteUrl()}/auth/callback`,
       },
     })
 
@@ -56,7 +57,7 @@ export default function SignupPage() {
     setLoading(true)
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: `${siteUrl()}/auth/callback` },
     })
     if (error) {
       setError(error.message)
