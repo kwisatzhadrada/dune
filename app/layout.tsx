@@ -34,6 +34,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
+      <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZG9YF5V2Q" />
+        <script dangerouslySetInnerHTML={{ __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TZG9YF5V2Q');` }} />
+      </head>
       <body className="min-h-screen bg-[#08081C] text-[#EDEAF8] antialiased">
         {children}
       </body>
