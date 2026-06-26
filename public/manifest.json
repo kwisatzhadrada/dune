@@ -1,0 +1,50 @@
+{
+  "name": "DreamLink",
+  "short_name": "DreamLink",
+  "description": "Where founders share the real journey. Connect with ambitious builders.",
+  "start_url": "/feed",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#08081C",
+  "theme_color": "#6D28D9",
+  "orientation": "portrait-primary",
+  "categories": ["social", "productivity", "business"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Feed",
+      "url": "/feed",
+      "description": "View your community feed"
+    },
+    {
+      "name": "Dreams",
+      "url": "/dreams",
+      "description": "Browse dreams"
+    },
+    {
+      "name": "Messages",
+      "url": "/messages",
+      "description": "Your messages"
+    }
+  ]
+}

@@ -31,14 +31,6 @@ export default function SignupPage() {
 
     const redirectTo = `${siteUrl()}/auth/callback`
 
-    // Read env vars into local vars so they stringify correctly
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const siteUrlValue = process.env.NEXT_PUBLIC_SITE_URL
-    console.log('[signup] NEXT_PUBLIC_SUPABASE_URL =', supabaseUrl ?? '(undefined)')
-    console.log('[signup] NEXT_PUBLIC_SITE_URL =', siteUrlValue ?? '(undefined)')
-    console.log('[signup] emailRedirectTo =', redirectTo)
-    console.log('[signup] supabase client url =', (supabase as any).supabaseUrl ?? (supabase as any).rest?.url ?? 'unknown')
-
     const { data, error } = await supabase.auth.signUp({
       email,
       password,

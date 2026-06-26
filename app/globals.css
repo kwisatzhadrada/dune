@@ -59,3 +59,29 @@ body {
   outline: 2px solid var(--p2);
   outline-offset: 2px;
 }
+
+/* PWA — page transitions */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+main > * {
+  animation: page-in 0.2s ease forwards;
+}
+
+/* PWA — tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* PWA — text selection disabled on nav elements */
+nav {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* PWA — overscroll */
+html, body {
+  overscroll-behavior: none;
+}

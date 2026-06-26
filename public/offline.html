@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DreamLink — Offline</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: #08081C;
+      color: #EDEAF8;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      text-align: center;
+      padding: 24px;
+    }
+    .logo {
+      width: 64px; height: 64px;
+      background: #6D28D9;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 8px;
+    }
+    .dot { width: 24px; height: 24px; background: white; border-radius: 50%; }
+    h1 { font-size: 24px; font-weight: 700; }
+    p { color: #8A88A8; max-width: 280px; line-height: 1.5; }
+    button {
+      margin-top: 8px;
+      background: #6D28D9; color: white; border: none;
+      padding: 12px 28px; border-radius: 12px; font-size: 15px;
+      font-weight: 600; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo"><div class="dot"></div></div>
+  <h1>You're offline</h1>
+  <p>DreamLink needs a connection to load your feed. Check your internet and try again.</p>
+  <button onclick="window.location.reload()">Retry</button>
+</body>
+</html>
