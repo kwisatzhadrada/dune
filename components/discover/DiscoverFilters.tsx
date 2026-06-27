@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { Profile } from '@/lib/types'
 import { INDUSTRIES, generateMatchScore } from '@/lib/utils'
 import PersonCard from './PersonCard'
@@ -16,9 +16,15 @@ export default function DiscoverFilters({
   currentUserId: string
   connectionMap: Record<string, string>
 }) {
+  const [searchInput, setSearchInput] = useState('')
   const [search, setSearch] = useState('')
   const [industry, setIndustry] = useState('')
   const [sort, setSort] = useState<'match' | 'recent'>('match')
+
+  useEffect(() => {
+    const t = setTimeout(() => setSearch(searchInput), 250)
+    return () => clearTimeout(t)
+  }, [searchInput])
 
   const filtered = useMemo(() => {
     let list = people.filter((p) => {
@@ -45,8 +51,8 @@ export default function DiscoverFilters({
 
       <div className="space-y-3 mb-6">
         <input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           placeholder="Search by name, skill, goal..."
           className="w-full bg-[#0C0D22] border border-[#3C3A58] focus:border-[#6D28D9] rounded-xl px-4 py-3 outline-none"
         />

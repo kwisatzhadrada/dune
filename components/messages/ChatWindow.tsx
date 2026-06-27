@@ -89,7 +89,8 @@ export default function ChatWindow({
   async function send(e: React.FormEvent) {
     e.preventDefault()
     const content = text.trim()
-    if (!content) return
+    if (!content || sending) return
+    if (content.length > 2000) return
     setSending(true)
     setText('')
 
@@ -158,6 +159,7 @@ export default function ChatWindow({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Type a message..."
+          maxLength={2000}
           className="flex-1 bg-[#121428] border border-[#3C3A58] focus:border-[#6D28D9] rounded-xl px-4 py-3 outline-none"
         />
         <button type="submit" disabled={sending} className="bg-[#6D28D9] hover:bg-[#8B5CF6] disabled:opacity-50 text-white px-5 rounded-xl font-medium">

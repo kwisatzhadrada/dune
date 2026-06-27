@@ -40,11 +40,22 @@ export default function ProfileEditor({ profile }: { profile: Profile }) {
   async function uploadAvatar(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
+
+    const ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    if (!ALLOWED.includes(file.type)) {
+      setMessage({ type: 'err', text: 'Only JPEG, PNG, WebP, or GIF images are allowed.' })
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage({ type: 'err', text: 'Image must be under 5 MB.' })
+      return
+    }
+
     setUploading(true)
     setMessage(null)
-    const ext = file.name.split('.').pop()
+    const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
     const path = `${profile.id}/avatar-${Date.now()}.${ext}`
-    const { error } = await supabase.storage.from('avatars').upload(path, file, { upsert: true })
+    const { error } = await supabase.storage.from('avatars').upload(path, file, { upsert: true, contentType: file.type })
     if (error) {
       setMessage({ type: 'err', text: error.message })
       setUploading(false)
@@ -56,13 +67,36 @@ export default function ProfileEditor({ profile }: { profile: Profile }) {
   }
 
   async function save() {
-    setSaving(true)
     setMessage(null)
+    const trimmedName = fullName.trim()
+    const trimmedUsername = username.trim().toLowerCase().replace(/[^a-z0-9_]/g, '_')
+    if (!trimmedName) { setMessage({ type: 'err', text: 'Full name is required.' }); return }
+    if (!trimmedUsername || trimmedUsername.length < 3) { setMessage({ type: 'err', text: 'Username must be at least 3 characters.' }); return }
+    if (trimmedUsername.length > 30) { setMessage({ type: 'err', text: 'Username must be under 30 characters.' }); return }
+    if (bio.trim().length > 500) { setMessage({ type: 'err', text: 'Bio must be under 500 characters.' }); return }
+
+    setSaving(true)
+
+    // Check username uniqueness (skip if unchanged)
+    if (trimmedUsername !== profile.username) {
+      const { data: existing } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('username', trimmedUsername)
+        .neq('id', profile.id)
+        .maybeSingle()
+      if (existing) {
+        setMessage({ type: 'err', text: 'That username is already taken.' })
+        setSaving(false)
+        return
+      }
+    }
+
     const { error } = await supabase
       .from('profiles')
       .update({
-        full_name: fullName.trim(),
-        username: username.trim().toLowerCase().replace(/\s+/g, '_'),
+        full_name: trimmedName,
+        username: trimmedUsername,
         location: location.trim() || null,
         industry: industry || null,
         current_goal: currentGoal.trim() || null,

@@ -5,7 +5,7 @@ const protectedRoutes = ['/feed', '/discover', '/matches', '/messages', '/profil
 const authRoutes = ['/login', '/signup']
 
 export async function middleware(request: NextRequest) {
-  const { supabaseResponse, user, supabase } = await updateSession(request)
+  const { supabaseResponse, user } = await updateSession(request)
   const pathname = request.nextUrl.pathname
 
   const isProtected = protectedRoutes.some((route) => pathname.startsWith(route))
@@ -23,19 +23,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  if (user && isProtected && !pathname.startsWith('/onboarding')) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('onboarding_complete')
-      .eq('id', user.id)
-      .single()
-
-    if (profile && !profile.onboarding_complete) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/onboarding'
-      return NextResponse.redirect(url)
-    }
-  }
+  // Onboarding redirect is handled by the (app)/layout — no DB call needed here.
 
   return supabaseResponse
 }

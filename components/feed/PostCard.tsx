@@ -1,11 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { Post, PostReply } from '@/lib/types'
 import { formatTimeAgo, getInitials, getPostTypeColor, getPostTypeLabel } from '@/lib/utils'
+
+const MAX_REPLY_LENGTH = 1000
 
 export default function PostCard({
   post,
@@ -26,32 +28,49 @@ export default function PostCard({
   const [replies, setReplies] = useState<PostReply[]>([])
   const [replyText, setReplyText] = useState('')
   const [loadingReplies, setLoadingReplies] = useState(false)
+  const [submittingReply, setSubmittingReply] = useState(false)
   const [connectSent, setConnectSent] = useState(false)
+  const likingRef = useRef(false)
+  const savingRef = useRef(false)
 
   const author = post.profiles
 
   async function toggleLike() {
-    if (liked) {
+    if (likingRef.current) return
+    likingRef.current = true
+    const prevLiked = liked
+    const prevLikes = likes
+    if (prevLiked) {
       setLiked(false); setLikes((n) => n - 1)
-      await supabase.from('post_likes').delete().eq('post_id', post.id).eq('user_id', currentUserId)
-      await supabase.rpc('decrement_likes', { post_id: post.id })
+      const { error } = await supabase.from('post_likes').delete().eq('post_id', post.id).eq('user_id', currentUserId)
+      if (!error) await supabase.rpc('decrement_likes', { post_id: post.id })
+      else { setLiked(prevLiked); setLikes(prevLikes) }
     } else {
       setLiked(true); setLikes((n) => n + 1)
-      await supabase.from('post_likes').insert({ post_id: post.id, user_id: currentUserId })
-      await supabase.rpc('increment_likes', { post_id: post.id })
+      const { error } = await supabase.from('post_likes').insert({ post_id: post.id, user_id: currentUserId })
+      if (!error) await supabase.rpc('increment_likes', { post_id: post.id })
+      else { setLiked(prevLiked); setLikes(prevLikes) }
     }
+    likingRef.current = false
   }
 
   async function toggleSave() {
-    if (saved) {
+    if (savingRef.current) return
+    savingRef.current = true
+    const prevSaved = saved
+    const prevSaves = saves
+    if (prevSaved) {
       setSaved(false); setSaves((n) => n - 1)
-      await supabase.from('post_saves').delete().eq('post_id', post.id).eq('user_id', currentUserId)
-      await supabase.rpc('decrement_saves', { post_id: post.id })
+      const { error } = await supabase.from('post_saves').delete().eq('post_id', post.id).eq('user_id', currentUserId)
+      if (!error) await supabase.rpc('decrement_saves', { post_id: post.id })
+      else { setSaved(prevSaved); setSaves(prevSaves) }
     } else {
       setSaved(true); setSaves((n) => n + 1)
-      await supabase.from('post_saves').insert({ post_id: post.id, user_id: currentUserId })
-      await supabase.rpc('increment_saves', { post_id: post.id })
+      const { error } = await supabase.from('post_saves').insert({ post_id: post.id, user_id: currentUserId })
+      if (!error) await supabase.rpc('increment_saves', { post_id: post.id })
+      else { setSaved(prevSaved); setSaves(prevSaves) }
     }
+    savingRef.current = false
   }
 
   async function loadReplies() {
@@ -71,7 +90,9 @@ export default function PostCard({
   async function submitReply(e: React.FormEvent) {
     e.preventDefault()
     const content = replyText.trim()
-    if (!content) return
+    if (!content || submittingReply) return
+    if (content.length > MAX_REPLY_LENGTH) return
+    setSubmittingReply(true)
     const { data } = await supabase
       .from('post_replies')
       .insert({ post_id: post.id, user_id: currentUserId, content })
@@ -82,15 +103,17 @@ export default function PostCard({
       setRepliesCount((n) => n + 1)
       setReplyText('')
     }
+    setSubmittingReply(false)
   }
 
   async function connect() {
     if (!author || author.id === currentUserId) return
     setConnectSent(true)
-    await supabase.from('connections').upsert(
+    const { error } = await supabase.from('connections').upsert(
       { requester_id: currentUserId, addressee_id: author.id, status: 'pending' },
       { onConflict: 'requester_id,addressee_id' }
     )
+    if (error) setConnectSent(false)
   }
 
   async function del() {
@@ -104,7 +127,8 @@ export default function PostCard({
       <div className="flex items-start gap-3">
         <Link href={`/profile/${post.user_id}`}>
           {author?.avatar_url ? (
-            <Image src={author.avatar_url} alt="" width={44} height={44} className="rounded-full object-cover w-11 h-11" />
+            <Image src={author.avatar_url} alt="" width={44} height={44} className="rounded-full object-cover w-11 h-11"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
           ) : (
             <div className="w-11 h-11 rounded-full bg-[#6D28D9] flex items-center justify-center font-semibold text-white">
               {getInitials(author?.full_name || null)}
@@ -209,10 +233,11 @@ export default function PostCard({
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               placeholder="Write a reply..."
+              maxLength={MAX_REPLY_LENGTH}
               className="flex-1 bg-[#121428] border border-[#3C3A58] focus:border-[#6D28D9] rounded-xl px-3 py-2 text-sm outline-none"
             />
-            <button type="submit" className="bg-[#6D28D9] hover:bg-[#8B5CF6] text-white px-4 rounded-xl text-sm font-medium">
-              Reply
+            <button type="submit" disabled={submittingReply || !replyText.trim()} className="bg-[#6D28D9] hover:bg-[#8B5CF6] disabled:opacity-50 text-white px-4 rounded-xl text-sm font-medium">
+              {submittingReply ? '...' : 'Reply'}
             </button>
           </form>
         </div>

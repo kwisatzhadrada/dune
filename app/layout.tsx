@@ -4,6 +4,7 @@ import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk, Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
+import { ToastProvider } from '@/components/ui/Toast'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -72,7 +73,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}} />
       </head>
       <body className="min-h-screen bg-[#08081C] text-[#EDEAF8] antialiased overscroll-none">
-        {children}
+        <ToastProvider>
+          {children}
+        </ToastProvider>
       </body>
     </html>
   )

@@ -2,9 +2,12 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
 import { Post, Dream } from '@/lib/types'
 import PostCard from './PostCard'
 import CreatePostModal from './CreatePostModal'
+
+const PAGE_SIZE = 20
 
 export default function FeedClient({
   initialPosts,
@@ -15,8 +18,11 @@ export default function FeedClient({
   currentUserId: string
   myDreams: Dream[]
 }) {
+  const supabase = createClient()
   const [posts, setPosts] = useState<Post[]>(initialPosts)
   const [showModal, setShowModal] = useState(false)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [hasMore, setHasMore] = useState(initialPosts.length === PAGE_SIZE)
 
   function handleCreated(post: Post) {
     setPosts((prev) => [post, ...prev])
@@ -25,6 +31,30 @@ export default function FeedClient({
 
   function handleDeleted(id: string) {
     setPosts((prev) => prev.filter((p) => p.id !== id))
+  }
+
+  async function loadMore() {
+    if (loadingMore || !hasMore) return
+    setLoadingMore(true)
+    const oldest = posts[posts.length - 1]?.created_at
+    const [{ data: rawPosts }, { data: likedIds }, { data: savedIds }] = await Promise.all([
+      supabase.from('posts').select('*, profiles(*), dreams(*)')
+        .order('created_at', { ascending: false })
+        .lt('created_at', oldest)
+        .limit(PAGE_SIZE),
+      supabase.from('post_likes').select('post_id').eq('user_id', currentUserId),
+      supabase.from('post_saves').select('post_id').eq('user_id', currentUserId),
+    ])
+    const likedSet = new Set((likedIds || []).map((l) => l.post_id))
+    const savedSet = new Set((savedIds || []).map((s) => s.post_id))
+    const newPosts: Post[] = (rawPosts || []).map((p) => ({
+      ...p,
+      user_has_liked: likedSet.has(p.id),
+      user_has_saved: savedSet.has(p.id),
+    }))
+    setPosts((prev) => [...prev, ...newPosts])
+    setHasMore(newPosts.length === PAGE_SIZE)
+    setLoadingMore(false)
   }
 
   return (
@@ -61,6 +91,18 @@ export default function FeedClient({
           ))
         )}
       </div>
+
+      {hasMore && (
+        <div className="mt-6 text-center">
+          <button
+            onClick={loadMore}
+            disabled={loadingMore}
+            className="bg-[#0C0D22] border border-[#3C3A58] hover:border-[#6D28D9] text-[#8A88A8] hover:text-[#EDEAF8] px-6 py-2.5 rounded-xl text-sm font-medium disabled:opacity-50 transition-colors"
+          >
+            {loadingMore ? 'Loading...' : 'Load more'}
+          </button>
+        </div>
+      )}
 
       {showModal && (
         <CreatePostModal

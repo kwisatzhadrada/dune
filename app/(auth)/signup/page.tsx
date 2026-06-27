@@ -41,15 +41,7 @@ export default function SignupPage() {
     })
 
     if (error) {
-      // Log raw error object — not just message
-      console.error('[signup] RAW ERROR:', error)
-      console.error('[signup] error keys:', Object.keys(error))
-      console.error('[signup] error.name:', error.name)
-      console.error('[signup] error.message:', error.message)
-      console.error('[signup] error.status:', error.status)
-      console.error('[signup] error stringified:', JSON.stringify(error))
-      // Show full detail on screen
-      setError(`[${error.status}] ${error.name}: ${error.message}`)
+      setError(error.message)
       setLoading(false)
       return
     }

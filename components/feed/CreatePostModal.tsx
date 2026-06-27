@@ -33,10 +33,10 @@ export default function CreatePostModal({
   }
 
   async function submit() {
-    if (!content.trim()) {
-      setError('Please write something.')
-      return
-    }
+    const trimmed = content.trim()
+    if (!trimmed) { setError('Please write something.'); return }
+    if (trimmed.length > 2000) { setError('Post must be under 2000 characters.'); return }
+    if (loading) return
     setLoading(true)
     setError(null)
     const { data, error } = await supabase
@@ -107,13 +107,19 @@ export default function CreatePostModal({
           </div>
         )}
 
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          rows={5}
-          placeholder="What's on your mind? Share a win, an obstacle, a lesson..."
-          className="w-full bg-[#121428] border border-[#3C3A58] focus:border-[#6D28D9] rounded-xl px-4 py-3 outline-none resize-none mb-4"
-        />
+        <div className="mb-4 relative">
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            rows={5}
+            maxLength={2000}
+            placeholder="What's on your mind? Share a win, an obstacle, a lesson..."
+            className="w-full bg-[#121428] border border-[#3C3A58] focus:border-[#6D28D9] rounded-xl px-4 py-3 outline-none resize-none"
+          />
+          <span className={`absolute bottom-2 right-3 text-[11px] ${content.length > 1800 ? 'text-[#EF4444]' : 'text-[#3C3A58]'}`}>
+            {content.length}/2000
+          </span>
+        </div>
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Industry (optional)</label>

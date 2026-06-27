@@ -29,8 +29,9 @@ export function useRealtime({ table, schema = 'public', event = '*', filter, onD
       channelConfig.filter = filter
     }
 
+    const channelName = `realtime-${table}-${schema}${filter ? `-${filter}` : ''}`
     channelRef.current = supabase
-      .channel(`realtime-${table}-${Date.now()}`)
+      .channel(channelName)
       .on('postgres_changes', channelConfig, (payload) => {
         onData(payload)
       })
