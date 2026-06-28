@@ -14,7 +14,8 @@ export default async function DreamPage({ params }: { params: { id: string } }) 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: dream }, { data: milestones }, { data: dreamPosts }, { data: collaborators }, { data: following }, { data: likedIds }, { data: savedIds }] = await Promise.all([
+  console.log('[DreamPage] Loading dream id:', params.id, '| user:', user.id)
+  const [{ data: dream, error: dreamError }, { data: milestones }, { data: dreamPosts }, { data: collaborators }, { data: following }, { data: likedIds }, { data: savedIds }] = await Promise.all([
     supabase.from('dreams').select('*, profiles(*)').eq('id', params.id).single(),
     supabase.from('dream_milestones').select('*').eq('dream_id', params.id).order('created_at', { ascending: true }),
     supabase.from('posts').select('*, profiles(*), dreams(*)').eq('dream_id', params.id).order('created_at', { ascending: false }).limit(20),
@@ -23,6 +24,9 @@ export default async function DreamPage({ params }: { params: { id: string } }) 
     supabase.from('post_likes').select('post_id').eq('user_id', user.id),
     supabase.from('post_saves').select('post_id').eq('user_id', user.id),
   ])
+
+  console.log('[DreamPage] dream:', dream)
+  console.log('[DreamPage] dreamError:', dreamError?.code, dreamError?.message, dreamError?.details)
 
   if (!dream) notFound()
 
