@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Profile, Dream } from '@/lib/types'
 import { generateMatchScore } from '@/lib/utils'
@@ -8,24 +9,26 @@ export const dynamic = 'force-dynamic'
 export default async function MatchesPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
-  const { data: me } = await supabase.from('profiles').select('*').eq('id', user!.id).single()
+  const { data: me } = await supabase.from('profiles').select('*').eq('id', user.id).single()
+  if (!me) redirect('/login')
   const { data: people } = await supabase
     .from('profiles')
     .select('*')
-    .neq('id', user!.id)
+    .neq('id', user.id)
     .eq('onboarding_complete', true)
     .limit(200)
 
   const { data: connections } = await supabase
     .from('connections')
     .select('requester_id, addressee_id, status')
-    .or(`requester_id.eq.${user!.id},addressee_id.eq.${user!.id}`)
+    .or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`)
 
   // Fetch dreams: mine and all people's active dreams
   const peopleIds = ((people as Profile[]) || []).map((p) => p.id)
   const [{ data: myDreams }, { data: theirDreams }] = await Promise.all([
-    supabase.from('dreams').select('*').eq('user_id', user!.id).eq('status', 'active').order('created_at', { ascending: false }).limit(1),
+    supabase.from('dreams').select('*').eq('user_id', user.id).eq('status', 'active').order('created_at', { ascending: false }).limit(1),
     peopleIds.length > 0
       ? supabase.from('dreams').select('*').in('user_id', peopleIds).eq('status', 'active')
       : Promise.resolve({ data: [] }),
@@ -43,11 +46,12 @@ export default async function MatchesPage() {
 
   const connectionMap: Record<string, string> = {}
   ;(connections || []).forEach((c) => {
-    const other = c.requester_id === user!.id ? c.addressee_id : c.requester_id
+    const other = c.requester_id === user.id ? c.addressee_id : c.requester_id
     connectionMap[other] = c.status
   })
 
   const meProfile = me as Profile
+
   const ranked = ((people as Profile[]) || [])
     .map((p) => ({ person: p, score: generateMatchScore(meProfile, p, myDream, dreamByUser[p.id] || null) }))
     .sort((a, b) => b.score - a.score)
@@ -68,7 +72,7 @@ export default async function MatchesPage() {
               person={person}
               me={meProfile}
               score={score}
-              currentUserId={user!.id}
+              currentUserId={user.id}
               initialStatus={connectionMap[person.id]}
             />
           ))

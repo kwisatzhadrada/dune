@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Dream, DreamMilestone, Post } from '@/lib/types'
 import { getDreamStageColor, getDreamStageIcon, DREAM_STAGES, formatTimeAgo, getInitials } from '@/lib/utils'
 import DreamActions from '@/components/dreams/DreamActions'
-import PostCard from '@/components/feed/PostCard'
+import DreamPostList from '@/components/dreams/DreamPostList'
 
 export const dynamic = 'force-dynamic'
 
@@ -162,15 +162,7 @@ export default async function DreamPage({ params }: { params: { id: string } }) 
       {/* Journey Posts */}
       <div>
         <h2 className="font-['Space_Grotesk'] font-bold text-lg mb-4">Journey Posts</h2>
-        {enrichedPosts.length === 0 ? (
-          <div className="text-center text-[#8A88A8] py-8">No posts linked to this dream yet.</div>
-        ) : (
-          <div className="space-y-4">
-            {enrichedPosts.map((post) => (
-              <PostCard key={post.id} post={post} currentUserId={user.id} />
-            ))}
-          </div>
-        )}
+        <DreamPostList posts={enrichedPosts} currentUserId={user.id} />
       </div>
     </div>
   )

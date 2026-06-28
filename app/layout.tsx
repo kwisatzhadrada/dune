@@ -22,8 +22,6 @@ export const viewport: Viewport = {
   themeColor: '#6D28D9',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   viewportFit: 'cover',
 }
 
@@ -41,6 +39,13 @@ export const metadata: Metadata = {
     title: 'DreamLink',
     description: 'Where founders share the real journey.',
     type: 'website',
+    images: [{ url: '/icons/icon-512.png', width: 512, height: 512, alt: 'DreamLink' }],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'DreamLink',
+    description: 'Where founders share the real journey.',
+    images: ['/icons/icon-512.png'],
   },
   icons: {
     icon: '/icons/icon-192.png',

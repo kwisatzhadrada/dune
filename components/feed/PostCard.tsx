@@ -44,13 +44,11 @@ export default function PostCard({
     if (prevLiked) {
       setLiked(false); setLikes((n) => n - 1)
       const { error } = await supabase.from('post_likes').delete().eq('post_id', post.id).eq('user_id', currentUserId)
-      if (!error) await supabase.rpc('decrement_likes', { post_id: post.id })
-      else { setLiked(prevLiked); setLikes(prevLikes) }
+      if (error) { setLiked(prevLiked); setLikes(prevLikes) }
     } else {
       setLiked(true); setLikes((n) => n + 1)
       const { error } = await supabase.from('post_likes').insert({ post_id: post.id, user_id: currentUserId })
-      if (!error) await supabase.rpc('increment_likes', { post_id: post.id })
-      else { setLiked(prevLiked); setLikes(prevLikes) }
+      if (error) { setLiked(prevLiked); setLikes(prevLikes) }
     }
     likingRef.current = false
   }
@@ -63,13 +61,11 @@ export default function PostCard({
     if (prevSaved) {
       setSaved(false); setSaves((n) => n - 1)
       const { error } = await supabase.from('post_saves').delete().eq('post_id', post.id).eq('user_id', currentUserId)
-      if (!error) await supabase.rpc('decrement_saves', { post_id: post.id })
-      else { setSaved(prevSaved); setSaves(prevSaves) }
+      if (error) { setSaved(prevSaved); setSaves(prevSaves) }
     } else {
       setSaved(true); setSaves((n) => n + 1)
       const { error } = await supabase.from('post_saves').insert({ post_id: post.id, user_id: currentUserId })
-      if (!error) await supabase.rpc('increment_saves', { post_id: post.id })
-      else { setSaved(prevSaved); setSaves(prevSaves) }
+      if (error) { setSaved(prevSaved); setSaves(prevSaves) }
     }
     savingRef.current = false
   }
@@ -142,7 +138,7 @@ export default function PostCard({
             <Link href={`/profile/${post.user_id}`} className="font-medium hover:underline">
               {author?.full_name || 'Anonymous'}
             </Link>
-            <span className="text-[#8A88A8] text-sm">@{author?.username}</span>
+            {author?.username && <span className="text-[#8A88A8] text-sm">@{author.username}</span>}
             <span className="text-[#3C3A58]">·</span>
             <span className="text-[#8A88A8] text-sm">{formatTimeAgo(post.created_at)}</span>
           </div>

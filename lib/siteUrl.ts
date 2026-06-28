@@ -5,5 +5,6 @@ export function siteUrl(): string {
   if (typeof window !== 'undefined') {
     return window.location.origin
   }
-  return ''
+  // Server-side fallback — should not reach here in production if env var is set
+  return process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'
 }

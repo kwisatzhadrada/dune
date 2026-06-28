@@ -75,6 +75,20 @@ export default function OnboardingPage() {
     if (!userId) return
     setLoading(true)
     setError(null)
+
+    const trimmedUsername = username.trim().toLowerCase().replace(/\s+/g, '_')
+    const { data: existing } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('username', trimmedUsername)
+      .neq('id', userId)
+      .maybeSingle()
+    if (existing) {
+      setError('That username is already taken. Please choose another.')
+      setLoading(false)
+      return
+    }
+
     const { error } = await supabase
       .from('profiles')
       .update({

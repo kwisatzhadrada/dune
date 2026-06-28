@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getInitials, formatTimeAgo } from '@/lib/utils'
 import { Profile } from '@/lib/types'
@@ -9,6 +10,7 @@ export const dynamic = 'force-dynamic'
 export default async function MessagesPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
   const { data: messages } = await supabase
     .from('messages')

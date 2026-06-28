@@ -1,13 +1,12 @@
-const CACHE_NAME = 'dreamlink-v1';
+const CACHE_NAME = 'dreamlink-v2';
 
-// App shell — cache on install
+// Only precache truly static, public resources — never auth-gated pages
+// (authenticated pages redirect to /login when fetched unauthenticated,
+//  which would cache a redirect as the "app shell")
 const PRECACHE = [
-  '/',
-  '/feed',
-  '/dreams',
-  '/discover',
-  '/matches',
   '/offline',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
 ];
 
 // Install — precache shell pages
@@ -81,7 +80,7 @@ self.addEventListener('fetch', (event) => {
         .catch(async () => {
           const cached = await caches.match(request);
           if (cached) return cached;
-          return caches.match('/offline') || new Response('<h1>You are offline</h1>', { headers: { 'Content-Type': 'text/html' } });
+          return caches.match('/offline') || new Response('<h1>You are offline. Please check your connection.</h1>', { headers: { 'Content-Type': 'text/html' } });
         })
     );
     return;
