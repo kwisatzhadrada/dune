@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Dream } from '@/lib/types'
 import { DREAM_STAGES, getDreamStageIcon } from '@/lib/utils'
+import { trackEvent } from '@/lib/analytics'
 
 export default function DreamEditor({ dream }: { dream: Dream }) {
   const supabase = createClient()
@@ -39,6 +40,7 @@ export default function DreamEditor({ dream }: { dream: Dream }) {
     }).eq('id', dream.id)
 
     if (error) { setError(error.message); setSaving(false); return }
+    trackEvent('dream_updated', { stage })
     router.push(`/dream/${dream.id}`)
     router.refresh()
   }

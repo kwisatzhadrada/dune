@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Profile } from '@/lib/types'
 import { INDUSTRIES, getInitials } from '@/lib/utils'
+import { trackEvent } from '@/lib/analytics'
 
 export default function ProfileEditor({ profile }: { profile: Profile }) {
   const supabase = createClient()
@@ -115,6 +116,7 @@ export default function ProfileEditor({ profile }: { profile: Profile }) {
       setSaving(false)
       return
     }
+    trackEvent('profile_completed')
     setMessage({ type: 'ok', text: 'Profile saved!' })
     setSaving(false)
     router.refresh()

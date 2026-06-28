@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Profile } from '@/lib/types'
 import { getInitials } from '@/lib/utils'
+import { trackEvent } from '@/lib/analytics'
 
 const links = [
   { href: '/feed', label: 'Feed', icon: '📣' },
@@ -24,6 +25,7 @@ export default function Sidebar({ profile, unreadCount }: { profile: Profile; un
   const supabase = createClient()
 
   async function signOut() {
+    trackEvent('logout')
     await supabase.auth.signOut()
     router.push('/login')
     router.refresh()

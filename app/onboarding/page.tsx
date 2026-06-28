@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { INDUSTRIES } from '@/lib/utils'
+import { trackEvent } from '@/lib/analytics'
 
 const TOTAL_STEPS = 4
 
@@ -94,6 +95,7 @@ export default function OnboardingPage() {
       setLoading(false)
       return
     }
+    trackEvent('onboarding_completed')
     router.push('/feed')
     router.refresh()
   }

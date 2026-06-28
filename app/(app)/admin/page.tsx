@@ -16,12 +16,58 @@ export default async function AdminPage() {
   const { data: me } = await supabase.from('profiles').select('is_admin').eq('id', user.id).single()
   if (!me?.is_admin) redirect('/feed')
 
-  const [{ count: userCount }, { count: postCount }, { count: messageCount }, { count: connectionCount }] = await Promise.all([
+  const now = new Date()
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
+  const day7Start = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+  const day1Start = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+
+  const [
+    { count: userCount },
+    { count: postCount },
+    { count: messageCount },
+    { count: connectionCount },
+    { count: newUsersToday },
+    { count: dreamsCount },
+    { count: activeUsers7d },
+    { count: signupsToday },
+    { count: connectionsToday },
+  ] = await Promise.all([
     supabase.from('profiles').select('id', { count: 'exact', head: true }),
     supabase.from('posts').select('id', { count: 'exact', head: true }),
     supabase.from('messages').select('id', { count: 'exact', head: true }),
     supabase.from('connections').select('id', { count: 'exact', head: true }),
+    supabase.from('profiles').select('id', { count: 'exact', head: true }).gte('created_at', todayStart),
+    supabase.from('dreams').select('id', { count: 'exact', head: true }),
+    supabase.from('profiles').select('id', { count: 'exact', head: true }).gte('updated_at', day7Start),
+    supabase.from('profiles').select('id', { count: 'exact', head: true }).gte('created_at', todayStart),
+    supabase.from('connections').select('id', { count: 'exact', head: true }).gte('created_at', todayStart),
   ])
+
+  // Retention: users created >1d ago who were active (updated_at) within last 1d / 7d
+  const { count: cohortDay1 } = await supabase
+    .from('profiles')
+    .select('id', { count: 'exact', head: true })
+    .lt('created_at', day1Start)
+    .gte('updated_at', day1Start)
+
+  const { count: cohortDay7 } = await supabase
+    .from('profiles')
+    .select('id', { count: 'exact', head: true })
+    .lt('created_at', day7Start)
+    .gte('updated_at', day7Start)
+
+  const { count: cohortTotalDay1 } = await supabase
+    .from('profiles')
+    .select('id', { count: 'exact', head: true })
+    .lt('created_at', day1Start)
+
+  const { count: cohortTotalDay7 } = await supabase
+    .from('profiles')
+    .select('id', { count: 'exact', head: true })
+    .lt('created_at', day7Start)
+
+  const retentionDay1 = cohortTotalDay1 ? Math.round(((cohortDay1 || 0) / cohortTotalDay1) * 100) : 0
+  const retentionDay7 = cohortTotalDay7 ? Math.round(((cohortDay7 || 0) / cohortTotalDay7) * 100) : 0
 
   const { data: recentUsers } = await supabase
     .from('profiles')
@@ -36,10 +82,14 @@ export default async function AdminPage() {
     .limit(15)
 
   const stats = [
-    { label: 'Users', value: userCount || 0, color: 'text-[#8B5CF6]' },
-    { label: 'Posts', value: postCount || 0, color: 'text-[#22C55E]' },
-    { label: 'Messages', value: messageCount || 0, color: 'text-[#3B82F6]' },
-    { label: 'Connections', value: connectionCount || 0, color: 'text-[#F59E0B]' },
+    { label: 'Total Users', value: userCount || 0, color: 'text-[#8B5CF6]' },
+    { label: 'New Users Today', value: newUsersToday || 0, color: 'text-[#22C55E]' },
+    { label: 'Active (7 days)', value: activeUsers7d || 0, color: 'text-[#3B82F6]' },
+    { label: 'Dreams Created', value: dreamsCount || 0, color: 'text-[#F59E0B]' },
+    { label: 'Connections', value: connectionCount || 0, color: 'text-[#EC4899]' },
+    { label: 'New Connections Today', value: connectionsToday || 0, color: 'text-[#14B8A6]' },
+    { label: 'Day 1 Retention', value: `${retentionDay1}%`, color: 'text-[#F97316]' },
+    { label: 'Day 7 Retention', value: `${retentionDay7}%`, color: 'text-[#A78BFA]' },
   ]
 
   return (
@@ -56,6 +106,21 @@ export default async function AdminPage() {
             <div className="text-[#8A88A8] text-sm mt-1">{s.label}</div>
           </div>
         ))}
+      </div>
+
+      <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl p-5">
+          <div className="font-['Space_Grotesk'] text-3xl font-bold text-[#22C55E]">{postCount || 0}</div>
+          <div className="text-[#8A88A8] text-sm mt-1">Total Posts</div>
+        </div>
+        <div className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl p-5">
+          <div className="font-['Space_Grotesk'] text-3xl font-bold text-[#3B82F6]">{messageCount || 0}</div>
+          <div className="text-[#8A88A8] text-sm mt-1">Total Messages</div>
+        </div>
+        <div className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl p-5">
+          <div className="font-['Space_Grotesk'] text-3xl font-bold text-[#8B5CF6]">{signupsToday || 0}</div>
+          <div className="text-[#8A88A8] text-sm mt-1">Signups Today</div>
+        </div>
       </div>
 
       <h2 className="font-['Space_Grotesk'] text-lg font-bold mb-3">Recent users</h2>

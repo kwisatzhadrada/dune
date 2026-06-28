@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { siteUrl } from '@/lib/siteUrl'
+import { trackEvent } from '@/lib/analytics'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -47,6 +48,7 @@ export default function SignupPage() {
     }
 
     if (data.session) {
+      trackEvent('sign_up', { method: 'email' })
       router.push('/onboarding')
       router.refresh()
     } else {

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { DREAM_STAGES, getDreamStageIcon } from '@/lib/utils'
+import { trackEvent } from '@/lib/analytics'
 
 export default function NewDreamPage() {
   const supabase = createClient()
@@ -47,6 +48,7 @@ export default function NewDreamPage() {
       .single()
 
     if (error) { setError(error.message); setSaving(false); return }
+    trackEvent('dream_created', { stage })
     router.push(`/dream/${data.id}`)
   }
 

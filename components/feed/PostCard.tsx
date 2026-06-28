@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { Post, PostReply } from '@/lib/types'
 import { formatTimeAgo, getInitials, getPostTypeColor, getPostTypeLabel } from '@/lib/utils'
+import { trackEvent } from '@/lib/analytics'
 
 const MAX_REPLY_LENGTH = 1000
 
@@ -114,6 +115,7 @@ export default function PostCard({
       { onConflict: 'requester_id,addressee_id' }
     )
     if (error) setConnectSent(false)
+    else trackEvent('collaboration_request_sent')
   }
 
   async function del() {

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { siteUrl } from '@/lib/siteUrl'
+import { trackEvent } from '@/lib/analytics'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -36,6 +37,7 @@ export default function LoginPage() {
       return
     }
 
+    trackEvent('login', { method: 'email' })
     router.push('/feed')
     router.refresh()
   }
