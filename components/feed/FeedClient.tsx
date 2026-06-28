@@ -83,7 +83,7 @@ export default function FeedClient({
             <div className="font-semibold text-[#EDEAF8]">Share your Dream</div>
             <div className="text-sm text-[#8A88A8]">Create a Dream to give your posts context and connect with the right people.</div>
           </div>
-          <Link href="/dream/new" className="bg-[#6D28D9] hover:bg-[#8B5CF6] text-white px-4 py-2 rounded-xl text-sm font-medium shrink-0">
+          <Link href="/dreams/new" className="bg-[#6D28D9] hover:bg-[#8B5CF6] text-white px-4 py-2 rounded-xl text-sm font-medium shrink-0">
             Create Dream
           </Link>
         </div>
