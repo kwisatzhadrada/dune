@@ -49,6 +49,7 @@ export default function NewDreamPage() {
 
     if (error) { setError(error.message); setSaving(false); return }
     trackEvent('dream_created', { stage })
+    setSaving(false)
     router.push(`/dream/${data.id}`)
   }
 
@@ -66,17 +67,17 @@ export default function NewDreamPage() {
       <form onSubmit={submit} className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl p-6 space-y-5">
         <div>
           <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Dream title *</label>
-          <input className={inputCls} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Build the world's best remote team tool" />
+          <input className={inputCls} maxLength={200} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Build the world's best remote team tool" />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Description *</label>
-          <textarea className={`${inputCls} resize-none`} rows={3} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="What are you building and who is it for?" />
+          <textarea className={`${inputCls} resize-none`} rows={3} maxLength={3000} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="What are you building and who is it for?" />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Why does this matter to you?</label>
-          <textarea className={`${inputCls} resize-none`} rows={3} value={whyItMatters} onChange={(e) => setWhyItMatters(e.target.value)} placeholder="What's the deeper reason you're building this?" />
+          <textarea className={`${inputCls} resize-none`} rows={3} maxLength={2000} value={whyItMatters} onChange={(e) => setWhyItMatters(e.target.value)} placeholder="What's the deeper reason you're building this?" />
         </div>
 
         <div>
@@ -105,12 +106,12 @@ export default function NewDreamPage() {
 
         <div>
           <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Current obstacle</label>
-          <textarea className={`${inputCls} resize-none`} rows={2} value={obstacle} onChange={(e) => setObstacle(e.target.value)} placeholder="What's blocking you right now?" />
+          <textarea className={`${inputCls} resize-none`} rows={2} maxLength={1000} value={obstacle} onChange={(e) => setObstacle(e.target.value)} placeholder="What's blocking you right now?" />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Next milestone</label>
-          <input className={inputCls} value={nextMilestone} onChange={(e) => setNextMilestone(e.target.value)} placeholder="What's the next thing you want to achieve?" />
+          <input className={inputCls} maxLength={500} value={nextMilestone} onChange={(e) => setNextMilestone(e.target.value)} placeholder="What's the next thing you want to achieve?" />
         </div>
 
         <button

@@ -23,6 +23,7 @@ export default function FeedClient({
   const [showModal, setShowModal] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
   const [hasMore, setHasMore] = useState(initialPosts.length === PAGE_SIZE)
+  const [loadMoreError, setLoadMoreError] = useState(false)
 
   function handleCreated(post: Post) {
     setPosts((prev) => [post, ...prev])
@@ -36,8 +37,9 @@ export default function FeedClient({
   async function loadMore() {
     if (loadingMore || !hasMore) return
     setLoadingMore(true)
+    setLoadMoreError(false)
     const oldest = posts[posts.length - 1]?.created_at
-    const [{ data: rawPosts }, { data: likedIds }, { data: savedIds }] = await Promise.all([
+    const [{ data: rawPosts, error }, { data: likedIds }, { data: savedIds }] = await Promise.all([
       supabase.from('posts').select('*, profiles(*), dreams(*)')
         .order('created_at', { ascending: false })
         .lt('created_at', oldest)
@@ -45,6 +47,11 @@ export default function FeedClient({
       supabase.from('post_likes').select('post_id').eq('user_id', currentUserId),
       supabase.from('post_saves').select('post_id').eq('user_id', currentUserId),
     ])
+    if (error) {
+      setLoadMoreError(true)
+      setLoadingMore(false)
+      return
+    }
     const likedSet = new Set((likedIds || []).map((l) => l.post_id))
     const savedSet = new Set((savedIds || []).map((s) => s.post_id))
     const newPosts: Post[] = (rawPosts || []).map((p) => ({
@@ -92,6 +99,9 @@ export default function FeedClient({
         )}
       </div>
 
+      {loadMoreError && (
+        <div className="mt-4 text-center text-[#EF4444] text-sm">Failed to load more posts.</div>
+      )}
       {hasMore && (
         <div className="mt-6 text-center">
           <button
@@ -99,7 +109,7 @@ export default function FeedClient({
             disabled={loadingMore}
             className="bg-[#0C0D22] border border-[#3C3A58] hover:border-[#6D28D9] text-[#8A88A8] hover:text-[#EDEAF8] px-6 py-2.5 rounded-xl text-sm font-medium disabled:opacity-50 transition-colors"
           >
-            {loadingMore ? 'Loading...' : 'Load more'}
+            {loadingMore ? 'Loading...' : loadMoreError ? 'Retry' : 'Load more'}
           </button>
         </div>
       )}

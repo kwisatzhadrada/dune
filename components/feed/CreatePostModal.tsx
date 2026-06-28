@@ -57,6 +57,7 @@ export default function CreatePostModal({
       setLoading(false)
       return
     }
+    setLoading(false)
     onCreated({ ...(data as Post), user_has_liked: false, user_has_saved: false })
   }
 

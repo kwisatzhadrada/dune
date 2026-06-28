@@ -6,8 +6,13 @@ export function cn(...inputs: ClassValue[]) {
   return clsx(inputs)
 }
 
-export function formatTimeAgo(date: string): string {
-  return formatDistanceToNow(new Date(date), { addSuffix: true })
+export function formatTimeAgo(date: string | null | undefined): string {
+  if (!date) return ''
+  try {
+    return formatDistanceToNow(new Date(date), { addSuffix: true })
+  } catch {
+    return ''
+  }
 }
 
 export function getInitials(name: string | null): string {

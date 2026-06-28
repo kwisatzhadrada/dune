@@ -31,6 +31,7 @@ export default function ChatWindow({
   const [messages, setMessages] = useState<ChatMsg[]>(initialMessages)
   const [text, setText] = useState('')
   const [sending, setSending] = useState(false)
+  const [sendError, setSendError] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const [profileCache, setProfileCache] = useState<Record<string, Profile>>(initialProfiles)
 
@@ -92,24 +93,27 @@ export default function ChatWindow({
     if (!content || sending) return
     if (content.length > 2000) return
     setSending(true)
+    setSendError(false)
     setText('')
 
     if (mode === 'dm' && otherUser) {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('messages')
         .insert({ sender_id: currentUserId, receiver_id: otherUser.id, content })
         .select()
         .single()
-      if (data) {
+      if (error) { setText(content); setSendError(true) }
+      else if (data) {
         setMessages((prev) => [...prev, { id: data.id, content: data.content, created_at: data.created_at, user_id: currentUserId }])
       }
     } else {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('group_messages')
         .insert({ user_id: currentUserId, content })
         .select()
         .single()
-      if (data) {
+      if (error) { setText(content); setSendError(true) }
+      else if (data) {
         setMessages((prev) => [...prev, { id: data.id, content: data.content, created_at: data.created_at, user_id: currentUserId }])
       }
     }
@@ -154,6 +158,9 @@ export default function ChatWindow({
         <div ref={bottomRef} />
       </div>
 
+      {sendError && (
+        <div className="text-[#EF4444] text-xs px-1 pb-1">Failed to send. Please try again.</div>
+      )}
       <form onSubmit={send} className="flex gap-2 border-t border-[#3C3A58]/30 pt-3">
         <input
           value={text}

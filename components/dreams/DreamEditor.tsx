@@ -51,17 +51,17 @@ export default function DreamEditor({ dream }: { dream: Dream }) {
 
       <div>
         <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Title *</label>
-        <input className={inputCls} value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input className={inputCls} value={title} onChange={(e) => setTitle(e.target.value)} maxLength={200} />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Description *</label>
-        <textarea className={`${inputCls} resize-none`} rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
+        <textarea className={`${inputCls} resize-none`} rows={3} maxLength={3000} value={description} onChange={(e) => setDescription(e.target.value)} />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Why it matters</label>
-        <textarea className={`${inputCls} resize-none`} rows={3} value={whyItMatters} onChange={(e) => setWhyItMatters(e.target.value)} />
+        <textarea className={`${inputCls} resize-none`} rows={3} maxLength={2000} value={whyItMatters} onChange={(e) => setWhyItMatters(e.target.value)} />
       </div>
 
       <div>
@@ -83,12 +83,12 @@ export default function DreamEditor({ dream }: { dream: Dream }) {
 
       <div>
         <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Current obstacle</label>
-        <textarea className={`${inputCls} resize-none`} rows={2} value={obstacle} onChange={(e) => setObstacle(e.target.value)} />
+        <textarea className={`${inputCls} resize-none`} rows={2} maxLength={1000} value={obstacle} onChange={(e) => setObstacle(e.target.value)} />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-[#8A88A8] mb-1.5">Next milestone</label>
-        <input className={inputCls} value={nextMilestone} onChange={(e) => setNextMilestone(e.target.value)} />
+        <input className={inputCls} maxLength={500} value={nextMilestone} onChange={(e) => setNextMilestone(e.target.value)} />
       </div>
 
       <div>

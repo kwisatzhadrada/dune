@@ -76,6 +76,14 @@ export default function ProfileEditor({ profile }: { profile: Profile }) {
     if (trimmedUsername.length > 30) { setMessage({ type: 'err', text: 'Username must be under 30 characters.' }); return }
     if (bio.trim().length > 500) { setMessage({ type: 'err', text: 'Bio must be under 500 characters.' }); return }
 
+    function isValidUrl(val: string) {
+      if (!val) return true
+      try { const u = new URL(val); return u.protocol === 'https:' } catch { return false }
+    }
+    if (!isValidUrl(linkedin.trim())) { setMessage({ type: 'err', text: 'LinkedIn URL must start with https://' }); return }
+    if (!isValidUrl(twitter.trim())) { setMessage({ type: 'err', text: 'Twitter URL must start with https://' }); return }
+    if (!isValidUrl(website.trim())) { setMessage({ type: 'err', text: 'Website URL must start with https://' }); return }
+
     setSaving(true)
 
     // Check username uniqueness (skip if unchanged)

@@ -11,6 +11,7 @@ function safeNext(raw: string | null): string {
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
+  const type = searchParams.get('type')
   const next = safeNext(searchParams.get('next'))
 
   if (code) {
@@ -18,6 +19,11 @@ export async function GET(request: Request) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!error && data.user) {
+      // Password recovery — always go to reset-password regardless of onboarding state
+      if (type === 'recovery' || next === '/reset-password') {
+        return NextResponse.redirect(`${origin}/reset-password`)
+      }
+
       const { data: profile } = await supabase
         .from('profiles')
         .select('onboarding_complete')

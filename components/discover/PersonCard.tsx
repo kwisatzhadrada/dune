@@ -25,10 +25,11 @@ export default function PersonCard({
 
   async function connect() {
     setStatus('pending')
-    await supabase.from('connections').upsert(
+    const { error } = await supabase.from('connections').upsert(
       { requester_id: currentUserId, addressee_id: person.id, status: 'pending' },
       { onConflict: 'requester_id,addressee_id' }
     )
+    if (error) setStatus(initialStatus)
   }
 
   return (
