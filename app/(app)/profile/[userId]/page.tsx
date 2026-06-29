@@ -8,27 +8,28 @@ import ConnectButton from '@/components/profile/ConnectButton'
 
 export const dynamic = 'force-dynamic'
 
-export default async function UserProfilePage({ params }: { params: { userId: string } }) {
+export default async function UserProfilePage({ params }: { params: Promise<{ userId: string }> }) {
+  const { userId } = await params
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  if (params.userId === user.id) redirect('/profile')
+  if (userId === user.id) redirect('/profile')
 
-  const { data: profile } = await supabase.from('profiles').select('*').eq('id', params.userId).single()
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', userId).single()
   if (!profile) redirect('/discover')
 
   const { data: posts } = await supabase
     .from('posts')
     .select('*, profiles(*)')
-    .eq('user_id', params.userId)
+    .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .limit(20)
 
   const { data: conn } = await supabase
     .from('connections')
     .select('status')
-    .or(`and(requester_id.eq.${user.id},addressee_id.eq.${params.userId}),and(requester_id.eq.${params.userId},addressee_id.eq.${user.id})`)
+    .or(`and(requester_id.eq.${user.id},addressee_id.eq.${userId}),and(requester_id.eq.${userId},addressee_id.eq.${user.id})`)
     .maybeSingle()
 
   const p = profile as Profile

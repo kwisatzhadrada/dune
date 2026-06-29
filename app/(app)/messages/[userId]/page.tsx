@@ -8,21 +8,22 @@ import { Profile } from '@/lib/types'
 
 export const dynamic = 'force-dynamic'
 
-export default async function DMPage({ params }: { params: { userId: string } }) {
+export default async function DMPage({ params }: { params: Promise<{ userId: string }> }) {
+  const { userId } = await params
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  if (params.userId === user.id) redirect('/messages')
+  if (userId === user.id) redirect('/messages')
 
-  const { data: other } = await supabase.from('profiles').select('*').eq('id', params.userId).single()
+  const { data: other } = await supabase.from('profiles').select('*').eq('id', userId).single()
   if (!other) redirect('/messages')
 
   const { data: messages } = await supabase
     .from('messages')
     .select('*')
     .or(
-      `and(sender_id.eq.${user.id},receiver_id.eq.${params.userId}),and(sender_id.eq.${params.userId},receiver_id.eq.${user.id})`
+      `and(sender_id.eq.${user.id},receiver_id.eq.${userId}),and(sender_id.eq.${userId},receiver_id.eq.${user.id})`
     )
     .order('created_at', { ascending: true })
     .limit(500)
