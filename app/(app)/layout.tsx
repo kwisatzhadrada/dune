@@ -9,8 +9,10 @@ import PullToRefresh from '@/components/pwa/PullToRefresh'
 import { Profile } from '@/lib/types'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
+  console.log('>>> [AppLayout] ENTRY')
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  console.log('>>> [AppLayout] user:', user?.id ?? 'null')
   if (!user) redirect('/login')
 
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()

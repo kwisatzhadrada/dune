@@ -10,9 +10,13 @@ import DreamPostList from '@/components/dreams/DreamPostList'
 export const dynamic = 'force-dynamic'
 
 export default async function DreamPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+  const resolvedParams = await params
+  console.log('>>> [DreamPage] ENTRY params raw:', JSON.stringify(resolvedParams))
+  const id = resolvedParams?.id
+  console.log('>>> [DreamPage] id:', id)
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user }, error: userError } = await supabase.auth.getUser()
+  console.log('>>> [DreamPage] user:', user?.id, 'userError:', userError?.message)
   if (!user) redirect('/login')
 
   const [{ data: dream }, { data: milestones }, { data: dreamPosts }, { data: collaborators }, { data: following }, { data: likedIds }, { data: savedIds }] = await Promise.all([
