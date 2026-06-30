@@ -14,7 +14,7 @@ export default async function DreamsPage() {
 
   const { data: dreams } = await supabase
     .from('dreams')
-    .select('*, profiles(*)')
+    .select('*, profiles!dreams_user_id_fkey(*)')
     .eq('status', 'active')
     .order('followers_count', { ascending: false })
     .limit(50)

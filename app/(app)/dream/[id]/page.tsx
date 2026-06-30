@@ -20,7 +20,7 @@ export default async function DreamPage({ params }: { params: Promise<{ id: stri
   if (!user) redirect('/login')
 
   const [{ data: dream, error: dreamError }, { data: milestones }, { data: dreamPosts }, { data: collaborators }, { data: following }, { data: likedIds }, { data: savedIds }] = await Promise.all([
-    supabase.from('dreams').select('*, profiles(*)').eq('id', id).maybeSingle(),
+    supabase.from('dreams').select('*, profiles!dreams_user_id_fkey(*)').eq('id', id).maybeSingle(),
     supabase.from('dream_milestones').select('*').eq('dream_id', id).order('created_at', { ascending: true }),
     supabase.from('posts').select('*, profiles(*), dreams(*)').eq('dream_id', id).order('created_at', { ascending: false }).limit(20),
     supabase.from('dream_collaborators').select('*, profiles(*)').eq('dream_id', id),
