@@ -49,6 +49,11 @@ ON CONFLICT (id) DO NOTHING;
 
 -- 4. RLS on post-media
 
+DROP POLICY IF EXISTS "post_media_read"   ON storage.objects;
+DROP POLICY IF EXISTS "post_media_insert" ON storage.objects;
+DROP POLICY IF EXISTS "post_media_update" ON storage.objects;
+DROP POLICY IF EXISTS "post_media_delete" ON storage.objects;
+
 CREATE POLICY "post_media_read"
   ON storage.objects FOR SELECT
   USING (bucket_id = 'post-media');
@@ -76,6 +81,11 @@ CREATE POLICY "post_media_delete"
   );
 
 -- 5. RLS on post-videos
+
+DROP POLICY IF EXISTS "post_videos_read"   ON storage.objects;
+DROP POLICY IF EXISTS "post_videos_insert" ON storage.objects;
+DROP POLICY IF EXISTS "post_videos_update" ON storage.objects;
+DROP POLICY IF EXISTS "post_videos_delete" ON storage.objects;
 
 CREATE POLICY "post_videos_read"
   ON storage.objects FOR SELECT
