@@ -13,7 +13,7 @@ const MAX_REPLY_LENGTH = 1000
 
 // ── Avatar ─────────────────────────────────────────────────────────────────
 
-function Avatar({ url, name, size = 44 }: { url?: string | null; name?: string | null; size?: number }) {
+function Avatar({ url, name, size = 44, eager }: { url?: string | null; name?: string | null; size?: number; eager?: boolean }) {
   const [errored, setErrored] = useState(false)
   const cls = `rounded-full object-cover shrink-0`
   const style = { width: size, height: size }
@@ -24,6 +24,8 @@ function Avatar({ url, name, size = 44 }: { url?: string | null; name?: string |
         alt=""
         width={size}
         height={size}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
         className={cls}
         style={style}
         onError={() => setErrored(true)}
@@ -147,7 +149,7 @@ function ImageGrid({ urls }: { urls: string[] }) {
               onClick={() => open(i)}
               className={`relative aspect-square overflow-hidden bg-[#121428] ${spanClass} ${urls.length === 3 && i === 0 ? 'aspect-auto' : ''}`}
             >
-              <img src={url} alt="" className="w-full h-full object-cover" />
+              <img src={url} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
               {isLast && (
                 <div className="absolute inset-0 bg-black/60 flex items-center justify-center text-white text-2xl font-bold">
                   +{overflow + 1}
@@ -482,10 +484,12 @@ export default function PostCard({
     </div>
   ) : null
 
+  const cardStyle: React.CSSProperties = { contentVisibility: 'auto', containIntrinsicSize: '0 200px' }
+
   // ── Dream Update card ────────────────────────────────────────────────────
   if (isDreamUpdate) {
     return (
-      <article className="bg-gradient-to-br from-[#0C0D22] to-[#130F2A] border border-violet-500/20 rounded-2xl p-5">
+      <article style={cardStyle} className="bg-gradient-to-br from-[#0C0D22] to-[#130F2A] border border-violet-500/20 rounded-2xl p-4 sm:p-5">
         <Header />
         <div className="mt-3 flex items-start gap-3">
           {post.dreams && (
@@ -511,7 +515,7 @@ export default function PostCard({
   // ── Milestone card ───────────────────────────────────────────────────────
   if (isMilestone) {
     return (
-      <article className="bg-gradient-to-br from-[#0C0D22] to-[#1A1500] border border-yellow-500/20 rounded-2xl p-5">
+      <article style={cardStyle} className="bg-gradient-to-br from-[#0C0D22] to-[#1A1500] border border-yellow-500/20 rounded-2xl p-4 sm:p-5">
         <Header />
         <div className="mt-3 flex items-start gap-3">
           <span className="text-4xl shrink-0">🎯</span>
@@ -531,8 +535,8 @@ export default function PostCard({
   // ── Media card (images / video) ───────────────────────────────────────────
   if (isMedia) {
     return (
-      <article className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl overflow-hidden">
-        <div className="p-5 pb-3">
+      <article style={cardStyle} className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl overflow-hidden">
+        <div className="p-4 sm:p-5 pb-3">
           <Header />
           {post.content && <p className="mt-3 text-[#EDEAF8] whitespace-pre-wrap leading-relaxed">{post.content}</p>}
         </div>
@@ -568,7 +572,7 @@ export default function PostCard({
   if (isEmbed) {
     const safeUrl = sanitizeEmbedUrl(post.embed_url!, post.embed_type!)
     return (
-      <article className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl p-5">
+      <article style={cardStyle} className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl p-4 sm:p-5">
         <Header />
         {post.content && <p className="mt-3 text-[#EDEAF8] whitespace-pre-wrap leading-relaxed">{post.content}</p>}
         {safeUrl && (
@@ -593,7 +597,7 @@ export default function PostCard({
 
   // ── Text card (default) ──────────────────────────────────────────────────
   return (
-    <article className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl p-5">
+    <article style={cardStyle} className="bg-[#0C0D22] border border-[#3C3A58]/30 rounded-2xl p-4 sm:p-5">
       <Header />
       <p className="mt-3 text-[#EDEAF8] whitespace-pre-wrap leading-relaxed">{post.content}</p>
       <DreamChip />

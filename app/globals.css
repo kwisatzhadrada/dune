@@ -28,13 +28,26 @@
 
 html {
   color-scheme: dark;
-  scroll-behavior: smooth;
+  /* No scroll-behavior: smooth — it delays programmatic navigation on mobile */
 }
 
 body {
   background-color: var(--bg);
   color: var(--t1);
   font-family: var(--font-inter), 'Inter', sans-serif;
+  /* Prevent rubber-band flash on iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Eliminate 300ms tap delay on all interactive elements */
+a, button, [role="button"], input, select, textarea, label {
+  touch-action: manipulation;
+}
+
+/* Faster interactive feedback — default Tailwind transition is 150ms,
+   which is fine, but we want tap response to feel instant */
+button {
+  -webkit-tap-highlight-color: transparent;
 }
 
 ::-webkit-scrollbar {
@@ -60,14 +73,20 @@ body {
   outline-offset: 2px;
 }
 
-/* PWA — page transitions */
+/* PWA — page transitions: only animate the direct page wrapper, not every card */
 @keyframes page-in {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-main > * {
-  animation: page-in 0.2s ease forwards;
+main > div {
+  animation: page-in 0.15s ease forwards;
+}
+
+/* GPU-composite the fixed chrome so scrolling doesn't repaint it */
+nav[data-fixed], .bottom-nav-fixed {
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 /* PWA — tap highlight */
@@ -84,6 +103,15 @@ nav {
 /* PWA — overscroll */
 html, body {
   overscroll-behavior: none;
+}
+
+/* Hide scrollbar while preserving scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Toast animation */

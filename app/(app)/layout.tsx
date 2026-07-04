@@ -27,9 +27,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-screen bg-[#08081C]">
       <Sidebar profile={profile as Profile} unreadCount={unreadCount || 0} />
-      <main className="lg:pl-64 lg:pb-0" style={{ paddingBottom: 'calc(4rem + env(safe-area-inset-bottom))' }}>
+      <main className="lg:pl-64 lg:pb-0" style={{ paddingBottom: 'calc(3.5rem + env(safe-area-inset-bottom))' }}>
         <PullToRefresh>
-          <div className="max-w-3xl mx-auto px-4 py-6">{children}</div>
+          <div className="max-w-3xl mx-auto px-3 sm:px-4 pt-4 pb-4">{children}</div>
         </PullToRefresh>
       </main>
       <BottomNav unreadCount={unreadCount || 0} isAdmin={!!profile.is_admin} />
