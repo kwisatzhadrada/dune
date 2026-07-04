@@ -30,7 +30,11 @@ export default function PostCard({
   const [replyText, setReplyText] = useState('')
   const [loadingReplies, setLoadingReplies] = useState(false)
   const [submittingReply, setSubmittingReply] = useState(false)
+  const [replyError, setReplyError] = useState(false)
   const [connectSent, setConnectSent] = useState(false)
+  const [connectLoading, setConnectLoading] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const likingRef = useRef(false)
   const savingRef = useRef(false)
 
@@ -90,11 +94,17 @@ export default function PostCard({
     if (!content || submittingReply) return
     if (content.length > MAX_REPLY_LENGTH) return
     setSubmittingReply(true)
-    const { data } = await supabase
+    setReplyError(false)
+    const { data, error } = await supabase
       .from('post_replies')
       .insert({ post_id: post.id, user_id: currentUserId, content })
       .select('*, profiles(*)')
       .single()
+    if (error) {
+      setReplyError(true)
+      setSubmittingReply(false)
+      return
+    }
     if (data) {
       setReplies((prev) => [...prev, data as PostReply])
       setRepliesCount((n) => n + 1)
@@ -104,20 +114,30 @@ export default function PostCard({
   }
 
   async function connect() {
-    if (!author || author.id === currentUserId) return
-    setConnectSent(true)
+    if (!author || author.id === currentUserId || connectLoading) return
+    setConnectLoading(true)
     const { error } = await supabase.from('connections').upsert(
       { requester_id: currentUserId, addressee_id: author.id, status: 'pending' },
       { onConflict: 'requester_id,addressee_id' }
     )
-    if (error) setConnectSent(false)
-    else trackEvent('collaboration_request_sent')
+    if (error) {
+      setConnectLoading(false)
+    } else {
+      setConnectSent(true)
+      setConnectLoading(false)
+      trackEvent('collaboration_request_sent')
+    }
   }
 
   async function del() {
-    if (!confirm('Delete this post?')) return
-    await supabase.from('posts').delete().eq('id', post.id)
-    onDeleted?.(post.id)
+    setDeleting(true)
+    const { error } = await supabase.from('posts').delete().eq('id', post.id)
+    if (error) {
+      setDeleting(false)
+      setConfirmDelete(false)
+    } else {
+      onDeleted?.(post.id)
+    }
   }
 
   return (
@@ -153,8 +173,34 @@ export default function PostCard({
             )}
           </div>
         </div>
+
         {post.user_id === currentUserId && (
-          <button onClick={del} className="text-[#8A88A8] hover:text-[#EF4444] text-sm">Delete</button>
+          <div className="shrink-0">
+            {confirmDelete ? (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setConfirmDelete(false)}
+                  className="text-xs text-[#8A88A8] hover:text-[#EDEAF8] px-2 py-1 rounded-lg hover:bg-[#121428] transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={del}
+                  disabled={deleting}
+                  className="text-xs text-[#EF4444] hover:text-white bg-[#EF4444]/10 hover:bg-[#EF4444] px-2 py-1 rounded-lg transition-colors disabled:opacity-50"
+                >
+                  {deleting ? 'Deleting…' : 'Delete'}
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setConfirmDelete(true)}
+                className="text-[#8A88A8] hover:text-[#EF4444] text-sm transition-colors px-1"
+              >
+                ···
+              </button>
+            )}
+          </div>
         )}
       </div>
 
@@ -183,22 +229,31 @@ export default function PostCard({
       )}
 
       <div className="mt-4 flex items-center gap-5 text-sm">
-        <button onClick={toggleLike} className={`flex items-center gap-1.5 transition-colors ${liked ? 'text-[#EF4444]' : 'text-[#8A88A8] hover:text-[#EF4444]'}`}>
+        <button
+          onClick={toggleLike}
+          className={`flex items-center gap-1.5 transition-colors active:scale-90 ${liked ? 'text-[#EF4444]' : 'text-[#8A88A8] hover:text-[#EF4444]'}`}
+        >
           <span>{liked ? '❤️' : '🤍'}</span> {likes}
         </button>
-        <button onClick={loadReplies} className="flex items-center gap-1.5 text-[#8A88A8] hover:text-[#3B82F6] transition-colors">
+        <button
+          onClick={loadReplies}
+          className="flex items-center gap-1.5 text-[#8A88A8] hover:text-[#3B82F6] transition-colors active:scale-90"
+        >
           <span>💬</span> {repliesCount}
         </button>
-        <button onClick={toggleSave} className={`flex items-center gap-1.5 transition-colors ${saved ? 'text-[#F59E0B]' : 'text-[#8A88A8] hover:text-[#F59E0B]'}`}>
+        <button
+          onClick={toggleSave}
+          className={`flex items-center gap-1.5 transition-colors active:scale-90 ${saved ? 'text-[#F59E0B]' : 'text-[#8A88A8] hover:text-[#F59E0B]'}`}
+        >
           <span>{saved ? '🔖' : '📑'}</span> {saves}
         </button>
         {author && author.id !== currentUserId && (
           <button
             onClick={connect}
-            disabled={connectSent}
-            className="ml-auto text-[#8B5CF6] hover:text-[#6D28D9] font-medium disabled:opacity-50"
+            disabled={connectSent || connectLoading}
+            className="ml-auto text-[#8B5CF6] hover:text-[#6D28D9] font-medium disabled:opacity-50 transition-colors"
           >
-            {connectSent ? 'Requested' : '+ Connect'}
+            {connectLoading ? 'Sending…' : connectSent ? 'Requested ✓' : '+ Connect'}
           </button>
         )}
       </div>
@@ -206,14 +261,18 @@ export default function PostCard({
       {showReplies && (
         <div className="mt-4 border-t border-[#3C3A58]/30 pt-4 space-y-3">
           {loadingReplies ? (
-            <div className="text-[#8A88A8] text-sm">Loading replies...</div>
+            <div className="flex gap-2">
+              {[1, 2].map((i) => (
+                <div key={i} className="h-10 bg-[#121428] rounded-xl animate-pulse flex-1" />
+              ))}
+            </div>
           ) : (
             replies.map((r) => (
               <div key={r.id} className="flex items-start gap-2">
                 {r.profiles?.avatar_url ? (
-                  <Image src={r.profiles.avatar_url} alt="" width={28} height={28} className="rounded-full object-cover w-7 h-7" />
+                  <Image src={r.profiles.avatar_url} alt="" width={28} height={28} className="rounded-full object-cover w-7 h-7 shrink-0" />
                 ) : (
-                  <div className="w-7 h-7 rounded-full bg-[#6D28D9] flex items-center justify-center text-xs font-semibold text-white">
+                  <div className="w-7 h-7 rounded-full bg-[#6D28D9] flex items-center justify-center text-xs font-semibold text-white shrink-0">
                     {getInitials(r.profiles?.full_name || null)}
                   </div>
                 )}
@@ -226,16 +285,23 @@ export default function PostCard({
               </div>
             ))
           )}
-          <form onSubmit={submitReply} className="flex gap-2">
+          {replyError && (
+            <p className="text-xs text-[#EF4444]">Failed to send reply. Please try again.</p>
+          )}
+          <form onSubmit={submitReply} className="flex gap-2 mt-2">
             <input
               value={replyText}
-              onChange={(e) => setReplyText(e.target.value)}
-              placeholder="Write a reply..."
+              onChange={(e) => { setReplyText(e.target.value); setReplyError(false) }}
+              placeholder="Write a reply…"
               maxLength={MAX_REPLY_LENGTH}
-              className="flex-1 bg-[#121428] border border-[#3C3A58] focus:border-[#6D28D9] rounded-xl px-3 py-2 text-sm outline-none"
+              className="flex-1 bg-[#121428] border border-[#3C3A58] focus:border-[#6D28D9] rounded-xl px-3 py-2 text-sm outline-none transition-colors"
             />
-            <button type="submit" disabled={submittingReply || !replyText.trim()} className="bg-[#6D28D9] hover:bg-[#8B5CF6] disabled:opacity-50 text-white px-4 rounded-xl text-sm font-medium">
-              {submittingReply ? '...' : 'Reply'}
+            <button
+              type="submit"
+              disabled={submittingReply || !replyText.trim()}
+              className="bg-[#6D28D9] hover:bg-[#8B5CF6] disabled:opacity-50 text-white px-4 rounded-xl text-sm font-medium transition-colors"
+            >
+              {submittingReply ? '…' : 'Reply'}
             </button>
           </form>
         </div>

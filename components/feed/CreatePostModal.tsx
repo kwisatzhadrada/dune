@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Post, Dream } from '@/lib/types'
 import { POST_TYPES, INDUSTRIES } from '@/lib/utils'
@@ -17,6 +17,13 @@ export default function CreatePostModal({
   onCreated: (post: Post) => void
 }) {
   const supabase = createClient()
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [onClose])
+
   const [postType, setPostType] = useState<Post['post_type']>('win')
   const [content, setContent] = useState('')
   const [industry, setIndustry] = useState('')
@@ -110,12 +117,13 @@ export default function CreatePostModal({
 
         <div className="mb-4 relative">
           <textarea
+            autoFocus
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={5}
             maxLength={2000}
-            placeholder="What's on your mind? Share a win, an obstacle, a lesson..."
-            className="w-full bg-[#121428] border border-[#3C3A58] focus:border-[#6D28D9] rounded-xl px-4 py-3 outline-none resize-none"
+            placeholder="What's on your mind? Share a win, an obstacle, a lesson…"
+            className="w-full bg-[#121428] border border-[#3C3A58] focus:border-[#6D28D9] rounded-xl px-4 py-3 outline-none resize-none transition-colors"
           />
           <span className={`absolute bottom-2 right-3 text-[11px] ${content.length > 1800 ? 'text-[#EF4444]' : 'text-[#3C3A58]'}`}>
             {content.length}/2000

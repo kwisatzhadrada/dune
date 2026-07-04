@@ -44,8 +44,13 @@ export default function Sidebar({ profile, unreadCount }: { profile: Profile; un
 
       <nav className="flex-1 px-3 space-y-1">
         {links.map((link) => {
-          const active = pathname === link.href || (link.href !== '/messages' && pathname.startsWith(link.href) && link.href !== '/feed') || (link.href === '/feed' && pathname === '/feed')
-          const isActive = pathname === link.href || (link.href === '/messages' && pathname.startsWith('/messages') && !pathname.startsWith('/messages/group')) || (link.href === '/profile' && pathname.startsWith('/profile')) || active
+          const isActive =
+            pathname === link.href ||
+            (link.href === '/messages' && pathname.startsWith('/messages') && !pathname.startsWith('/messages/group')) ||
+            (link.href === '/profile' && pathname.startsWith('/profile')) ||
+            (link.href === '/dreams' && pathname.startsWith('/dreams')) ||
+            (link.href === '/dream' && pathname.startsWith('/dream')) ||
+            (link.href !== '/feed' && link.href !== '/messages' && link.href !== '/profile' && link.href !== '/dreams' && pathname.startsWith(link.href))
           return (
             <Link
               key={link.href}

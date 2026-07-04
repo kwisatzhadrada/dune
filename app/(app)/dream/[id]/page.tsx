@@ -10,16 +10,12 @@ import DreamPostList from '@/components/dreams/DreamPostList'
 export const dynamic = 'force-dynamic'
 
 export default async function DreamPage({ params }: { params: Promise<{ id: string }> }) {
-  const resolvedParams = await params
-  console.log('>>> [DreamPage] ENTRY params raw:', JSON.stringify(resolvedParams))
-  const id = resolvedParams?.id
-  console.log('>>> [DreamPage] id:', id)
+  const { id } = await params
   const supabase = await createClient()
-  const { data: { user }, error: userError } = await supabase.auth.getUser()
-  console.log('>>> [DreamPage] user:', user?.id, 'userError:', userError?.message)
+  const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: dream, error: dreamError }, { data: milestones }, { data: dreamPosts }, { data: collaborators }, { data: following }, { data: likedIds }, { data: savedIds }] = await Promise.all([
+  const [{ data: dream }, { data: milestones }, { data: dreamPosts }, { data: collaborators }, { data: following }, { data: likedIds }, { data: savedIds }] = await Promise.all([
     supabase.from('dreams').select('*, profiles!dreams_user_id_fkey(*)').eq('id', id).maybeSingle(),
     supabase.from('dream_milestones').select('*').eq('dream_id', id).order('created_at', { ascending: true }),
     supabase.from('posts').select('*, profiles(*), dreams(*)').eq('dream_id', id).order('created_at', { ascending: false }).limit(20),
@@ -29,7 +25,6 @@ export default async function DreamPage({ params }: { params: Promise<{ id: stri
     supabase.from('post_saves').select('post_id').eq('user_id', user.id),
   ])
 
-  console.log('>>> [DreamPage] dream:', dream?.id ?? 'null', 'dreamError:', dreamError?.code, dreamError?.message)
   if (!dream) notFound()
 
   const likedSet = new Set((likedIds || []).map((l) => l.post_id))

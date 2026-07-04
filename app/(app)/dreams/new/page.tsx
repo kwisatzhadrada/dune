@@ -32,7 +32,6 @@ export default function NewDreamPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { router.push('/login'); return }
 
-    console.log('[NewDream] Creating dream for user:', user.id)
     const { data, error } = await supabase
       .from('dreams')
       .insert({
@@ -48,19 +47,14 @@ export default function NewDreamPage() {
       .select()
       .single()
 
-    console.log('[NewDream] Insert result — data:', data, '| error:', error)
     if (error) {
-      console.error('[NewDream] Insert failed:', error.code, error.message, error.details, error.hint)
       setError(error.message)
       setSaving(false)
       return
     }
-    console.log('[NewDream] Created dream ID:', data?.id)
-    const redirectPath = `/dream/${data.id}`
-    console.log('[NewDream] Redirecting to:', redirectPath)
     trackEvent('dream_created', { stage })
     setSaving(false)
-    router.push(redirectPath)
+    router.push(`/dream/${data.id}`)
   }
 
   return (
