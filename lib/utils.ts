@@ -141,25 +141,31 @@ export function getMatchReasons(currentUser: Profile, otherUser: Profile, myDrea
 
 export function getPostTypeColor(postType: string): string {
   switch (postType) {
-    case 'win': return 'text-green-400 bg-green-400/10 border-green-400/20'
-    case 'obstacle': return 'text-orange-400 bg-orange-400/10 border-orange-400/20'
-    case 'lesson': return 'text-purple-400 bg-purple-400/10 border-purple-400/20'
-    case 'question': return 'text-blue-400 bg-blue-400/10 border-blue-400/20'
-    case 'milestone': return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20'
-    case 'reflection': return 'text-pink-400 bg-pink-400/10 border-pink-400/20'
-    default: return 'text-gray-400 bg-gray-400/10 border-gray-400/20'
+    case 'win':          return 'text-green-400 bg-green-400/10 border-green-400/20'
+    case 'obstacle':     return 'text-orange-400 bg-orange-400/10 border-orange-400/20'
+    case 'lesson':       return 'text-purple-400 bg-purple-400/10 border-purple-400/20'
+    case 'question':     return 'text-blue-400 bg-blue-400/10 border-blue-400/20'
+    case 'milestone':    return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20'
+    case 'reflection':   return 'text-pink-400 bg-pink-400/10 border-pink-400/20'
+    case 'dream_update': return 'text-violet-400 bg-violet-400/10 border-violet-400/20'
+    case 'build_log':    return 'text-cyan-400 bg-cyan-400/10 border-cyan-400/20'
+    case 'intro':        return 'text-indigo-400 bg-indigo-400/10 border-indigo-400/20'
+    default:             return 'text-gray-400 bg-gray-400/10 border-gray-400/20'
   }
 }
 
 export function getPostTypeLabel(postType: string): string {
   switch (postType) {
-    case 'win': return '🏆 Win'
-    case 'obstacle': return '🧱 Obstacle'
-    case 'lesson': return '💡 Lesson'
-    case 'question': return '❓ Question'
-    case 'milestone': return '🎯 Milestone'
-    case 'reflection': return '🔮 Reflection'
-    default: return postType
+    case 'win':          return '🏆 Win'
+    case 'obstacle':     return '🧱 Obstacle'
+    case 'lesson':       return '💡 Lesson'
+    case 'question':     return '❓ Question'
+    case 'milestone':    return '🎯 Milestone'
+    case 'reflection':   return '🔮 Reflection'
+    case 'dream_update': return '✨ Dream Update'
+    case 'build_log':    return '🔨 Build Log'
+    case 'intro':        return '👋 Intro'
+    default:             return postType
   }
 }
 
@@ -168,11 +174,17 @@ export const INDUSTRIES = [
   'Consumer', 'Developer Tools', 'Web3', 'Education', 'Climate', 'Other',
 ]
 
-export const POST_TYPES: { value: Post['post_type']; label: string }[] = [
+// Text-only post types (no media upload zone)
+export const TEXT_POST_TYPES: { value: Post['post_type']; label: string }[] = [
   { value: 'win', label: '🏆 Win' },
   { value: 'obstacle', label: '🧱 Obstacle' },
   { value: 'lesson', label: '💡 Lesson' },
   { value: 'question', label: '❓ Question' },
   { value: 'milestone', label: '🎯 Milestone' },
   { value: 'reflection', label: '🔮 Reflection' },
+  { value: 'build_log', label: '🔨 Build Log' },
+  { value: 'intro', label: '👋 Intro' },
 ]
+
+// Legacy export kept for any existing code that references POST_TYPES
+export const POST_TYPES = TEXT_POST_TYPES

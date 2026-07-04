@@ -56,23 +56,38 @@ export type DreamCollaborator = {
   profiles?: Profile
 }
 
+export type PostType =
+  | 'question' | 'win' | 'obstacle' | 'lesson' | 'milestone' | 'reflection'
+  | 'dream_update' | 'build_log' | 'intro'
+
+export type EmbedType = 'youtube' | 'tiktok' | 'x'
+
 export type Post = {
   id: string
   user_id: string
   dream_id: string | null
   content: string
-  post_type: 'question' | 'win' | 'obstacle' | 'lesson' | 'milestone' | 'reflection'
+  post_type: PostType
   industry: string | null
   tags: string[]
   likes_count: number
   replies_count: number
   saves_count: number
+  shares_count: number
+  // Media (added in migration 005/006 — default to safe values if not yet migrated)
+  image_urls: string[]
+  video_url: string | null
+  thumbnail_url: string | null
+  embed_url: string | null
+  embed_type: EmbedType | null
   created_at: string
   updated_at: string
   profiles?: Profile
   dreams?: Dream | null
   user_has_liked?: boolean
   user_has_saved?: boolean
+  // Client-only scoring field for For You tab
+  feed_score?: number
 }
 
 export type Message = {

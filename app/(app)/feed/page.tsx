@@ -10,7 +10,7 @@ export default async function FeedPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: rawPosts }, { data: likedIds }, { data: savedIds }, { data: myDreams }] = await Promise.all([
+  const [{ data: rawPosts }, { data: likedIds }, { data: savedIds }, { data: myDreams }, { data: acceptedConnections }] = await Promise.all([
     supabase
       .from('posts')
       .select('*, profiles(*), dreams(*)')
@@ -30,7 +30,16 @@ export default async function FeedPage() {
       .eq('user_id', user.id)
       .eq('status', 'active')
       .order('created_at', { ascending: false }),
+    supabase
+      .from('connections')
+      .select('requester_id, addressee_id')
+      .eq('status', 'accepted')
+      .or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`),
   ])
+
+  const followingIds = (acceptedConnections || []).map((c) =>
+    c.requester_id === user.id ? c.addressee_id : c.requester_id
+  )
 
   const likedSet = new Set((likedIds || []).map((l) => l.post_id))
   const savedSet = new Set((savedIds || []).map((s) => s.post_id))
@@ -45,6 +54,7 @@ export default async function FeedPage() {
       initialPosts={posts}
       currentUserId={user.id}
       myDreams={(myDreams as Dream[]) || []}
+      followingIds={followingIds}
     />
   )
 }
