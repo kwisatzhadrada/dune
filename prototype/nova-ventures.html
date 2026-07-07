@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Nova Ventures — A Digital Awakening</title>
+<meta name="description" content="Nova Ventures builds companies from the ground up. Scroll to enter — the void assembles itself into worlds.">
+<meta name="theme-color" content="#04040A">
+<meta property="og:title" content="Nova Ventures — A Digital Awakening">
+<meta property="og:description" content="We don't fund companies. We build them. Scroll to enter the world of Nova Ventures.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><radialGradient id='o' cx='34%25' cy='30%25' r='70%25'><stop offset='0%25' stop-color='%234DE3FF'/><stop offset='55%25' stop-color='%237B5CFF'/><stop offset='100%25' stop-color='%23FF3DA5'/></radialGradient></defs><circle cx='16' cy='16' r='16' fill='%2304040A'/><circle cx='16' cy='16' r='9' fill='url(%23o)'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   AETHER — colors & type
+   Design tokens for Nova Ventures: a studio that builds companies,
+   not slide decks. The world is dark by default.
+   ============================================================ */
+:root {
+  /* Void — deep backgrounds */
+  --void-1000: #06060A;
+  --void-900:  #0B0B12;
+  --void-800:  #11111B;
+  --void-700:  #181826;
+  --void-600:  #222234;
+  --void-500:  #2F2F46;
+  --void-400:  #41415C;
+
+  /* Mist — foreground neutrals */
+  --mist-100:  #F4F2EE;
+  --mist-200:  #D9D6CF;
+  --mist-300:  #A6A2B0;
+  --mist-400:  #75728A;
+  --mist-500:  #4D4B62;
+
+  /* Plasma — the brand's signature iridescent triad */
+  --plasma-violet: #7B5CFF;
+  --plasma-violet-deep: #4B2EE5;
+  --plasma-magenta: #FF3DA5;
+  --plasma-magenta-deep: #D9156C;
+  --plasma-cyan: #4DE3FF;
+  --plasma-cyan-deep: #15A5C9;
+
+  --ember-amber: #FFB454;
+
+  --success: #4DE3A5;
+  --warning: #FFB454;
+  --danger:  #FF5C7A;
+  --info:    var(--plasma-cyan);
+
+  --bg:        var(--void-1000);
+  --surface:   var(--void-900);
+  --surface-raised: var(--void-800);
+  --surface-card:   var(--void-700);
+  --surface-hover:  var(--void-600);
+  --border:    rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --fg-1:      var(--mist-100);
+  --fg-2:      var(--mist-200);
+  --fg-3:      var(--mist-300);
+  --fg-muted:  var(--mist-400);
+
+  --grad-plasma:
+    linear-gradient(135deg, var(--plasma-violet) 0%, var(--plasma-magenta) 55%, var(--plasma-cyan) 100%);
+  --grad-plasma-radial:
+    radial-gradient(circle at 30% 30%, var(--plasma-cyan) 0%, var(--plasma-violet) 45%, var(--plasma-magenta) 90%);
+  --grad-aurora:
+    linear-gradient(180deg, rgba(123,92,255,0.0) 0%, rgba(123,92,255,0.18) 50%, rgba(255,61,165,0.10) 100%);
+  --grad-veil:
+    linear-gradient(180deg, rgba(6,6,10,0) 0%, rgba(6,6,10,0.8) 100%);
+
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-sans:    "Space Grotesk", "Helvetica Neue", sans-serif;
+  --font-mono:    "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+
+  --w-light: 300;
+  --w-regular: 400;
+  --w-medium: 500;
+  --w-semi: 600;
+  --w-bold: 700;
+
+  --t-hero:     clamp(64px, 11vw, 200px);
+  --t-display:  clamp(48px, 7vw, 112px);
+  --t-h1:       clamp(40px, 5vw, 72px);
+  --t-h2:       clamp(32px, 3.6vw, 52px);
+  --t-h3:       clamp(24px, 2.4vw, 36px);
+  --t-h4:       20px;
+  --t-body-lg:  18px;
+  --t-body:     16px;
+  --t-body-sm:  14px;
+  --t-eyebrow:  12px;
+  --t-mono:     13px;
+
+  --track-tight:  -0.02em;
+  --track-snug:   -0.01em;
+  --track-normal: 0;
+  --track-wide:   0.06em;
+  --track-eyebrow: 0.18em;
+
+  --lh-tight: 0.95;
+  --lh-snug:  1.1;
+  --lh-prose: 1.55;
+  --lh-loose: 1.7;
+
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
+  --s-11: 192px; --s-12: 256px;
+
+  --r-1: 4px; --r-2: 8px; --r-3: 12px; --r-4: 18px; --r-pill: 999px;
+
+  --shadow-card:
+    0 1px 0 rgba(255,255,255,0.04) inset,
+    0 12px 40px -12px rgba(0, 0, 0, 0.6);
+  --shadow-raised:
+    0 1px 0 rgba(255,255,255,0.06) inset,
+    0 24px 60px -16px rgba(0, 0, 0, 0.7);
+  --glow-violet: 0 0 40px -8px rgba(123, 92, 255, 0.55);
+  --glow-magenta: 0 0 40px -8px rgba(255, 61, 165, 0.55);
+  --glow-cyan:   0 0 40px -8px rgba(77, 227, 255, 0.55);
+
+  --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --dur-fast:   200ms;
+  --dur-base:   420ms;
+  --dur-slow:   720ms;
+  --dur-scene: 1200ms;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: var(--lh-prose);
+  letter-spacing: var(--track-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 { color: var(--fg-1); margin: 0; }
+h1 { font-family: var(--font-display); font-size: var(--t-h1); font-weight: var(--w-regular); line-height: var(--lh-tight); letter-spacing: var(--track-tight); }
+h2 { font-family: var(--font-display); font-size: var(--t-h2); font-weight: var(--w-regular); line-height: var(--lh-snug); letter-spacing: var(--track-tight); }
+h3 { font-family: var(--font-sans);    font-size: var(--t-h3); font-weight: var(--w-medium);  line-height: var(--lh-snug); letter-spacing: var(--track-snug); }
+h4 { font-family: var(--font-sans);    font-size: var(--t-h4); font-weight: var(--w-medium);  line-height: 1.3; }
+
+p { color: var(--fg-2); margin: 0 0 1em; max-width: 64ch; }
+small, .caption { color: var(--fg-3); font-size: var(--t-body-sm); }
+
+code, pre, kbd { font-family: var(--font-mono); font-size: var(--t-mono); color: var(--fg-2); }
+pre { background: var(--surface-raised); padding: var(--s-5); border: 1px solid var(--border); border-radius: var(--r-3); overflow-x: auto; }
+
+a {
+  color: var(--fg-1);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-strong);
+  transition: border-color var(--dur-fast) var(--ease-out-quart),
+              color var(--dur-fast) var(--ease-out-quart);
+}
+a:hover { border-bottom-color: var(--plasma-magenta); }
+
+::selection { background: var(--plasma-violet); color: var(--mist-100); }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--t-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-tight);
+  color: var(--fg-1);
+}
+
+.plasma-text {
+  background: var(--grad-plasma);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+</style>
+<style>
+/* ============================================================
+   NOVA VENTURES — A DIGITAL AWAKENING
+   style.css — the void, cinematic captions, loader, chrome.
+   Built on AETHER tokens. Plasma is light, never pigment.
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: auto; }
+body {
+  background: #04040A;
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+}
+::selection { background: var(--plasma-cyan); color: #04040A; }
+
+/* ───────────────── WEBGL CANVAS ───────────────── */
+#gl-wrap { position: fixed; inset: 0; z-index: 0; }
+#gl { display: block; width: 100% !important; height: 100% !important; }
+
+#grade {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(135% 100% at 50% 42%, transparent 40%, rgba(3,3,9,0.5) 78%, rgba(2,2,7,0.94) 100%);
+  transition: background 1.2s cubic-bezier(.16,1,.3,1);
+}
+#aurora {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.5;
+  mix-blend-mode: screen; transition: opacity 1.2s ease;
+  background:
+    radial-gradient(60% 50% at 18% 16%, rgba(123,92,255,0.20) 0%, transparent 60%),
+    radial-gradient(56% 48% at 84% 82%, rgba(77,227,255,0.16) 0%, transparent 62%);
+}
+#grain {
+  position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 150px;
+}
+
+/* ───────────────── SCROLL TRACK ───────────────── */
+#track { position: relative; z-index: 3; height: 760vh; pointer-events: none; }
+
+/* ───────────────── CINEMATIC CAPTIONS ───────────────── */
+#scenes { position: fixed; inset: 0; z-index: 4; pointer-events: none; }
+.scene {
+  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+  padding: 0 clamp(28px, 7vw, 130px);
+  opacity: 0; will-change: opacity, transform;
+}
+.scene.center { align-items: center; text-align: center; }
+.scene.right { align-items: flex-end; text-align: right; }
+.scene .eyebrow {
+  font-family: var(--font-mono); font-size: var(--t-eyebrow); letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase; color: var(--fg-3); display: flex; align-items: center; gap: 12px;
+  margin-bottom: var(--s-6);
+}
+.scene .eyebrow::before { content: ""; width: 30px; height: 1px; background: var(--plasma-cyan); opacity: 0.7; }
+.scene.center .eyebrow { justify-content: center; }
+.scene.right .eyebrow { flex-direction: row-reverse; }
+.scene .line {
+  font-family: var(--font-display); font-weight: var(--w-regular);
+  font-size: clamp(40px, 6.4vw, 112px); line-height: var(--lh-tight); letter-spacing: var(--track-tight);
+  color: var(--mist-100); max-width: 16ch; text-wrap: balance;
+  text-shadow: 0 4px 70px rgba(0,0,0,0.7);
+}
+.scene.center .line { max-width: 20ch; }
+.scene .line em {
+  font-style: italic;
+  background: var(--grad-plasma); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.scene .sub {
+  margin-top: var(--s-6); max-width: 44ch; font-size: clamp(15px, 1.3vw, 19px); line-height: var(--lh-prose);
+  font-weight: var(--w-light); color: var(--fg-2); text-shadow: 0 2px 24px rgba(0,0,0,0.7);
+}
+.scene.center .sub { margin-left: auto; margin-right: auto; }
+
+.scene .glyphs {
+  margin-top: var(--s-7); display: flex; gap: clamp(14px, 2.4vw, 30px); flex-wrap: wrap;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase; color: var(--fg-3);
+}
+.scene.center .glyphs { justify-content: center; }
+.scene.right .glyphs { justify-content: flex-end; }
+.scene .glyphs span { display: inline-flex; align-items: center; gap: 8px; }
+.scene .glyphs span::before { content: ""; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--plasma-cyan); box-shadow: 0 0 10px var(--plasma-cyan); }
+.scene .glyphs span.v::before { background: var(--plasma-violet); box-shadow: 0 0 10px var(--plasma-violet); }
+.scene .glyphs span.m::before { background: var(--plasma-magenta); box-shadow: 0 0 10px var(--plasma-magenta); }
+
+/* ───────────────── CLOSING STATEMENT ───────────────── */
+#finale { position: fixed; inset: 0; z-index: 5; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; pointer-events: none;
+  opacity: 0; transition: opacity 1.4s cubic-bezier(.16,1,.3,1); padding: 0 24px; }
+#finale.show { opacity: 1; }
+#finale.show .finale-cta { pointer-events: auto; }
+.finale-statement {
+  font-family: var(--font-display); font-style: italic; font-size: clamp(26px, 3.6vw, 52px);
+  line-height: var(--lh-snug); letter-spacing: var(--track-tight); color: var(--fg-2); max-width: 18ch;
+  margin-bottom: var(--s-9);
+}
+.finale-mark {
+  font-family: var(--font-display); font-style: italic; font-size: clamp(48px, 11vw, 168px);
+  line-height: 0.98; letter-spacing: var(--track-tight); color: var(--mist-100); white-space: nowrap;
+}
+.finale-mark .n { background: var(--grad-plasma); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.finale-tag {
+  margin-top: var(--s-6); font-family: var(--font-mono); font-size: clamp(12px, 1.4vw, 15px);
+  letter-spacing: 0.42em; text-transform: uppercase; color: var(--fg-3);
+}
+.finale-cta {
+  margin-top: var(--s-9); display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: var(--track-eyebrow); text-transform: uppercase;
+  color: var(--fg-1); text-decoration: none; padding: 16px 32px;
+  border: 1px solid var(--border-strong); background: rgba(8,8,16,0.4); backdrop-filter: blur(10px);
+  transition: border-color .4s ease, box-shadow .4s ease, transform .2s ease;
+}
+.finale-cta:hover { border-color: var(--plasma-cyan); box-shadow: 0 0 46px -10px var(--plasma-cyan); }
+.finale-cta:active { transform: scale(0.98); }
+.finale-cta .arr { width: 20px; height: 1px; background: currentColor; position: relative; }
+.finale-cta .arr::after { content:""; position:absolute; right:0; top:-3px; width:7px; height:7px;
+  border-top:1px solid currentColor; border-right:1px solid currentColor; transform: rotate(45deg); }
+
+/* ───────────────── CHROME ───────────────── */
+#nav { position: fixed; inset: 0 0 auto 0; z-index: 8; height: 64px; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 clamp(20px, 5vw, 56px); pointer-events: none; }
+.nav-mark { display: flex; align-items: center; gap: 11px; pointer-events: auto; }
+.nav-mark .orb { width: 12px; height: 12px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%, var(--plasma-cyan), var(--plasma-violet) 55%, var(--plasma-magenta));
+  box-shadow: 0 0 16px -2px var(--plasma-violet); }
+.nav-mark b { font-family: var(--font-display); font-style: italic; font-size: 21px; font-weight: var(--w-regular);
+  letter-spacing: var(--track-tight); color: var(--fg-1); white-space: nowrap; }
+.nav-right { display: flex; align-items: center; gap: clamp(16px, 2.4vw, 30px); pointer-events: auto; }
+.nav-sound { background: none; border: 0; color: var(--fg-3); cursor: none; display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--track-eyebrow); text-transform: uppercase;
+  transition: color .3s ease; }
+.nav-sound:hover, .nav-sound.on { color: var(--plasma-cyan); }
+.eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.eq i { width: 2px; height: 3px; background: currentColor; border-radius: 1px; }
+.nav-sound.on .eq i { animation: eq 900ms ease-in-out infinite; }
+.nav-sound.on .eq i:nth-child(2){ animation-delay:.15s } .nav-sound.on .eq i:nth-child(3){ animation-delay:.3s } .nav-sound.on .eq i:nth-child(4){ animation-delay:.45s }
+@keyframes eq { 0%,100%{height:3px} 50%{height:12px} }
+.nav-cta { font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--track-eyebrow); text-transform: uppercase;
+  color: var(--fg-1); text-decoration: none; padding: 9px 18px; border: 1px solid var(--border-strong); border-radius: 999px;
+  transition: border-color .3s ease, box-shadow .3s ease; }
+.nav-cta:hover { border-color: var(--plasma-cyan); box-shadow: 0 0 28px -12px var(--plasma-cyan); }
+@media (max-width: 560px){ .nav-cta { display: none; } }
+
+/* progress rail */
+#rail { position: fixed; right: clamp(16px, 3vw, 38px); top: 50%; transform: translateY(-50%); z-index: 8;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 14px; pointer-events: none; }
+#rail .seg { display: flex; align-items: center; gap: 10px; opacity: 0.3; transition: opacity .5s ease; }
+#rail .seg.active { opacity: 1; }
+#rail .seg .lbl { font-family: var(--font-mono); font-size: 9px; letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase; color: var(--fg-2); white-space: nowrap; }
+#rail .seg .tick { width: 18px; height: 1px; background: var(--fg-3); transition: all .5s ease; }
+#rail .seg.active .tick { width: 30px; background: var(--plasma-cyan); box-shadow: 0 0 8px var(--plasma-cyan); }
+@media (max-width: 860px){ #rail .lbl { display: none; } }
+@media (max-width: 560px){ #rail { display: none; } }
+
+#scroll-hint { position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%); z-index: 8;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: var(--track-eyebrow); text-transform: uppercase;
+  color: var(--fg-3); transition: opacity .8s ease; }
+#scroll-hint .bar { width: 1px; height: 44px; background: linear-gradient(to bottom, transparent, var(--plasma-cyan)); position: relative; overflow: hidden; }
+#scroll-hint .bar::after { content:""; position:absolute; top:-44px; left:0; width:1px; height:44px; background:#fff; animation: drop 2s cubic-bezier(.76,0,.24,1) infinite; }
+@keyframes drop { 0%{top:-44px;opacity:0} 30%{opacity:1} 100%{top:44px;opacity:0} }
+
+/* ───────────────── CUSTOM CURSOR ───────────────── */
+#cursor, #cursor-ring { position: fixed; top: 0; left: 0; z-index: 9000; border-radius: 50%; pointer-events: none;
+  transform: translate(-50%,-50%); mix-blend-mode: screen; }
+#cursor { width: 5px; height: 5px; background: var(--plasma-cyan); box-shadow: 0 0 10px var(--plasma-cyan); }
+#cursor-ring { width: 34px; height: 34px; border: 1px solid rgba(120,200,255,0.5); transition: width .3s ease, height .3s ease, border-color .3s ease; }
+@media (pointer: coarse){ body { cursor: auto; } #cursor, #cursor-ring { display: none; } }
+
+/* ───────────────── LOADER ───────────────── */
+#loader { position: fixed; inset: 0; z-index: 1000; background: #04040A;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-7);
+  transition: opacity 1.2s cubic-bezier(.16,1,.3,1), visibility 1.2s; }
+#loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-orb { width: 60px; height: 60px; border-radius: 50%; position: relative;
+  background: radial-gradient(circle at 34% 30%, var(--plasma-cyan), var(--plasma-violet) 52%, var(--plasma-magenta-deep) 100%);
+  box-shadow: 0 0 60px -8px var(--plasma-violet); animation: orbPulse 2.6s ease-in-out infinite; }
+@keyframes orbPulse { 0%,100%{ transform: scale(1); filter: brightness(1);} 50%{ transform: scale(1.08); filter: brightness(1.25);} }
+.loader-word { font-family: var(--font-display); font-style: italic; font-size: clamp(26px, 5vw, 46px);
+  letter-spacing: var(--track-tight); color: var(--fg-1); white-space: nowrap; }
+.loader-word .n { background: var(--grad-plasma); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.loader-bar-wrap { width: min(280px, 70vw); height: 1px; background: var(--void-500); overflow: hidden; }
+.loader-bar { height: 100%; width: 0%; background: var(--grad-plasma); box-shadow: 0 0 12px var(--plasma-violet); transition: width .3s ease; }
+.loader-meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: var(--track-eyebrow); text-transform: uppercase; color: var(--fg-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  #scroll-hint .bar::after, .loader-orb, .nav-sound.on .eq i { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- WEBGL -->
+<div id="gl-wrap"><canvas id="gl"></canvas></div>
+<div id="aurora"></div>
+<div id="grade"></div>
+<div id="grain"></div>
+
+<!-- CHROME -->
+<nav id="nav">
+  <a class="nav-mark" href="#top" aria-label="Nova Ventures"><span class="orb"></span><b>Nova Ventures</b></a>
+  <div class="nav-right">
+    <button id="sound" class="nav-sound" aria-label="Toggle ambient sound">
+      <span class="eq"><i></i><i></i><i></i><i></i></span><span>Sound</span>
+    </button>
+    <a class="nav-cta" href="mailto:hello@novaventures.io">Begin</a>
+  </div>
+</nav>
+
+<aside id="rail" aria-hidden="true">
+  <div class="seg active"><span class="lbl">The Void</span><span class="tick"></span></div>
+  <div class="seg"><span class="lbl">Construction</span><span class="tick"></span></div>
+  <div class="seg"><span class="lbl">Transformation</span><span class="tick"></span></div>
+  <div class="seg"><span class="lbl">Intelligence</span><span class="tick"></span></div>
+  <div class="seg"><span class="lbl">The Universe</span><span class="tick"></span></div>
+  <div class="seg"><span class="lbl">The Future</span><span class="tick"></span></div>
+</aside>
+
+<!-- CINEMATIC CAPTIONS -->
+<div id="scenes">
+  <section class="scene center" data-scene="0" data-screen-label="Scene 01 — The Void">
+    <span class="eyebrow">Nova Ventures · Transmission 001</span>
+    <h1 class="line">We begin where every venture begins — in the <em>dark</em>.</h1>
+    <p class="sub">A million fragments of possibility, waiting for intent. Scroll, and they remember what they are.</p>
+  </section>
+
+  <section class="scene" data-scene="1" data-screen-label="Scene 02 — Construction">
+    <span class="eyebrow">Company Construction</span>
+    <h2 class="line">We don't fund companies. We <em>build</em> them.</h2>
+    <p class="sub">Product, brand, and go-to-market — assembled in real time from the same conviction. A venture is not a bet. It is a build.</p>
+  </section>
+
+  <section class="scene right" data-scene="2" data-screen-label="Scene 03 — Transformation">
+    <span class="eyebrow">Transformation</span>
+    <h2 class="line">Ordinary becomes <em>inevitable</em>.</h2>
+    <p class="sub">A rough idea trapped in a slide deck, rebuilt into a company people choose to build their careers inside. Not funding — an evolution.</p>
+  </section>
+
+  <section class="scene" data-scene="3" data-screen-label="Scene 04 — Intelligence">
+    <span class="eyebrow">The Intelligence Layer</span>
+    <h2 class="line">A mind woven from <em>light</em>.</h2>
+    <p class="sub">Capital, talent, operators, and go-to-market — not resources bolted on, but one connected intelligence running through every venture we build.</p>
+    <div class="glyphs">
+      <span class="v">Capital</span><span class="m">Talent</span><span>Operators</span><span class="v">GTM</span>
+    </div>
+  </section>
+
+  <section class="scene right" data-scene="4" data-screen-label="Scene 05 — The Universe">
+    <span class="eyebrow">The Nova Universe</span>
+    <h2 class="line">Every venture, its own <em>world</em>.</h2>
+    <p class="sub">We take a small number of founders and give each one a planet — a self-contained reality that bends to its purpose. A galaxy of companies, still expanding.</p>
+    <div class="glyphs">
+      <span>Two ventures / quarter</span><span class="m">Bespoke builds</span><span class="v">No templates</span>
+    </div>
+  </section>
+
+  <section class="scene center" data-scene="5" data-screen-label="Scene 06 — The Future">
+    <span class="eyebrow">The Future</span>
+    <h2 class="line">Everything you've seen is a <em>fraction</em>.</h2>
+    <p class="sub">Pull back far enough and the work becomes a single point of light in something much larger.</p>
+  </section>
+</div>
+
+<!-- CLOSING STATEMENT -->
+<div id="finale" data-screen-label="Closing">
+  <p class="finale-statement">The future does not arrive. It is built.</p>
+  <div class="finale-mark">Nova<span class="n">Ventures</span></div>
+  <div class="finale-tag">Build tomorrow. Now.</div>
+  <a class="finale-cta" href="mailto:hello@novaventures.io?subject=Tell%20us%20what%20you're%20building">Tell us what you're building <span class="arr"></span></a>
+</div>
+
+<div id="scroll-hint"><span>Scroll to awaken</span><span class="bar"></span></div>
+
+<!-- cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- loader -->
+<div id="loader">
+  <div class="loader-orb"></div>
+  <div class="loader-word">Nova<span class="n">Ventures</span></div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loader-bar"></div></div>
+  <div class="loader-meta" id="loader-meta">Seeding the void</div>
+</div>
+
+<!-- scroll length -->
+<div id="track"></div>
+
+<script src="vendor/three.min.js"></script>
+<script>
+/* ============================================================
+   NOVA VENTURES — A DIGITAL AWAKENING
+   awakening.js
+
+   One idea, made literal: a single cloud of light fragments
+   reassembles itself into every scene. The void remembers a
+   name, builds a company, becomes a mind, scatters into a
+   universe of ventures, then disperses toward infinity.
+   The medium is the message — Nova Ventures assembles reality.
+   ============================================================ */
+
+const $ = (s) => document.querySelector(s);
+const clamp01 = (x) => x < 0 ? 0 : x > 1 ? 1 : x;
+const smooth = (x) => { x = clamp01(x); return x*x*(3-2*x); };
+const lerp = (a,b,t) => a+(b-a)*t;
+
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = matchMedia('(max-width: 820px)').matches || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+/* ───────────── renderer ───────────── */
+const canvas = $('#gl');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.5 : 2));
+renderer.setClearColor(0x000000, 0);
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x05060d, 0.0042);
+
+const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 800);
+camera.position.set(0, 0, 52);
+
+function resize(){
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w/h; camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize);
+
+/* ───────────── particle count ───────────── */
+const N = isMobile ? 9000 : 26000;
+
+/* ───────────── soft glow sprite ───────────── */
+function glowSprite(){
+  const c = document.createElement('canvas'); c.width = c.height = 64;
+  const g = c.getContext('2d');
+  const grd = g.createRadialGradient(32,32,0,32,32,32);
+  grd.addColorStop(0,'rgba(255,255,255,1)');
+  grd.addColorStop(0.25,'rgba(255,255,255,0.85)');
+  grd.addColorStop(0.55,'rgba(255,255,255,0.25)');
+  grd.addColorStop(1,'rgba(255,255,255,0)');
+  g.fillStyle = grd; g.fillRect(0,0,64,64);
+  const t = new THREE.CanvasTexture(c); t.needsUpdate = true; return t;
+}
+
+/* ───────────── plasma palette ───────────── */
+const PL = {
+  violet: new THREE.Color('#7B5CFF'),
+  magenta:new THREE.Color('#FF3DA5'),
+  cyan:   new THREE.Color('#4DE3FF'),
+  white:  new THREE.Color('#EAF2FF'),
+};
+
+/* ============================================================
+   TARGET GENERATORS — each fills a Float32Array(N*3)
+   ============================================================ */
+function alloc(){ return new Float32Array(N*3); }
+const rand = (a,b) => a + Math.random()*(b-a);
+const gauss = () => (Math.random()+Math.random()+Math.random()-1.5)*0.9;
+
+// 0 · TEXT — "Nova / Ventures" sampled from a canvas, two-line lockup
+function targetText(lines, worldW){
+  const cw = 1200, ch = 460;
+  const c = document.createElement('canvas'); c.width = cw; c.height = ch;
+  const g = c.getContext('2d');
+  g.fillStyle = '#000'; g.fillRect(0,0,cw,ch);
+  g.fillStyle = '#fff';
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+
+  let size = 168;
+  const fits = () => {
+    g.font = `italic ${size}px "Instrument Serif", Georgia, serif`;
+    return Math.max(...lines.map(l => g.measureText(l).width)) <= cw * 0.86;
+  };
+  while (!fits() && size > 40) size -= 4;
+
+  const rowH = ch / (lines.length + 1);
+  lines.forEach((l,i) => g.fillText(l, cw/2, rowH*(i+1) + 6));
+
+  const data = g.getImageData(0,0,cw,ch).data;
+  const pts = [];
+  for (let y=0; y<ch; y+=2){
+    for (let x=0; x<cw; x+=2){
+      if (data[(y*cw+x)*4] > 128) pts.push([x,y]);
+    }
+  }
+  const scale = worldW / cw;
+  const out = alloc();
+  for (let i=0;i<N;i++){
+    const p = pts.length ? pts[(i*7)%pts.length] : [cw/2,ch/2];
+    out[i*3]   = (p[0]-cw/2)*scale + rand(-0.12,0.12);
+    out[i*3+1] = -(p[1]-ch/2)*scale + rand(-0.12,0.12);
+    out[i*3+2] = rand(-1.4,1.4);
+  }
+  return out;
+}
+
+// 1 · TOWERS — architecture assembling
+function targetTowers(){
+  const out = alloc();
+  const towers = [];
+  const span = 26;
+  for (let i=0;i<46;i++){
+    towers.push({ x: rand(-span,span), z: rand(-span,span), h: rand(10,42), w: rand(1.4,3.2) });
+  }
+  for (let i=0;i<N;i++){
+    const t = towers[i % towers.length];
+    const yy = Math.random()*t.h;
+    const edge = Math.random()<0.62;
+    const hw = t.w;
+    let dx, dz;
+    if (edge){ const s=Math.floor(Math.random()*4);
+      if(s===0){dx=-hw;dz=rand(-hw,hw)} else if(s===1){dx=hw;dz=rand(-hw,hw)} else if(s===2){dz=-hw;dx=rand(-hw,hw)} else {dz=hw;dx=rand(-hw,hw)}
+    } else { dx=rand(-hw,hw); dz=rand(-hw,hw); }
+    out[i*3]   = t.x + dx;
+    out[i*3+1] = yy - 18;
+    out[i*3+2] = t.z + dz;
+  }
+  return out;
+}
+
+// 2 · PORTAL — a torus: the world it becomes
+function targetPortal(){
+  const out = alloc();
+  const R = 17, r = 5.4;
+  for (let i=0;i<N;i++){
+    const u = Math.random()*Math.PI*2, v = Math.random()*Math.PI*2;
+    const rr = r * (0.65 + Math.random()*0.5);
+    out[i*3]   = (R + rr*Math.cos(v))*Math.cos(u);
+    out[i*3+1] = rr*Math.sin(v);
+    out[i*3+2] = (R + rr*Math.cos(v))*Math.sin(u);
+  }
+  return out;
+}
+
+// 3 · NEURAL — clustered nodes (synapses drawn separately)
+let neuralNodes = [];
+function targetNeural(){
+  const out = alloc();
+  const M = 96;
+  neuralNodes = [];
+  for (let i=0;i<M;i++){
+    neuralNodes.push(new THREE.Vector3(rand(-24,24), rand(-15,15), rand(-14,14)));
+  }
+  for (let i=0;i<N;i++){
+    const n = neuralNodes[i % M];
+    out[i*3]   = n.x + gauss()*1.5;
+    out[i*3+1] = n.y + gauss()*1.5;
+    out[i*3+2] = n.z + gauss()*1.5;
+  }
+  return out;
+}
+
+// 4 · UNIVERSE — ventures as planets on an orbital ring
+function targetPlanets(){
+  const out = alloc();
+  const K = 7, ORB = 30;
+  const planets = [];
+  for (let i=0;i<K;i++){
+    const a = (i/K)*Math.PI*2 + rand(-0.2,0.2);
+    planets.push({ c: new THREE.Vector3(Math.cos(a)*ORB, rand(-9,9), Math.sin(a)*ORB), r: rand(3,7) });
+  }
+  for (let i=0;i<N;i++){
+    const p = planets[i % K];
+    const u = Math.random()*Math.PI*2, ct = Math.random()*2-1, st = Math.sqrt(1-ct*ct);
+    const rr = p.r*(0.96+Math.random()*0.08);
+    out[i*3]   = p.c.x + rr*st*Math.cos(u);
+    out[i*3+1] = p.c.y + rr*ct;
+    out[i*3+2] = p.c.z + rr*st*Math.sin(u);
+  }
+  return out;
+}
+
+// 5 · DISPERSAL — infinite depth
+function targetInfinity(){
+  const out = alloc();
+  for (let i=0;i<N;i++){
+    const u = Math.random()*Math.PI*2, ct = Math.random()*2-1, st = Math.sqrt(1-ct*ct);
+    const rr = rand(40, 150);
+    out[i*3]   = rr*st*Math.cos(u);
+    out[i*3+1] = rr*ct*0.6;
+    out[i*3+2] = rr*st*Math.sin(u);
+  }
+  return out;
+}
+
+const TARGETS = [
+  targetText(['Nova','Ventures'], 42),
+  targetTowers(),
+  targetPortal(),
+  targetNeural(),
+  targetPlanets(),
+  targetInfinity(),
+];
+const SEG = TARGETS.length - 1; // 5 segments
+
+/* ───────────── the cloud ───────────── */
+const positions = Float32Array.from(TARGETS[0]);
+const colors = new Float32Array(N*3);
+const phase = new Float32Array(N);
+const speed = new Float32Array(N);
+const tmpC = new THREE.Color();
+for (let i=0;i<N;i++){
+  const r = Math.random();
+  const base = r<0.46 ? PL.violet : r<0.72 ? PL.cyan : r<0.9 ? PL.magenta : PL.white;
+  tmpC.copy(base).multiplyScalar(0.7 + Math.random()*0.6);
+  colors[i*3]=tmpC.r; colors[i*3+1]=tmpC.g; colors[i*3+2]=tmpC.b;
+  phase[i] = Math.random()*Math.PI*2;
+  speed[i] = 0.4 + Math.random()*0.9;
+}
+const geo = new THREE.BufferGeometry();
+geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+const cloudMat = new THREE.PointsMaterial({
+  size: isMobile ? 0.42 : 0.34, map: glowSprite(), vertexColors: true,
+  transparent: true, opacity: 0.92, depthWrite: false, blending: THREE.AdditiveBlending,
+  sizeAttenuation: true,
+});
+const cloud = new THREE.Points(geo, cloudMat);
+const world = new THREE.Group();
+world.add(cloud);
+scene.add(world);
+
+/* ───────────── celestial wireframe (scene 0–1) ───────────── */
+const celGeo = new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(15, 1));
+const celMat = new THREE.LineBasicMaterial({ color: 0x7B5CFF, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+const celestial = new THREE.LineSegments(celGeo, celMat);
+world.add(celestial);
+
+/* ───────────── neural synapses (scene 3) ───────────── */
+const synPairs = [];
+for (let i=0;i<neuralNodes.length;i++){
+  for (let j=i+1;j<neuralNodes.length;j++){
+    if (neuralNodes[i].distanceTo(neuralNodes[j]) < 11 && Math.random()<0.5) synPairs.push([i,j]);
+  }
+}
+const synPos = new Float32Array(synPairs.length*6);
+synPairs.forEach((pr,k)=>{
+  const a=neuralNodes[pr[0]], b=neuralNodes[pr[1]];
+  synPos[k*6]=a.x;synPos[k*6+1]=a.y;synPos[k*6+2]=a.z;
+  synPos[k*6+3]=b.x;synPos[k*6+4]=b.y;synPos[k*6+5]=b.z;
+});
+const synGeo = new THREE.BufferGeometry();
+synGeo.setAttribute('position', new THREE.BufferAttribute(synPos,3));
+const synMat = new THREE.LineBasicMaterial({ color: 0x4DE3FF, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+const synapses = new THREE.LineSegments(synGeo, synMat);
+world.add(synapses);
+
+/* ============================================================
+   CAMERA SPLINE
+   ============================================================ */
+const CAM = [
+  { t:0.00, pos:[0,0,46],    look:[0,0,0] },
+  { t:0.18, pos:[6,4,60],    look:[0,-6,0] },     // towers — skyline
+  { t:0.36, pos:[0,2,40],    look:[0,0,0] },      // portal
+  { t:0.54, pos:[-8,3,54],   look:[0,0,0] },      // neural
+  { t:0.72, pos:[10,8,78],   look:[0,0,0] },      // universe — wide
+  { t:0.88, pos:[0,6,120],   look:[0,0,0] },      // pull back
+  { t:1.00, pos:[0,4,210],   look:[0,0,0] },      // infinity
+];
+const _p = new THREE.Vector3(), _l = new THREE.Vector3(), _a=new THREE.Vector3(), _b=new THREE.Vector3(), _la=new THREE.Vector3(), _lb=new THREE.Vector3();
+function camAt(p){
+  let A=CAM[0], B=CAM[1];
+  for (let i=0;i<CAM.length-1;i++){ if (p>=CAM[i].t && p<=CAM[i+1].t){ A=CAM[i]; B=CAM[i+1]; break; } if (p>CAM[CAM.length-1].t){ A=B=CAM[CAM.length-1]; } }
+  const span=B.t-A.t, lt = span<1e-4?0:smooth((p-A.t)/span);
+  _a.fromArray(A.pos); _b.fromArray(B.pos); _p.lerpVectors(_a,_b,lt);
+  _la.fromArray(A.look); _lb.fromArray(B.look); _l.lerpVectors(_la,_lb,lt);
+  return { pos:_p, look:_l };
+}
+
+/* ============================================================
+   SCROLL + MOUSE
+   ============================================================ */
+let targetP = 0, curP = 0;
+function readScroll(){
+  const max = document.documentElement.scrollHeight - innerHeight;
+  targetP = max>0 ? clamp01(scrollY/max) : 0;
+  if (targetP>0.03) hint.style.opacity='0';
+}
+addEventListener('scroll', readScroll, { passive:true });
+
+let mx=0, my=0, tmx=0, tmy=0;
+addEventListener('mousemove', e=>{ tmx=(e.clientX/innerWidth-0.5)*2; tmy=(e.clientY/innerHeight-0.5)*2;
+  cursor.style.transform=`translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`; cursorTX=e.clientX; cursorTY=e.clientY; });
+
+/* ============================================================
+   CAPTIONS / CHROME
+   ============================================================ */
+const scenes = [...document.querySelectorAll('.scene')];
+const CENTERS = [0.05, 0.22, 0.39, 0.56, 0.72, 0.87];
+const railSegs = [...document.querySelectorAll('#rail .seg')];
+const finale = $('#finale');
+const hint = $('#scroll-hint');
+const cursor = $('#cursor'), ring = $('#cursor-ring');
+let cursorTX=innerWidth/2, cursorTY=innerHeight/2, rx=cursorTX, ry=cursorTY;
+
+let lastRail = -1;
+function updateCaptions(p){
+  let nearest=0, nd=1;
+  scenes.forEach((el,i)=>{
+    const d = Math.abs(p - CENTERS[i]);
+    if (d<nd){ nd=d; nearest=i; }
+    const o = clamp01(1 - d/0.12);
+    const eased = o*o*(3-2*o);
+    el.style.opacity = eased.toFixed(3);
+    if (!RM){ const ty = (p - CENTERS[i]) * 220; el.style.transform = `translateY(${ty.toFixed(1)}px)`; }
+  });
+  if (nearest!==lastRail){ lastRail=nearest; railSegs.forEach((s,i)=>s.classList.toggle('active', i===nearest)); }
+}
+
+/* ============================================================
+   ANIMATION
+   ============================================================ */
+let t = 0, finaleShown=false;
+
+function animate(){
+  requestAnimationFrame(animate);
+  t += 0.016;
+  curP += (targetP - curP) * (RM ? 0.25 : 0.055);
+
+  // ── morph the cloud ──
+  const f = curP * SEG;
+  let si = Math.floor(f); if (si>=SEG) si=SEG-1; if (si<0) si=0;
+  const blend = smooth(f - si);
+  const A = TARGETS[si], B = TARGETS[si+1];
+  const posAttr = geo.attributes.position;
+  const arr = posAttr.array;
+  const breathe = RM ? 0 : 1;
+  for (let i=0;i<N;i++){
+    const ix=i*3, iy=ix+1, iz=ix+2;
+    let dx = lerp(A[ix],B[ix],blend);
+    let dy = lerp(A[iy],B[iy],blend);
+    let dz = lerp(A[iz],B[iz],blend);
+    if (breathe){
+      const ph = phase[i], sp = speed[i];
+      dx += Math.sin(t*sp + ph)*0.5;
+      dy += Math.cos(t*sp*0.9 + ph)*0.5;
+      dz += Math.sin(t*sp*0.7 + ph*1.3)*0.5;
+    }
+    arr[ix] += (dx - arr[ix]) * 0.075;
+    arr[iy] += (dy - arr[iy]) * 0.075;
+    arr[iz] += (dz - arr[iz]) * 0.075;
+  }
+  posAttr.needsUpdate = true;
+
+  // ── layer opacities by scene weight ──
+  const wVoid   = clamp01(1 - Math.abs(curP-0.0)/0.16);
+  const wTower  = clamp01(1 - Math.abs(curP-0.2)/0.12);
+  const wNeural = clamp01(1 - Math.abs(curP-0.56)/0.12);
+  celMat.opacity = 0.5 * Math.max(wVoid*0.9, wTower*0.3);
+  synMat.opacity = 0.55 * wNeural;
+  cloudMat.opacity = lerp(0.92, 0.6, smooth(clamp01((curP-0.8)/0.2)));
+
+  // ── camera ──
+  const c = camAt(curP);
+  mx += (tmx-mx)*0.05; my += (tmy-my)*0.05;
+  camera.position.set(c.pos.x + mx*4, c.pos.y - my*3, c.pos.z);
+  camera.lookAt(c.look.x, c.look.y, c.look.z);
+
+  // ── world rotation: mouse + slow auto in universe ──
+  const autoRot = smooth(clamp01((curP-0.6)/0.3)) * t * 0.03;
+  world.rotation.y += ((mx*0.35 + autoRot) - world.rotation.y) * 0.04;
+  world.rotation.x += ((-my*0.18) - world.rotation.x) * 0.04;
+  celestial.rotation.y = t*0.08; celestial.rotation.x = t*0.04;
+
+  // ── captions / finale ──
+  updateCaptions(curP);
+  const showF = curP > 0.93;
+  if (showF !== finaleShown){ finaleShown=showF; finale.classList.toggle('show', showF); }
+
+  // ── cursor ring follow ──
+  rx += (cursorTX-rx)*0.16; ry += (cursorTY-ry)*0.16;
+  ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+
+  renderer.render(scene, camera);
+}
+
+/* ============================================================
+   LOADER
+   ============================================================ */
+const loader = $('#loader'), loaderBar = $('#loader-bar'), loaderMeta = $('#loader-meta');
+const steps = [
+  [0.16,'Seeding the void'],
+  [0.4,'Gathering light'],
+  [0.66,'Assembling structure'],
+  [0.86,'Charting the path'],
+  [1.0,'Awake'],
+];
+let sIdx=0;
+const li = setInterval(()=>{
+  if (sIdx>=steps.length){ clearInterval(li); setTimeout(()=>loader.classList.add('hidden'), 450); return; }
+  const [pc,label]=steps[sIdx++];
+  loaderBar.style.width=(pc*100)+'%';
+  if (loaderMeta) loaderMeta.textContent=label;
+}, 340);
+
+/* ============================================================
+   AMBIENT AUDIO (off by default)
+   ============================================================ */
+const soundBtn = $('#sound'); let amb=null;
+function buildAmb(){
+  const AC = window.AudioContext||window.webkitAudioContext; if(!AC) return null;
+  const ctx=new AC(); const master=ctx.createGain(); master.gain.value=0; master.connect(ctx.destination);
+  const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=380; lp.connect(master);
+  const o1=ctx.createOscillator(); o1.type='sawtooth'; o1.frequency.value=48;
+  const o2=ctx.createOscillator(); o2.type='sine'; o2.frequency.value=72.1;
+  const dg=ctx.createGain(); dg.gain.value=0.16; o1.connect(dg); o2.connect(dg); dg.connect(lp); o1.start(); o2.start();
+  const len=ctx.sampleRate*2, buf=ctx.createBuffer(1,len,ctx.sampleRate), d=buf.getChannelData(0);
+  for(let i=0;i<len;i++) d[i]=Math.random()*2-1;
+  const noise=ctx.createBufferSource(); noise.buffer=buf; noise.loop=true;
+  const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=600; bp.Q.value=0.7;
+  const ng=ctx.createGain(); ng.gain.value=0.04; noise.connect(bp); bp.connect(ng); ng.connect(master); noise.start();
+  const lfo=ctx.createOscillator(); lfo.frequency.value=0.06; const lg=ctx.createGain(); lg.gain.value=300; lfo.connect(lg); lg.connect(bp.frequency); lfo.start();
+  return { ctx, master, bp, o1,
+    level(p){ master.gain.setTargetAtTime(0.4*(0.5+p*0.5), ctx.currentTime, 0.5);
+      bp.frequency.setTargetAtTime(420+p*1100, ctx.currentTime, 0.5); },
+    on(){ ctx.resume(); master.gain.setTargetAtTime(0.4, ctx.currentTime, 1.4); },
+    off(){ master.gain.setTargetAtTime(0, ctx.currentTime, 0.5); } };
+}
+if (soundBtn) soundBtn.addEventListener('click', ()=>{
+  try{ if(!amb){ amb=buildAmb(); } if(!amb) return;
+    const on=soundBtn.classList.toggle('on'); if(on) amb.on(); else amb.off();
+    soundBtn.querySelector('span:last-child').textContent = on?'Sound on':'Sound';
+  }catch(e){}
+});
+(function ambLoop(){ if(amb) amb.level(curP); requestAnimationFrame(ambLoop); })();
+
+/* ───────────── boot ───────────── */
+resize(); readScroll(); animate();
+addEventListener('load', ()=>{ resize(); readScroll(); });
+
+/* deep-link #t=0..1 to jump to a scene */
+(function deep(){ const m=/[#&]t=([0-9.]+)/.exec(location.hash); if(!m) return;
+  requestAnimationFrame(()=>{ const p=clamp01(parseFloat(m[1])); const max=document.documentElement.scrollHeight-innerHeight;
+    scrollTo(0,max*p); targetP=curP=p; loader.classList.add('hidden'); }); })();
+
+window.__awaken = { renderer, scene, camera, get p(){ return curP; } };
+</script>
+</body>
+</html>
