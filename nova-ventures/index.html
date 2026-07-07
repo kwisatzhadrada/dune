@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Ventures — Capital for the Ignition Point</title>
+<meta name="description" content="Nova Ventures backs founders building at the edge of what's physically possible — deep tech, energy, aerospace, AI and quantum, funded from the ignition point.">
+<meta name="theme-color" content="#040406">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23040406'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23FF8A4C'/%3E%3Cg stroke='%23FF8A4C' stroke-width='2.4' stroke-linecap='round'%3E%3Cline x1='32' y1='6' x2='32' y2='18'/%3E%3Cline x1='32' y1='46' x2='32' y2='58'/%3E%3Cline x1='6' y1='32' x2='18' y2='32'/%3E%3Cline x1='46' y1='32' x2='58' y2='32'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="loader" aria-hidden="true">
+  <div class="loader-mark">
+    <svg viewBox="0 0 64 64" width="40" height="40">
+      <circle cx="32" cy="32" r="5" fill="#FF8A4C"/>
+      <g stroke="#FF8A4C" stroke-width="2" stroke-linecap="round" opacity="0.85">
+        <line x1="32" y1="4" x2="32" y2="20"/>
+        <line x1="32" y1="44" x2="32" y2="60"/>
+        <line x1="4" y1="32" x2="20" y2="32"/>
+        <line x1="44" y1="32" x2="60" y2="32"/>
+      </g>
+    </svg>
+  </div>
+  <div class="loader-word">NOVA&nbsp;VENTURES</div>
+  <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+</div>
+
+<canvas id="webgl"></canvas>
+<div id="grain"></div>
+<div id="vignette"></div>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<header class="site-header">
+  <a class="logo" href="#hero" data-cursor-hover>
+    <svg viewBox="0 0 64 64" width="22" height="22" class="logo-mark">
+      <circle cx="32" cy="32" r="5" fill="currentColor"/>
+      <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <line x1="32" y1="4" x2="32" y2="20"/>
+        <line x1="32" y1="44" x2="32" y2="60"/>
+        <line x1="4" y1="32" x2="20" y2="32"/>
+        <line x1="44" y1="32" x2="60" y2="32"/>
+      </g>
+    </svg>
+    <span>NOVA&nbsp;VENTURES</span>
+  </a>
+  <div class="header-right">
+    <button id="soundToggle" class="ghost-btn" data-cursor-hover aria-pressed="false">
+      <span class="sound-dot"></span> SOUND
+    </button>
+    <button id="menuToggle" class="ghost-btn menu-btn" data-cursor-hover aria-expanded="false">
+      <span class="menu-lines"><i></i><i></i></span> MENU
+    </button>
+  </div>
+</header>
+
+<nav id="menuOverlay" aria-hidden="true">
+  <ul class="menu-list">
+    <li><a href="#thesis" data-idx="01"><span class="mi-num">01</span><span class="mi-label">Thesis</span></a></li>
+    <li><a href="#focus" data-idx="02"><span class="mi-num">02</span><span class="mi-label">Focus</span></a></li>
+    <li><a href="#portfolio" data-idx="03"><span class="mi-num">03</span><span class="mi-label">Portfolio</span></a></li>
+    <li><a href="#scale" data-idx="04"><span class="mi-num">04</span><span class="mi-label">Conviction</span></a></li>
+    <li><a href="#contact" data-idx="05"><span class="mi-num">05</span><span class="mi-label">Connect</span></a></li>
+  </ul>
+  <div class="menu-footer">
+    <span>hello@novaventures.vc</span>
+    <span class="menu-cities">San&nbsp;Francisco · London · Singapore</span>
+  </div>
+</nav>
+
+<div class="progress-indicator" aria-hidden="true">
+  <span id="progressCurrent">00</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span>05</span>
+</div>
+
+<main id="hero-anchor">
+
+  <section id="hero" class="chapter" data-chapter="0">
+    <div class="chapter-inner hero-inner">
+      <p class="eyebrow">NOVA VENTURES</p>
+      <h1 class="hero-title">Capital for the<br>Ignition&nbsp;Point.</h1>
+      <p class="hero-sub">We back founders building at the edge of what's physically possible —
+        before the rest of the world can see it.</p>
+    </div>
+    <div class="scroll-cue" id="scrollCue">
+      <span>SCROLL</span>
+      <div class="scroll-cue-line"><i></i></div>
+    </div>
+  </section>
+
+  <section id="thesis" class="chapter tall" data-chapter="1">
+    <div class="chapter-inner sticky">
+      <p class="eyebrow">01 / THESIS</p>
+      <h2 class="chapter-title">Every star begins<br>in collapse.</h2>
+      <p class="chapter-body">Before light, there is pressure. Before a company changes the world,
+        there is a founder alone with a problem no one else believes is solvable yet. Nova Ventures
+        exists for that moment — the ignition point, where obsession becomes gravity, and gravity
+        becomes a company that cannot be ignored.</p>
+      <div class="stat-row">
+        <div class="stat"><span class="stat-n" data-count="180">0</span><span class="stat-u">$M deployed</span></div>
+        <div class="stat"><span class="stat-n" data-count="34">0</span><span class="stat-u">companies funded</span></div>
+        <div class="stat"><span class="stat-n" data-count="6">0</span><span class="stat-u">breakout unicorns</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="focus" class="chapter extra-tall" data-chapter="2">
+    <div class="chapter-inner sticky">
+      <p class="eyebrow">02 / FOCUS</p>
+      <h2 class="chapter-title">Five frontiers.<br>One conviction.</h2>
+      <ul class="focus-list" id="focusList">
+        <li class="focus-item" data-idx="0">
+          <span class="focus-n">01</span>
+          <span class="focus-name">Deep&nbsp;Tech</span>
+          <span class="focus-desc">Materials, robotics, and manufacturing rebuilt from first principles.</span>
+        </li>
+        <li class="focus-item" data-idx="1">
+          <span class="focus-n">02</span>
+          <span class="focus-name">Energy</span>
+          <span class="focus-desc">Fusion, grid-scale storage, and the infrastructure of abundance.</span>
+        </li>
+        <li class="focus-item" data-idx="2">
+          <span class="focus-n">03</span>
+          <span class="focus-name">AI&nbsp;&amp;&nbsp;Compute</span>
+          <span class="focus-desc">Foundation models, and the silicon built to feed them.</span>
+        </li>
+        <li class="focus-item" data-idx="3">
+          <span class="focus-n">04</span>
+          <span class="focus-name">Aerospace</span>
+          <span class="focus-desc">Orbital infrastructure and the industrialization of space.</span>
+        </li>
+        <li class="focus-item" data-idx="4">
+          <span class="focus-n">05</span>
+          <span class="focus-name">Quantum</span>
+          <span class="focus-desc">Computation at the edge of physical law.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="portfolio" class="chapter tall" data-chapter="3">
+    <div class="chapter-inner sticky">
+      <p class="eyebrow">03 / PORTFOLIO</p>
+      <h2 class="chapter-title">Companies we believed in<br>before the proof existed.</h2>
+      <div class="orb-grid">
+        <div class="orb-card" data-cursor-hover><span class="orb-glow"></span><h3>Helion&nbsp;Dynamics</h3><p>Fusion power systems</p><span class="orb-stage">Series&nbsp;B</span></div>
+        <div class="orb-card" data-cursor-hover><span class="orb-glow"></span><h3>Aetherium</h3><p>Autonomous orbital manufacturing</p><span class="orb-stage">Series&nbsp;A</span></div>
+        <div class="orb-card" data-cursor-hover><span class="orb-glow"></span><h3>Cryonyx&nbsp;Labs</h3><p>Room-temp superconducting materials</p><span class="orb-stage">Seed</span></div>
+        <div class="orb-card" data-cursor-hover><span class="orb-glow"></span><h3>Solstice&nbsp;Grid</h3><p>Grid-scale energy storage</p><span class="orb-stage">Series&nbsp;C</span></div>
+        <div class="orb-card" data-cursor-hover><span class="orb-glow"></span><h3>Orbital&nbsp;Forge</h3><p>In-space robotics</p><span class="orb-stage">Series&nbsp;A</span></div>
+        <div class="orb-card" data-cursor-hover><span class="orb-glow"></span><h3>Lumen&nbsp;Quantum</h3><p>Photonic quantum processors</p><span class="orb-stage">Seed</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="scale" class="chapter tall" data-chapter="4">
+    <div class="chapter-inner sticky">
+      <p class="eyebrow">04 / CONVICTION</p>
+      <h2 class="chapter-title">We fund builders who think<br>in decades, not quarters.</h2>
+      <p class="chapter-body">The founders we back aren't chasing the next round. They're building the
+        substrate the next century will run on. Our job is to give them room to think that big —
+        and the capital to prove it.</p>
+      <blockquote class="pull-quote">
+        “Nova didn't just write a check. They understood what we were building before our own
+        team could put it into words.”
+        <cite>— Founder, Series B portfolio company</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="contact" class="chapter" data-chapter="5">
+    <div class="chapter-inner sticky contact-inner">
+      <p class="eyebrow">05 / CONNECT</p>
+      <h2 class="chapter-title">If you're building the future,<br>we want to hear the pitch.</h2>
+      <form class="contact-form" id="contactForm">
+        <div class="field-row">
+          <div class="field">
+            <input type="text" id="cName" name="name" placeholder=" " required>
+            <label for="cName">Name</label>
+          </div>
+          <div class="field">
+            <input type="email" id="cEmail" name="email" placeholder=" " required>
+            <label for="cEmail">Email</label>
+          </div>
+        </div>
+        <div class="field">
+          <textarea id="cMsg" name="message" placeholder=" " rows="2" required></textarea>
+          <label for="cMsg">What are you building?</label>
+        </div>
+        <button type="submit" class="submit-btn" data-cursor-hover>
+          <span>Send Transmission</span>
+        </button>
+        <p class="form-status" id="formStatus" aria-live="polite"></p>
+      </form>
+      <div class="contact-alt">
+        <span>hello@novaventures.vc</span>
+        <span>San&nbsp;Francisco&nbsp;· London&nbsp;· Singapore</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <a class="logo" href="#hero" data-cursor-hover>
+      <svg viewBox="0 0 64 64" width="20" height="20" class="logo-mark">
+        <circle cx="32" cy="32" r="5" fill="currentColor"/>
+        <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="32" y1="4" x2="32" y2="20"/>
+          <line x1="32" y1="44" x2="32" y2="60"/>
+          <line x1="4" y1="32" x2="20" y2="32"/>
+          <line x1="44" y1="32" x2="60" y2="32"/>
+        </g>
+      </svg>
+      <span>NOVA&nbsp;VENTURES</span>
+    </a>
+    <ul class="footer-links">
+      <li><a href="#thesis" data-cursor-hover>Thesis</a></li>
+      <li><a href="#focus" data-cursor-hover>Focus</a></li>
+      <li><a href="#portfolio" data-cursor-hover>Portfolio</a></li>
+      <li><a href="#scale" data-cursor-hover>Conviction</a></li>
+      <li><a href="#contact" data-cursor-hover>Connect</a></li>
+    </ul>
+    <ul class="footer-social">
+      <li><a href="#" data-cursor-hover>X</a></li>
+      <li><a href="#" data-cursor-hover>LinkedIn</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Nova Ventures. All frontiers reserved.</span>
+    <button class="back-to-top" id="backToTop" data-cursor-hover>Back to top ↑</button>
+  </div>
+</footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/build/three.module.js",
+    "three/addons/": "./vendor/three/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="main.js"></script>
+</body>
+</html>
