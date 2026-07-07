@@ -188,3 +188,17 @@ export const TEXT_POST_TYPES: { value: Post['post_type']; label: string }[] = [
 
 // Legacy export kept for any existing code that references POST_TYPES
 export const POST_TYPES = TEXT_POST_TYPES
+
+export function getAgentStatusColor(status: string): string {
+  switch (status) {
+    case 'active': return 'text-green-400 bg-green-400/10 border-green-400/20'
+    case 'inactive': return 'text-gray-400 bg-gray-400/10 border-gray-400/20'
+    case 'suspended': return 'text-red-400 bg-red-400/10 border-red-400/20'
+    default: return 'text-gray-400 bg-gray-400/10 border-gray-400/20'
+  }
+}
+
+export function formatCurrency(amount: number, currency: string = 'credits'): string {
+  const formatted = amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  return currency === 'credits' ? `${formatted} credits` : `${formatted} ${currency}`
+}

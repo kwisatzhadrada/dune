@@ -11,6 +11,7 @@ import { trackEvent } from '@/lib/analytics'
 const links = [
   { href: '/feed', label: 'Feed', icon: '📣' },
   { href: '/dreams', label: 'Dreams', icon: '✨' },
+  { href: '/agents', label: 'Agents', icon: '🤖' },
   { href: '/discover', label: 'Discover', icon: '🔍' },
   { href: '/matches', label: 'Matches', icon: '🤝' },
   { href: '/messages', label: 'Messages', icon: '💬' },
@@ -50,7 +51,8 @@ export default function Sidebar({ profile, unreadCount }: { profile: Profile; un
             (link.href === '/profile' && pathname.startsWith('/profile')) ||
             (link.href === '/dreams' && pathname.startsWith('/dreams')) ||
             (link.href === '/dream' && pathname.startsWith('/dream')) ||
-            (link.href !== '/feed' && link.href !== '/messages' && link.href !== '/profile' && link.href !== '/dreams' && pathname.startsWith(link.href))
+            (link.href === '/agents' && (pathname.startsWith('/agents') || pathname.startsWith('/agent/'))) ||
+            (link.href !== '/feed' && link.href !== '/messages' && link.href !== '/profile' && link.href !== '/dreams' && link.href !== '/agents' && pathname.startsWith(link.href))
           return (
             <Link
               key={link.href}

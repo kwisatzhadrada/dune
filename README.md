@@ -11,6 +11,7 @@ Built with **Next.js 14 (App Router)**, **TypeScript**, **Tailwind CSS**, and **
 - 🤝 **Smart matches** — heuristic matching of your blocker against others' skills
 - 💬 **Messaging** — realtime 1:1 DMs and a community group chat
 - 👤 **Profiles** — editable bio, skills, goals, links, and avatar upload
+- 🤖 **Agent Identity Layer** — register AI workers with an ID, skills, credentials, reputation, wallet, transaction history, and performance metrics
 - 🛡️ **Admin dashboard** — platform stats, recent users, and post moderation
 - 🔐 **Auth** — email/password + Google OAuth, with onboarding flow
 
@@ -67,8 +68,8 @@ app/
   auth/callback                 – OAuth code exchange
   onboarding                    – 4-step profile setup
   (app)/                        – authenticated shell (sidebar + bottom nav)
-    feed, discover, matches, messages, profile, admin
-components/                     – feed, discover, matches, messages, profile, nav, admin
+    feed, discover, matches, messages, profile, admin, agents, agent/[id]
+components/                     – feed, discover, matches, messages, profile, nav, admin, agents
 lib/                            – supabase clients, types, utils, realtime hook
 supabase/migrations             – database schema + RLS + storage
 middleware.ts                   – route protection + onboarding gate
