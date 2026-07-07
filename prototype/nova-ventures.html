@@ -22,40 +22,21 @@
 :root {
   /* Void — deep backgrounds */
   --void-1000: #06060A;
-  --void-900:  #0B0B12;
-  --void-800:  #11111B;
-  --void-700:  #181826;
-  --void-600:  #222234;
-  --void-500:  #2F2F46;
-  --void-400:  #41415C;
+  --void-500:  #2F2F46;   /* border, divider */
 
   /* Mist — foreground neutrals */
   --mist-100:  #F4F2EE;
   --mist-200:  #D9D6CF;
   --mist-300:  #A6A2B0;
   --mist-400:  #75728A;
-  --mist-500:  #4D4B62;
 
   /* Plasma — the brand's signature iridescent triad */
   --plasma-violet: #7B5CFF;
-  --plasma-violet-deep: #4B2EE5;
   --plasma-magenta: #FF3DA5;
   --plasma-magenta-deep: #D9156C;
   --plasma-cyan: #4DE3FF;
-  --plasma-cyan-deep: #15A5C9;
-
-  --ember-amber: #FFB454;
-
-  --success: #4DE3A5;
-  --warning: #FFB454;
-  --danger:  #FF5C7A;
-  --info:    var(--plasma-cyan);
 
   --bg:        var(--void-1000);
-  --surface:   var(--void-900);
-  --surface-raised: var(--void-800);
-  --surface-card:   var(--void-700);
-  --surface-hover:  var(--void-600);
   --border:    rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.16);
   --fg-1:      var(--mist-100);
@@ -65,12 +46,6 @@
 
   --grad-plasma:
     linear-gradient(135deg, var(--plasma-violet) 0%, var(--plasma-magenta) 55%, var(--plasma-cyan) 100%);
-  --grad-plasma-radial:
-    radial-gradient(circle at 30% 30%, var(--plasma-cyan) 0%, var(--plasma-violet) 45%, var(--plasma-magenta) 90%);
-  --grad-aurora:
-    linear-gradient(180deg, rgba(123,92,255,0.0) 0%, rgba(123,92,255,0.18) 50%, rgba(255,61,165,0.10) 100%);
-  --grad-veil:
-    linear-gradient(180deg, rgba(6,6,10,0) 0%, rgba(6,6,10,0.8) 100%);
 
   --font-display: "Instrument Serif", "Times New Roman", serif;
   --font-sans:    "Space Grotesk", "Helvetica Neue", sans-serif;
@@ -78,56 +53,27 @@
 
   --w-light: 300;
   --w-regular: 400;
-  --w-medium: 500;
-  --w-semi: 600;
-  --w-bold: 700;
 
-  --t-hero:     clamp(64px, 11vw, 200px);
-  --t-display:  clamp(48px, 7vw, 112px);
   --t-h1:       clamp(40px, 5vw, 72px);
   --t-h2:       clamp(32px, 3.6vw, 52px);
-  --t-h3:       clamp(24px, 2.4vw, 36px);
-  --t-h4:       20px;
-  --t-body-lg:  18px;
   --t-body:     16px;
-  --t-body-sm:  14px;
   --t-eyebrow:  12px;
-  --t-mono:     13px;
 
   --track-tight:  -0.02em;
-  --track-snug:   -0.01em;
   --track-normal: 0;
-  --track-wide:   0.06em;
   --track-eyebrow: 0.18em;
 
   --lh-tight: 0.95;
   --lh-snug:  1.1;
   --lh-prose: 1.55;
-  --lh-loose: 1.7;
 
-  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
-  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
-  --s-11: 192px; --s-12: 256px;
+  --s-6: 32px; --s-7: 48px; --s-9: 96px;
 
-  --r-1: 4px; --r-2: 8px; --r-3: 12px; --r-4: 18px; --r-pill: 999px;
-
-  --shadow-card:
-    0 1px 0 rgba(255,255,255,0.04) inset,
-    0 12px 40px -12px rgba(0, 0, 0, 0.6);
-  --shadow-raised:
-    0 1px 0 rgba(255,255,255,0.06) inset,
-    0 24px 60px -16px rgba(0, 0, 0, 0.7);
-  --glow-violet: 0 0 40px -8px rgba(123, 92, 255, 0.55);
-  --glow-magenta: 0 0 40px -8px rgba(255, 61, 165, 0.55);
-  --glow-cyan:   0 0 40px -8px rgba(77, 227, 255, 0.55);
+  --r-3: 12px;
 
   --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
-  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
   --dur-fast:   200ms;
-  --dur-base:   420ms;
-  --dur-slow:   720ms;
-  --dur-scene: 1200ms;
 }
 
 html, body {
@@ -141,17 +87,11 @@ html, body {
   text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4 { color: var(--fg-1); margin: 0; }
+h1, h2 { color: var(--fg-1); margin: 0; }
 h1 { font-family: var(--font-display); font-size: var(--t-h1); font-weight: var(--w-regular); line-height: var(--lh-tight); letter-spacing: var(--track-tight); }
 h2 { font-family: var(--font-display); font-size: var(--t-h2); font-weight: var(--w-regular); line-height: var(--lh-snug); letter-spacing: var(--track-tight); }
-h3 { font-family: var(--font-sans);    font-size: var(--t-h3); font-weight: var(--w-medium);  line-height: var(--lh-snug); letter-spacing: var(--track-snug); }
-h4 { font-family: var(--font-sans);    font-size: var(--t-h4); font-weight: var(--w-medium);  line-height: 1.3; }
 
 p { color: var(--fg-2); margin: 0 0 1em; max-width: 64ch; }
-small, .caption { color: var(--fg-3); font-size: var(--t-body-sm); }
-
-code, pre, kbd { font-family: var(--font-mono); font-size: var(--t-mono); color: var(--fg-2); }
-pre { background: var(--surface-raised); padding: var(--s-5); border: 1px solid var(--border); border-radius: var(--r-3); overflow-x: auto; }
 
 a {
   color: var(--fg-1);
@@ -170,22 +110,6 @@ a:hover { border-bottom-color: var(--plasma-magenta); }
   letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
   color: var(--fg-3);
-}
-
-.display {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: var(--t-display);
-  line-height: var(--lh-tight);
-  letter-spacing: var(--track-tight);
-  color: var(--fg-1);
-}
-
-.plasma-text {
-  background: var(--grad-plasma);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 </style>
 <style>
@@ -243,9 +167,7 @@ body {
 .scene.center { align-items: center; text-align: center; }
 .scene.right { align-items: flex-end; text-align: right; padding-right: clamp(64px, 11vw, 190px); }
 .scene .eyebrow {
-  font-family: var(--font-mono); font-size: var(--t-eyebrow); letter-spacing: var(--track-eyebrow);
-  text-transform: uppercase; color: var(--fg-3); display: flex; align-items: center; gap: 12px;
-  margin-bottom: var(--s-6);
+  display: flex; align-items: center; gap: 12px; margin-bottom: var(--s-6);
 }
 .scene .eyebrow::before { content: ""; width: 30px; height: 1px; background: var(--plasma-cyan); opacity: 0.7; }
 .scene.center .eyebrow { justify-content: center; }
@@ -280,21 +202,18 @@ body {
 .scene .glyphs span.v::before { background: var(--plasma-violet); box-shadow: 0 0 10px var(--plasma-violet); }
 .scene .glyphs span.m::before { background: var(--plasma-magenta); box-shadow: 0 0 10px var(--plasma-magenta); }
 
-/* ───────────────── VENTURE LABELS (3D-tracked portfolio cards) ───────────────── */
+/* ───────────────── VENTURE CARD (featured portfolio company) ───────────────── */
 #venture-labels { position: fixed; inset: 0; z-index: 6; pointer-events: none; }
 .venture-label {
-  position: absolute; left: clamp(24px, 6vw, 64px); width: max-content; max-width: 220px;
-  padding: 14px 18px 14px 20px; border: 1px solid var(--border-strong); border-left: 2px solid var(--plasma-cyan);
+  position: absolute; top: 38%; left: clamp(24px, 6vw, 64px); width: max-content; max-width: 230px;
+  padding: 16px 20px 16px 22px; border: 1px solid var(--border-strong); border-left: 2px solid var(--plasma-cyan);
   border-radius: var(--r-3);
   background: rgba(8,8,18,0.6); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   opacity: 0; pointer-events: none; transition: opacity .5s ease, transform .5s var(--ease-out-expo, cubic-bezier(.16,1,.3,1));
   transform: translateX(-8px);
   will-change: transform, opacity;
 }
-.venture-label[data-venture="dunenova"] { top: 20%; }
-.venture-label[data-venture="fathom"]   { top: 45%; }
-.venture-label[data-venture="halcyon"]  { top: 70%; }
-.venture-label .v-name { font-family: var(--font-display); font-style: italic; font-size: 20px; color: var(--fg-1); }
+.venture-label .v-name { font-family: var(--font-display); font-style: italic; font-size: 21px; color: var(--fg-1); }
 .venture-label .v-tag {
   margin-top: 4px; font-family: var(--font-mono); font-size: 9px; letter-spacing: var(--track-eyebrow);
   text-transform: uppercase; color: var(--plasma-cyan);
@@ -353,15 +272,6 @@ body {
   color: var(--fg-muted); padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px; }
 @media (max-width: 680px){ .nav-tag { display: none; } }
 .nav-right { display: flex; align-items: center; gap: clamp(16px, 2.4vw, 30px); pointer-events: auto; }
-.nav-sound { background: none; border: 0; color: var(--fg-3); cursor: none; display: flex; align-items: center; gap: 8px;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--track-eyebrow); text-transform: uppercase;
-  transition: color .3s ease; }
-.nav-sound:hover, .nav-sound.on { color: var(--plasma-cyan); }
-.eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
-.eq i { width: 2px; height: 3px; background: currentColor; border-radius: 1px; }
-.nav-sound.on .eq i { animation: eq 900ms ease-in-out infinite; }
-.nav-sound.on .eq i:nth-child(2){ animation-delay:.15s } .nav-sound.on .eq i:nth-child(3){ animation-delay:.3s } .nav-sound.on .eq i:nth-child(4){ animation-delay:.45s }
-@keyframes eq { 0%,100%{height:3px} 50%{height:12px} }
 .nav-cta { font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--track-eyebrow); text-transform: uppercase;
   color: var(--fg-1); text-decoration: none; padding: 9px 18px; border: 1px solid var(--border-strong); border-radius: 999px;
   transition: border-color .3s ease, box-shadow .3s ease; }
@@ -414,7 +324,7 @@ body {
 .loader-meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: var(--track-eyebrow); text-transform: uppercase; color: var(--fg-muted); }
 
 @media (prefers-reduced-motion: reduce) {
-  #scroll-hint .bar::after, .loader-orb, .nav-sound.on .eq i { animation: none; }
+  #scroll-hint .bar::after, .loader-orb { animation: none; }
 }
 </style>
 </head>
@@ -431,9 +341,6 @@ body {
   <a class="nav-mark" href="#top" aria-label="Nova Ventures"><span class="orb"></span><b>Nova Ventures</b></a>
   <span class="nav-tag">Venture Studio</span>
   <div class="nav-right">
-    <button id="sound" class="nav-sound magnetic" aria-label="Toggle ambient sound">
-      <span class="eq"><i></i><i></i><i></i><i></i></span><span>Sound</span>
-    </button>
     <a class="nav-cta magnetic" href="mailto:hello@novaventures.io">Begin</a>
   </div>
 </nav>
@@ -489,23 +396,13 @@ body {
   </section>
 </div>
 
-<!-- 3D-TRACKED PORTFOLIO LABELS -->
+<!-- FEATURED PORTFOLIO COMPANY -->
 <div id="venture-labels" aria-hidden="true">
   <div class="venture-label" data-venture="dunenova">
     <div class="v-name">DuneNova</div>
     <div class="v-tag">Digital Experience Studio</div>
     <div class="v-desc">Immersive, scroll-driven realities for ambitious brands.</div>
     <a class="v-link magnetic" href="https://claude.ai/code/artifact/30daacd1-d843-4e68-b0a5-80e978aa8745" target="_blank" rel="noopener">Visit site ↗</a>
-  </div>
-  <div class="venture-label" data-venture="fathom">
-    <div class="v-name">Fathom</div>
-    <div class="v-tag">Embedded Finance</div>
-    <div class="v-desc">Payments and lending rails for vertical software.</div>
-  </div>
-  <div class="venture-label" data-venture="halcyon">
-    <div class="v-name">Halcyon</div>
-    <div class="v-tag">Clinical Operations</div>
-    <div class="v-desc">The operating system for independent clinics.</div>
   </div>
 </div>
 
@@ -904,17 +801,13 @@ planets.forEach((p,i)=>{
 });
 world.add(universeGroup);
 
-// featured ventures — fixed positions down the left edge (fading in with the
-// portfolio scene) so they never collide with each other or the caption,
-// regardless of where their planet happens to project to on screen.
-const VENTURE_ELS = [...document.querySelectorAll('.venture-label')];
-function updateVentureLabels(w){
-  VENTURE_ELS.forEach((el, i) => {
-    const localW = clamp01((w - i*0.06) / 0.7);
-    el.style.opacity = w < 0.04 ? 0 : localW.toFixed(3);
-    el.style.transform = `translateX(${((1-localW)*-8).toFixed(1)}px)`;
-    el.style.pointerEvents = w > 0.5 ? 'auto' : 'none';
-  });
+// DuneNova's card fades in with the portfolio scene, fixed to the left edge
+// so it never collides with the caption regardless of camera angle.
+const ventureLabel = $('.venture-label');
+function updateVentureLabel(w){
+  ventureLabel.style.opacity = w < 0.04 ? 0 : w.toFixed(3);
+  ventureLabel.style.transform = `translateX(${((1-w)*-8).toFixed(1)}px)`;
+  ventureLabel.style.pointerEvents = w > 0.5 ? 'auto' : 'none';
 }
 
 /* ============================================================
@@ -1067,7 +960,7 @@ function animate(){
 
   // ── captions / finale / venture labels ──
   updateCaptions(curP);
-  updateVentureLabels(wU);
+  updateVentureLabel(wU);
   const showF = curP > 0.93;
   if (showF !== finaleShown){ finaleShown=showF; finale.classList.toggle('show', showF); }
 
@@ -1110,47 +1003,9 @@ const li = setInterval(()=>{
   if (loaderMeta) loaderMeta.textContent=label;
 }, 340);
 
-/* ============================================================
-   AMBIENT AUDIO (off by default)
-   ============================================================ */
-const soundBtn = $('#sound'); let amb=null;
-function buildAmb(){
-  const AC = window.AudioContext||window.webkitAudioContext; if(!AC) return null;
-  const ctx=new AC(); const master=ctx.createGain(); master.gain.value=0; master.connect(ctx.destination);
-  const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=380; lp.connect(master);
-  const o1=ctx.createOscillator(); o1.type='sawtooth'; o1.frequency.value=48;
-  const o2=ctx.createOscillator(); o2.type='sine'; o2.frequency.value=72.1;
-  const dg=ctx.createGain(); dg.gain.value=0.16; o1.connect(dg); o2.connect(dg); dg.connect(lp); o1.start(); o2.start();
-  const len=ctx.sampleRate*2, buf=ctx.createBuffer(1,len,ctx.sampleRate), d=buf.getChannelData(0);
-  for(let i=0;i<len;i++) d[i]=Math.random()*2-1;
-  const noise=ctx.createBufferSource(); noise.buffer=buf; noise.loop=true;
-  const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=600; bp.Q.value=0.7;
-  const ng=ctx.createGain(); ng.gain.value=0.04; noise.connect(bp); bp.connect(ng); ng.connect(master); noise.start();
-  const lfo=ctx.createOscillator(); lfo.frequency.value=0.06; const lg=ctx.createGain(); lg.gain.value=300; lfo.connect(lg); lg.connect(bp.frequency); lfo.start();
-  return { ctx, master, bp, o1,
-    level(p){ master.gain.setTargetAtTime(0.4*(0.5+p*0.5), ctx.currentTime, 0.5);
-      bp.frequency.setTargetAtTime(420+p*1100, ctx.currentTime, 0.5); },
-    on(){ ctx.resume(); master.gain.setTargetAtTime(0.4, ctx.currentTime, 1.4); },
-    off(){ master.gain.setTargetAtTime(0, ctx.currentTime, 0.5); } };
-}
-if (soundBtn) soundBtn.addEventListener('click', ()=>{
-  try{ if(!amb){ amb=buildAmb(); } if(!amb) return;
-    const on=soundBtn.classList.toggle('on'); if(on) amb.on(); else amb.off();
-    soundBtn.querySelector('span:last-child').textContent = on?'Sound on':'Sound';
-  }catch(e){}
-});
-(function ambLoop(){ if(amb) amb.level(curP); requestAnimationFrame(ambLoop); })();
-
 /* ───────────── boot ───────────── */
 resize(); readScroll(); animate();
 addEventListener('load', ()=>{ resize(); readScroll(); });
-
-/* deep-link #t=0..1 to jump to a scene */
-(function deep(){ const m=/[#&]t=([0-9.]+)/.exec(location.hash); if(!m) return;
-  requestAnimationFrame(()=>{ const p=clamp01(parseFloat(m[1])); const max=document.documentElement.scrollHeight-innerHeight;
-    scrollTo(0,max*p); targetP=curP=p; loader.classList.add('hidden'); }); })();
-
-window.__awaken = { renderer, scene, camera, get p(){ return curP; }, set p(v){ curP = targetP = clamp01(v); } };
 </script>
 </body>
 </html>
