@@ -3,7 +3,6 @@ name: Deploy Nova Ventures to Pages
 on:
   push:
     branches: [claude/nova-ventures-3d-scroll-3q82r8]
-    paths: [nova-ventures/**]
   workflow_dispatch:
 
 permissions:
